@@ -1,0 +1,228 @@
+mysql> select version();
++-----------+
+| version() |
++-----------+
+| 8.0.33    |
++-----------+
+1 row in set (0.00 sec)
+
+mysql> system cls;
+
+mysql> select user();
++----------------+
+| user()         |
++----------------+
+| root@localhost |
++----------------+
+1 row in set (0.00 sec)
+
+mysql> show databases;---> to show all databases.
++--------------------+
+| Database           |
++--------------------+
+| cdac               |
+| college            |
+| demo_crud          |
+| dotnet_shop        |
+| information_schema |
+| lib                |
+| lnt                |
+| mycdac             |
+| mysql              |
+| performance_schema |
+| sakila             |
+| shop               |
+| sys                |
+| world              |
++--------------------+
+14 rows in set (0.01 sec)
+
+mysql> drop database cdac;-----> to delete database
+Query OK, 22 rows affected (0.08 sec)
+
+mysql> create database cdac;
+Query OK, 1 row affected (0.01 sec)
+
+
+mysql> use cdac; --------->to select database.
+Database changed
+
+mysql> select database(); --->To check which db is opened.
++------------+
+| database() |
++------------+
+| cdac       |
++------------+
+1 row in set (0.00 sec)
+
+to create table:-
+create table dept(deptNo int, dname varchar(20), location varchar(20));
+
+to  see structure of table-
+
+mysql> desc dept;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| deptNo   | int         | YES  |     | NULL    |       |
+| dname    | varchar(20) | YES  |     | NULL    |       |
+| location | varchar(20) | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+3 rows in set (0.01 sec)
+
+to insert records:-
+mysql> insert into dept values(10,'acct','mumbai');
+mysql> insert into dept values(20,'mkt','nashik');
+mysql> insert into dept values(30,'fin','pune');
+mysql> insert into dept values(40,'adm','bang');
+Query OK, 1 row affected (0.01 sec)
+
+to display records:- 
+mysql> select * from dept;
++--------+-------+----------+
+| deptNo | dname | location |
++--------+-------+----------+
+|     10 | acct  | mumbai   |
+|     20 | mkt   | nashik   |
+|     30 | fin   | pune     |
+|     40 | adm   | bang     |
++--------+-------+----------+
+4 rows in set (0.00 sec)
+
+mysql> select dname from dept;
++-------+
+| dname |
++-------+
+| acct  |
+| mkt   |
+| fin   |
+| adm   |
++-------+
+4 rows in set (0.00 sec)
+
+mysql> select dname,location;
+ERROR 1054 (42S22): Unknown column 'dname' in 'field list'
+mysql> select dname,location from dept;
++-------+----------+
+| dname | location |
++-------+----------+
+| acct  | mumbai   |
+| mkt   | nashik   |
+| fin   | pune     |
+| adm   | bang     |
++-------+----------+
+4 rows in set (0.00 sec)
+
+to update-
+
+update dept
+set dname='finance'
+where deptno=30;
+
++--------+---------+----------+
+| deptNo | dname   | location |
++--------+---------+----------+
+|     10 | acct    | mumbai   |
+|     20 | mkt     | nashik   |
+|     30 | finance | pune     |
+|     40 | adm     | bang     |
++--------+---------+----------+
+4 rows in set (0.00 sec)
+
+to delete the record
+
+delete  from dept
+where deptno = 30;
+
+mysql> select * from dept;
++--------+-------+----------+
+| deptNo | dname | location |
++--------+-------+----------+
+|     10 | acct  | mumbai   |
+|     20 | mkt   | nashik   |
+|     40 | adm   | bang     |
++--------+-------+----------+
+3 rows in set (0.00 sec)
+
+
+
+mysql> delete from dept
+    -> where dname='mkt';
+Query OK, 1 row affected (0.01 sec)
+
+to delete record where dname is mkt.
+
+mysql> select * from dept;
++--------+-------+----------+
+| deptNo | dname | location |
++--------+-------+----------+
+|     10 | acct  | mumbai   |
+|     40 | adm   | bang     |
++--------+-------+----------+
+2 rows in set (0.00 sec)
+
+mysql> select * from dept;
++--------+-------+----------+
+| deptNo | dname | location |
++--------+-------+----------+
+|     10 | acct  | mumbai   |
+|     40 | adm   | bang     |
++--------+-------+----------+
+2 rows in set (0.00 sec)
+
+mysql> drop table dept;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> select * from dept;
+ERROR 1146 (42S02): Table 'cdac.dept' doesn't exist
+
+
+to run the file 
+
+
+source C:\Users\CDAC\Desktop\Database\EMP_DEPT_Script.sql
+
+use cdac;
+show tables;
+
+tee C:\Users\CDAC\Desktop\Database\day1.txt
+
+select * from dept;
+select * from emp;
+
+select * from emp where deptno=10;
+
+
+create table customer(custid numeric(3), ename varchar(20),address varchar(20),orderdate date,totalamt numeric(10,2));
+
+insert into customer values(1,'Shrikant','Nashik','2001-05-20',20000.00);
+insert into customer values(2,'Sudarshan','Sambhaji Nagar','2000-01-10',20000.00);
+insert into customer values(3,'Rahul','Indore','1999-11-15',20000.00);
+
+create table emp1(
+empno varchar(4),
+ ename varchar(20),
+ deptno numeric(2), 
+doj date,
+ sal decimal(10,2),
+ comm decimal(10,2));
+
+insert into emp1 values('e100','Shrikant',10,'2001-05-20',20000,100);
+insert into emp1 values('e101','Sudar',10,'2001-05-20',10000,100);
+insert into emp1 values('e102','Rahul',10,'2001-05-20',50000,100);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

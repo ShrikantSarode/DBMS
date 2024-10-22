@@ -1,0 +1,150 @@
+mysql> 
+mysql> select * from dept;
++--------+------------+----------+
+| DEPTNO | DNAME      | LOC      |
++--------+------------+----------+
+|     10 | ACCOUNTING | NEW YORK |
+|     20 | RESEARCH   | DALLAS   |
+|     30 | SALES      | CHICAGO  |
+|     40 | OPERATIONS | BOSTON   |
++--------+------------+----------+
+4 rows in set (0.00 sec)
+
+mysql> select * from emp;
++-------+--------+-----------+------+------------+---------+---------+--------+
+| EMPNO | ENAME  | JOB       | MGR  | HIREDATE   | SAL     | COMM    | DEPTNO |
++-------+--------+-----------+------+------------+---------+---------+--------+
+|  7369 | SMITH  | CLERK     | 7902 | 2012-02-02 |  800.00 |    NULL |     20 |
+|  7499 | ALLEN  | SALESMAN  | 7698 | 2012-01-02 | 1600.00 |  300.00 |     30 |
+|  7521 | WARD   | SALESMAN  | 7698 | 2013-01-02 | 1250.00 |  500.00 |     30 |
+|  7566 | JONES  | MANAGER   | 7839 | 2013-01-02 | 2975.00 |    NULL |     20 |
+|  7654 | MARTIN | SALESMAN  | 7698 | 2012-05-02 | 1250.00 | 1400.00 |     30 |
+|  7698 | BLAKE  | MANAGER   | 7839 | 2012-01-06 | 2850.00 |    NULL |     30 |
+|  7782 | CLARK  | MANAGER   | 7839 | 2012-01-06 | 2450.00 |    NULL |     10 |
+|  7788 | SCOTT  | ANALYST   | 7566 | 2012-01-10 | 3000.00 |    NULL |     20 |
+|  7839 | KING   | PRESIDENT | NULL | 2012-01-15 | 5000.00 |    NULL |     10 |
+|  7844 | TURNER | SALESMAN  | 7698 | 2012-01-20 | 1500.00 |    0.00 |     30 |
+|  7876 | ADAMS  | CLERK     | 7788 | 2013-01-02 | 1100.00 |    NULL |     20 |
+|  7900 | JAMES  | CLERK     | 7698 | 2012-03-02 |  950.00 |    NULL |     30 |
+|  7902 | FORD   | ANALYST   | 7566 | 2012-04-02 | 3000.00 |    NULL |     20 |
+|  7934 | MILLER | CLERK     | 7782 | 2012-05-02 | 1300.00 |    NULL |     10 |
++-------+--------+-----------+------+------------+---------+---------+--------+
+14 rows in set (0.00 sec)
+
+mysql> 
+mysql> select * from emp where deptno=10;
++-------+--------+-----------+------+------------+---------+------+--------+
+| EMPNO | ENAME  | JOB       | MGR  | HIREDATE   | SAL     | COMM | DEPTNO |
++-------+--------+-----------+------+------------+---------+------+--------+
+|  7782 | CLARK  | MANAGER   | 7839 | 2012-01-06 | 2450.00 | NULL |     10 |
+|  7839 | KING   | PRESIDENT | NULL | 2012-01-15 | 5000.00 | NULL |     10 |
+|  7934 | MILLER | CLERK     | 7782 | 2012-05-02 | 1300.00 | NULL |     10 |
++-------+--------+-----------+------+------------+---------+------+--------+
+3 rows in set (0.00 sec)
+
+mysql> create table customer(custid numeric(3), ename varchar(20),address varchar(20),orderdate date,totalamt numeric(10,2));
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> show tables;
++----------------+
+| Tables_in_cdac |
++----------------+
+| customer       |
+| dept           |
+| emp            |
++----------------+
+3 rows in set (0.00 sec)
+
+mysql> desc customer;
++-----------+---------------+------+-----+---------+-------+
+| Field     | Type          | Null | Key | Default | Extra |
++-----------+---------------+------+-----+---------+-------+
+| custid    | decimal(3,0)  | YES  |     | NULL    |       |
+| ename     | varchar(20)   | YES  |     | NULL    |       |
+| address   | varchar(20)   | YES  |     | NULL    |       |
+| orderdate | date          | YES  |     | NULL    |       |
+| totalamt  | decimal(10,2) | YES  |     | NULL    |       |
++-----------+---------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> insert into values(1,'Shrikant','Nashik','20-05-2001',20000);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'values(1,'Shrikant','Nashik','20-05-2001',20000)' at line 1
+mysql> insert into values(2,'Sudarshan','Sambhaji Nagar','10-01-2000',20000);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'values(2,'Sudarshan','Sambhaji Nagar','10-01-2000',20000)' at line 1
+mysql> insert into values(3,'Rahul','Indore','15-11-1999',20000);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'values(3,'Rahul','Indore','15-11-1999',20000)' at line 1
+mysql> insert into values(1,'Shrikant','Nashik','20-05-2001',20000);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'values(1,'Shrikant','Nashik','20-05-2001',20000)' at line 1
+mysql> insert into values(1,'Shrikant','Nashik','2001-05-20',20000.00);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'values(1,'Shrikant','Nashik','2001-05-20',20000.00)' at line 1
+mysql> insert into values(1,'Shrikant','Nashik','2001-05-20',20000.00);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'values(1,'Shrikant','Nashik','2001-05-20',20000.00)' at line 1
+mysql> insert into customer values(1,'Shrikant','Nashik','2001-05-20',20000.00);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into customer values(2,'Sudarshan','Sambhaji Nagar','2000-01-10',20000.00);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into customer values(3,'Rahul','Indore','1999-11-15',20000.00);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from customer;
++--------+-----------+----------------+------------+----------+
+| custid | ename     | address        | orderdate  | totalamt |
++--------+-----------+----------------+------------+----------+
+|      1 | Shrikant  | Nashik         | 2001-05-20 | 20000.00 |
+|      2 | Sudarshan | Sambhaji Nagar | 2000-01-10 | 20000.00 |
+|      3 | Rahul     | Indore         | 1999-11-15 | 20000.00 |
++--------+-----------+----------------+------------+----------+
+3 rows in set (0.00 sec)
+
+mysql> create table emp1(empno varchar(4),ename varchar(20),deptno numeric(2),doj date,sal decimal(10,2) comm decimal(10,2);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'comm decimal(10,2)' at line 1
+mysql> create table emp1(empno varchar(4), ename varchar(20), deptno numeric(2), doj date, sal decimal(10,2), comm decimal(10,2);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+mysql> create table emp1(
+    -> empno varchar(4),
+    ->  ename varchar(20),
+    ->  deptno numeric(2), 
+    -> doj date,
+    ->  sal decimal(10,2),
+    ->  comm decimal(10,2));
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> show tables;
++----------------+
+| Tables_in_cdac |
++----------------+
+| customer       |
+| dept           |
+| emp            |
+| emp1           |
++----------------+
+4 rows in set (0.00 sec)
+
+mysql> insert into emp1('17500','Shrikant',1,'2001-05-20',20000,100);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ''17500','Shrikant',1,'2001-05-20',20000,100)' at line 1
+mysql> insert into emp1('1','Shrikant',1,'2001-05-20',20000.00,100.00);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ''1','Shrikant',1,'2001-05-20',20000.00,100.00)' at line 1
+mysql> insert into emp1('e100','Shrikant',10,'2001-05-20',20000.00,100.00);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ''e100','Shrikant',10,'2001-05-20',20000.00,100.00)' at line 1
+mysql> insert into emp1 values('e100','Shrikant',10,'2001-05-20',20000,100);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into emp1 values('e101','Sudar',10,'2001-05-20',10000,100);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into emp1 values('e102','Rahul',10,'2001-05-20',50000,100);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from emp1;
++-------+----------+--------+------------+----------+--------+
+| empno | ename    | deptno | doj        | sal      | comm   |
++-------+----------+--------+------------+----------+--------+
+| e100  | Shrikant |     10 | 2001-05-20 | 20000.00 | 100.00 |
+| e101  | Sudar    |     10 | 2001-05-20 | 10000.00 | 100.00 |
+| e102  | Rahul    |     10 | 2001-05-20 | 50000.00 | 100.00 |
++-------+----------+--------+------------+----------+--------+
+3 rows in set (0.00 sec)
+
+mysql> exit

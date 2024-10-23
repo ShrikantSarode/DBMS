@@ -1,0 +1,1519 @@
+mysql> use cdac;
+Database changed
+mysql> show tables;
++----------------+
+| Tables_in_cdac |
++----------------+
+| customer       |
+| dept           |
+| emp            |
+| emp1           |
++----------------+
+4 rows in set (0.01 sec)
+
+mysql> SELECT * FROM EMP;
++-------+--------+-----------+------+------------+---------+---------+--------+
+| EMPNO | ENAME  | JOB       | MGR  | HIREDATE   | SAL     | COMM    | DEPTNO |
++-------+--------+-----------+------+------------+---------+---------+--------+
+|  7369 | SMITH  | CLERK     | 7902 | 2012-02-02 |  800.00 |    NULL |     20 |
+|  7499 | ALLEN  | SALESMAN  | 7698 | 2012-01-02 | 1600.00 |  300.00 |     30 |
+|  7521 | WARD   | SALESMAN  | 7698 | 2013-01-02 | 1250.00 |  500.00 |     30 |
+|  7566 | JONES  | MANAGER   | 7839 | 2013-01-02 | 2975.00 |    NULL |     20 |
+|  7654 | MARTIN | SALESMAN  | 7698 | 2012-05-02 | 1250.00 | 1400.00 |     30 |
+|  7698 | BLAKE  | MANAGER   | 7839 | 2012-01-06 | 2850.00 |    NULL |     30 |
+|  7782 | CLARK  | MANAGER   | 7839 | 2012-01-06 | 2450.00 |    NULL |     10 |
+|  7788 | SCOTT  | ANALYST   | 7566 | 2012-01-10 | 3000.00 |    NULL |     20 |
+|  7839 | KING   | PRESIDENT | NULL | 2012-01-15 | 5000.00 |    NULL |     10 |
+|  7844 | TURNER | SALESMAN  | 7698 | 2012-01-20 | 1500.00 |    0.00 |     30 |
+|  7876 | ADAMS  | CLERK     | 7788 | 2013-01-02 | 1100.00 |    NULL |     20 |
+|  7900 | JAMES  | CLERK     | 7698 | 2012-03-02 |  950.00 |    NULL |     30 |
+|  7902 | FORD   | ANALYST   | 7566 | 2012-04-02 | 3000.00 |    NULL |     20 |
+|  7934 | MILLER | CLERK     | 7782 | 2012-05-02 | 1300.00 |    NULL |     10 |
++-------+--------+-----------+------+------------+---------+---------+--------+
+14 rows in set (0.00 sec)
+
+mysql> SELECT DISTICNT JOB FROM EMP;
+ERROR 1054 (42S22): Unknown column 'DISTICNT' in 'field list'
+mysql> SELECT DISTINCT JOB FROM EMP;
++-----------+
+| JOB       |
++-----------+
+| CLERK     |
+| SALESMAN  |
+| MANAGER   |
+| ANALYST   |
+| PRESIDENT |
++-----------+
+5 rows in set (0.03 sec)
+
+mysql> SELECT DISTINCT DEPTNO FROM EMP;
++--------+
+| DEPTNO |
++--------+
+|     20 |
+|     30 |
+|     10 |
++--------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT SAL AS SALARY FROM EMP;
++---------+
+| SALARY  |
++---------+
+|  800.00 |
+| 1600.00 |
+| 1250.00 |
+| 2975.00 |
+| 1250.00 |
+| 2850.00 |
+| 2450.00 |
+| 3000.00 |
+| 5000.00 |
+| 1500.00 |
+| 1100.00 |
+|  950.00 |
+| 3000.00 |
+| 1300.00 |
++---------+
+14 rows in set (0.00 sec)
+
+mysql> SELECT SAL SALARY FROM EMP;
++---------+
+| SALARY  |
++---------+
+|  800.00 |
+| 1600.00 |
+| 1250.00 |
+| 2975.00 |
+| 1250.00 |
+| 2850.00 |
+| 2450.00 |
+| 3000.00 |
+| 5000.00 |
+| 1500.00 |
+| 1100.00 |
+|  950.00 |
+| 3000.00 |
+| 1300.00 |
++---------+
+14 rows in set (0.00 sec)
+
+mysql> SELECT SAL "SALARY IS" FROM EMP;
++-----------+
+| SALARY IS |
++-----------+
+|    800.00 |
+|   1600.00 |
+|   1250.00 |
+|   2975.00 |
+|   1250.00 |
+|   2850.00 |
+|   2450.00 |
+|   3000.00 |
+|   5000.00 |
+|   1500.00 |
+|   1100.00 |
+|    950.00 |
+|   3000.00 |
+|   1300.00 |
++-----------+
+14 rows in set (0.00 sec)
+
+mysql> SELECT ENAME AS NAME,COMM AS COMMISION FROM EMP;
++--------+-----------+
+| NAME   | COMMISION |
++--------+-----------+
+| SMITH  |      NULL |
+| ALLEN  |    300.00 |
+| WARD   |    500.00 |
+| JONES  |      NULL |
+| MARTIN |   1400.00 |
+| BLAKE  |      NULL |
+| CLARK  |      NULL |
+| SCOTT  |      NULL |
+| KING   |      NULL |
+| TURNER |      0.00 |
+| ADAMS  |      NULL |
+| JAMES  |      NULL |
+| FORD   |      NULL |
+| MILLER |      NULL |
++--------+-----------+
+14 rows in set (0.00 sec)
+
+mysql> SELECT * FROM EMP LIMIT=4
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=4' at line 1
+mysql> SELECT * FROM EMP LIMIT 3;
++-------+-------+----------+------+------------+---------+--------+--------+
+| EMPNO | ENAME | JOB      | MGR  | HIREDATE   | SAL     | COMM   | DEPTNO |
++-------+-------+----------+------+------------+---------+--------+--------+
+|  7369 | SMITH | CLERK    | 7902 | 2012-02-02 |  800.00 |   NULL |     20 |
+|  7499 | ALLEN | SALESMAN | 7698 | 2012-01-02 | 1600.00 | 300.00 |     30 |
+|  7521 | WARD  | SALESMAN | 7698 | 2013-01-02 | 1250.00 | 500.00 |     30 |
++-------+-------+----------+------+------------+---------+--------+--------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT * FROM EMP LIMIT 3,5;
++-------+--------+----------+------+------------+---------+---------+--------+
+| EMPNO | ENAME  | JOB      | MGR  | HIREDATE   | SAL     | COMM    | DEPTNO |
++-------+--------+----------+------+------------+---------+---------+--------+
+|  7566 | JONES  | MANAGER  | 7839 | 2013-01-02 | 2975.00 |    NULL |     20 |
+|  7654 | MARTIN | SALESMAN | 7698 | 2012-05-02 | 1250.00 | 1400.00 |     30 |
+|  7698 | BLAKE  | MANAGER  | 7839 | 2012-01-06 | 2850.00 |    NULL |     30 |
+|  7782 | CLARK  | MANAGER  | 7839 | 2012-01-06 | 2450.00 |    NULL |     10 |
+|  7788 | SCOTT  | ANALYST  | 7566 | 2012-01-10 | 3000.00 |    NULL |     20 |
++-------+--------+----------+------+------------+---------+---------+--------+
+5 rows in set (0.00 sec)
+
+mysql> SELECT NOW();
++---------------------+
+| NOW()               |
++---------------------+
+| 2024-10-23 12:42:55 |
++---------------------+
+1 row in set (0.01 sec)
+
+mysql> SELECT ENAME FROM EMP;
++--------+
+| ENAME  |
++--------+
+| SMITH  |
+| ALLEN  |
+| WARD   |
+| JONES  |
+| MARTIN |
+| BLAKE  |
+| CLARK  |
+| SCOTT  |
+| KING   |
+| TURNER |
+| ADAMS  |
+| JAMES  |
+| FORD   |
+| MILLER |
++--------+
+14 rows in set (0.00 sec)
+
+mysql> SELECT ENAME FROM EMP
+    -> WHERE JOB='MANAGER' && SAL>2000;
++-------+
+| ENAME |
++-------+
+| JONES |
+| BLAKE |
+| CLARK |
++-------+
+3 rows in set, 1 warning (0.00 sec)
+
+mysql> SELECT ENAME FROM EMP
+    -> WHERE JOB='MANAGER' || SAL>2000;
++-------+
+| ENAME |
++-------+
+| JONES |
+| BLAKE |
+| CLARK |
+| SCOTT |
+| KING  |
+| FORD  |
++-------+
+6 rows in set, 1 warning (0.00 sec)
+
+mysql> SELECT ENAME FROM EMP
+    -> WHERE JOB !='MANAGER';
++--------+
+| ENAME  |
++--------+
+| SMITH  |
+| ALLEN  |
+| WARD   |
+| MARTIN |
+| SCOTT  |
+| KING   |
+| TURNER |
+| ADAMS  |
+| JAMES  |
+| FORD   |
+| MILLER |
++--------+
+11 rows in set (0.00 sec)
+
+mysql> SELECT ENAME,JOB FROM EMP
+    -> WHERE JOB !='MANAGER';
++--------+-----------+
+| ENAME  | JOB       |
++--------+-----------+
+| SMITH  | CLERK     |
+| ALLEN  | SALESMAN  |
+| WARD   | SALESMAN  |
+| MARTIN | SALESMAN  |
+| SCOTT  | ANALYST   |
+| KING   | PRESIDENT |
+| TURNER | SALESMAN  |
+| ADAMS  | CLERK     |
+| JAMES  | CLERK     |
+| FORD   | ANALYST   |
+| MILLER | CLERK     |
++--------+-----------+
+11 rows in set (0.00 sec)
+
+mysql> SELECT ENAME,JOB,DEPTNO FROM EMP WHERE (JOB='ANAYST' && DEPTNO=10) AND (JOB='CLERK' AND DEPTNO=20);
+Empty set, 1 warning (0.00 sec)
+
+mysql> SELECT ENAME,JOB,DEPTNO FROM EMP WHERE (JOB='ANAYST' && DEPTNO=10) OR (JOB='CLERK' AND DEPTNO=20);
++-------+-------+--------+
+| ENAME | JOB   | DEPTNO |
++-------+-------+--------+
+| SMITH | CLERK |     20 |
+| ADAMS | CLERK |     20 |
++-------+-------+--------+
+2 rows in set, 1 warning (0.00 sec)
+
+mysql> SELECT ENAME FROM EMP WHERE HIREDATE>'2012-02-02';
++--------+
+| ENAME  |
++--------+
+| WARD   |
+| JONES  |
+| MARTIN |
+| ADAMS  |
+| JAMES  |
+| FORD   |
+| MILLER |
++--------+
+7 rows in set (0.00 sec)
+
+mysql> SELECT ENAME,HIREDATE FROM EMP WHERE HIREDATE>'2012';
+ERROR 1525 (HY000): Incorrect DATE value: '2012'
+mysql> SELECT ENAME,HIREDATE FROM EMP WHERE YEAR(HIREDATE)='2012';
++--------+------------+
+| ENAME  | HIREDATE   |
++--------+------------+
+| SMITH  | 2012-02-02 |
+| ALLEN  | 2012-01-02 |
+| MARTIN | 2012-05-02 |
+| BLAKE  | 2012-01-06 |
+| CLARK  | 2012-01-06 |
+| SCOTT  | 2012-01-10 |
+| KING   | 2012-01-15 |
+| TURNER | 2012-01-20 |
+| JAMES  | 2012-03-02 |
+| FORD   | 2012-04-02 |
+| MILLER | 2012-05-02 |
++--------+------------+
+11 rows in set (0.04 sec)
+
+mysql> SELECT ENAME,HIREDATE FROM EMP WHERE HIREDATE>='2012-01-01' AND HIREDATE<=31-12-2012;
+Empty set, 1 warning (0.00 sec)
+
+mysql> SELECT ENAME,HIREDATE FROM EMP WHERE HIREDATE>='2012-01-01' AND HIREDATE<=2012-12-31;
+Empty set, 1 warning (0.00 sec)
+
+mysql> SELECT ENAME,HIREDATE FROM EMP WHERE HIREDATE>='2012-01-01' AND HIREDATE<='2012-12-31';
++--------+------------+
+| ENAME  | HIREDATE   |
++--------+------------+
+| SMITH  | 2012-02-02 |
+| ALLEN  | 2012-01-02 |
+| MARTIN | 2012-05-02 |
+| BLAKE  | 2012-01-06 |
+| CLARK  | 2012-01-06 |
+| SCOTT  | 2012-01-10 |
+| KING   | 2012-01-15 |
+| TURNER | 2012-01-20 |
+| JAMES  | 2012-03-02 |
+| FORD   | 2012-04-02 |
+| MILLER | 2012-05-02 |
++--------+------------+
+11 rows in set (0.00 sec)
+
+mysql> SELECT ENAME,HIREDATE FROM EMP WHERE HIREDATE>='2012-01-01' AND HIREDATE<='2014-12-31';
++--------+------------+
+| ENAME  | HIREDATE   |
++--------+------------+
+| SMITH  | 2012-02-02 |
+| ALLEN  | 2012-01-02 |
+| WARD   | 2013-01-02 |
+| JONES  | 2013-01-02 |
+| MARTIN | 2012-05-02 |
+| BLAKE  | 2012-01-06 |
+| CLARK  | 2012-01-06 |
+| SCOTT  | 2012-01-10 |
+| KING   | 2012-01-15 |
+| TURNER | 2012-01-20 |
+| ADAMS  | 2013-01-02 |
+| JAMES  | 2012-03-02 |
+| FORD   | 2012-04-02 |
+| MILLER | 2012-05-02 |
++--------+------------+
+14 rows in set (0.00 sec)
+
+mysql> SELECT ENAME,COMM FROM EMP WHERE COMM IS NULL ;
++--------+------+
+| ENAME  | COMM |
++--------+------+
+| SMITH  | NULL |
+| JONES  | NULL |
+| BLAKE  | NULL |
+| CLARK  | NULL |
+| SCOTT  | NULL |
+| KING   | NULL |
+| ADAMS  | NULL |
+| JAMES  | NULL |
+| FORD   | NULL |
+| MILLER | NULL |
++--------+------+
+10 rows in set (0.00 sec)
+
+mysql> SELECT ENAME,COMM FROM EMP WHERE COMM IS NOT NULL ;
++--------+---------+
+| ENAME  | COMM    |
++--------+---------+
+| ALLEN  |  300.00 |
+| WARD   |  500.00 |
+| MARTIN | 1400.00 |
+| TURNER |    0.00 |
++--------+---------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT ENAME,COMM FROM EMP WHERE COMM IS NOT NULL AND COMM !=0;
++--------+---------+
+| ENAME  | COMM    |
++--------+---------+
+| ALLEN  |  300.00 |
+| WARD   |  500.00 |
+| MARTIN | 1400.00 |
++--------+---------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT ENAME FROM EMP WHERE SAL IN BETWEEN 1000 AND 2000;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'BETWEEN 1000 AND 2000' at line 1
+mysql> SELECT ENAME FROM EMP WHERE SAL IS BETWEEN 1000 AND 2000;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'BETWEEN 1000 AND 2000' at line 1
+mysql> SELECT ENAME FROM EMP WHERE SAL BETWEEN 1000 AND 2000;
++--------+
+| ENAME  |
++--------+
+| ALLEN  |
+| WARD   |
+| MARTIN |
+| TURNER |
+| ADAMS  |
+| MILLER |
++--------+
+6 rows in set (0.00 sec)
+
+mysql> SELECT ENAME,SAL FROM EMP WHERE SAL BETWEEN 1000 AND 2000;
++--------+---------+
+| ENAME  | SAL     |
++--------+---------+
+| ALLEN  | 1600.00 |
+| WARD   | 1250.00 |
+| MARTIN | 1250.00 |
+| TURNER | 1500.00 |
+| ADAMS  | 1100.00 |
+| MILLER | 1300.00 |
++--------+---------+
+6 rows in set (0.00 sec)
+
+mysql> SELECT ENAME,SAL FROM EMP WHERE SAL BETWEEN 800 AND 2000;
++--------+---------+
+| ENAME  | SAL     |
++--------+---------+
+| SMITH  |  800.00 |
+| ALLEN  | 1600.00 |
+| WARD   | 1250.00 |
+| MARTIN | 1250.00 |
+| TURNER | 1500.00 |
+| ADAMS  | 1100.00 |
+| JAMES  |  950.00 |
+| MILLER | 1300.00 |
++--------+---------+
+8 rows in set (0.00 sec)
+
+mysql> 
+mysql> SELECT ENAME,SAL FROM EMP WHERE SAL BETWEEN 1000 AND 3000;
++--------+---------+
+| ENAME  | SAL     |
++--------+---------+
+| ALLEN  | 1600.00 |
+| WARD   | 1250.00 |
+| JONES  | 2975.00 |
+| MARTIN | 1250.00 |
+| BLAKE  | 2850.00 |
+| CLARK  | 2450.00 |
+| SCOTT  | 3000.00 |
+| TURNER | 1500.00 |
+| ADAMS  | 1100.00 |
+| FORD   | 3000.00 |
+| MILLER | 1300.00 |
++--------+---------+
+11 rows in set (0.00 sec)
+
+mysql> SELECT ENAME,SAL FROM EMP WHERE SAL NOT BETWEEN 1000 AND 3000;
++-------+---------+
+| ENAME | SAL     |
++-------+---------+
+| SMITH |  800.00 |
+| KING  | 5000.00 |
+| JAMES |  950.00 |
++-------+---------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT ENAME FROM EMP WHERE HIREDATE NOT BETWEEN '2012-01-01' AND '2012-12-31';
++-------+
+| ENAME |
++-------+
+| WARD  |
+| JONES |
+| ADAMS |
++-------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT ENAME FROM EMP WHERE HIREDATE BETWEEN '2012-01-01' AND '2012-12-31';
++--------+
+| ENAME  |
++--------+
+| SMITH  |
+| ALLEN  |
+| MARTIN |
+| BLAKE  |
+| CLARK  |
+| SCOTT  |
+| KING   |
+| TURNER |
+| JAMES  |
+| FORD   |
+| MILLER |
++--------+
+11 rows in set (0.00 sec)
+
+mysql> SELECT ENAME FROM EMP WHERE DEPTNO =10 || DEPTNO=20;
++--------+
+| ENAME  |
++--------+
+| SMITH  |
+| JONES  |
+| CLARK  |
+| SCOTT  |
+| KING   |
+| ADAMS  |
+| FORD   |
+| MILLER |
++--------+
+8 rows in set, 1 warning (0.00 sec)
+
+mysql> SELECT ENAME,DEPTNO FROM EMP WHERE DEPTNO IN (10,20);
++--------+--------+
+| ENAME  | DEPTNO |
++--------+--------+
+| SMITH  |     20 |
+| JONES  |     20 |
+| CLARK  |     10 |
+| SCOTT  |     20 |
+| KING   |     10 |
+| ADAMS  |     20 |
+| FORD   |     20 |
+| MILLER |     10 |
++--------+--------+
+8 rows in set (0.00 sec)
+
+mysql> SELECT * FROM EMP WHERE ENAME IN ('SMITH','ALLEN','WARD');
++-------+-------+----------+------+------------+---------+--------+--------+
+| EMPNO | ENAME | JOB      | MGR  | HIREDATE   | SAL     | COMM   | DEPTNO |
++-------+-------+----------+------+------------+---------+--------+--------+
+|  7369 | SMITH | CLERK    | 7902 | 2012-02-02 |  800.00 |   NULL |     20 |
+|  7499 | ALLEN | SALESMAN | 7698 | 2012-01-02 | 1600.00 | 300.00 |     30 |
+|  7521 | WARD  | SALESMAN | 7698 | 2013-01-02 | 1250.00 | 500.00 |     30 |
++-------+-------+----------+------+------------+---------+--------+--------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT ENAME FROM EMP WHERE JOB IN ('SALESMAN','ANALYST','MANAGER');
++--------+
+| ENAME  |
++--------+
+| ALLEN  |
+| WARD   |
+| JONES  |
+| MARTIN |
+| BLAKE  |
+| CLARK  |
+| SCOTT  |
+| TURNER |
+| FORD   |
++--------+
+9 rows in set (0.00 sec)
+
+mysql> SELECT ENAME FROM EMP WHERE DEPTNO IN (10,20);
++--------+
+| ENAME  |
++--------+
+| SMITH  |
+| JONES  |
+| CLARK  |
+| SCOTT  |
+| KING   |
+| ADAMS  |
+| FORD   |
+| MILLER |
++--------+
+8 rows in set (0.00 sec)
+
+mysql> SELECT ENAME FROM EMP WHERE DEPTNO NOT IN (10,20);
++--------+
+| ENAME  |
++--------+
+| ALLEN  |
+| WARD   |
+| MARTIN |
+| BLAKE  |
+| TURNER |
+| JAMES  |
++--------+
+6 rows in set (0.00 sec)
+
+mysql> SELECT ENAME FROM EMP WHERE JOB NOT IN ('SALESMAN','MANAGER');
++--------+
+| ENAME  |
++--------+
+| SMITH  |
+| SCOTT  |
+| KING   |
+| ADAMS  |
+| JAMES  |
+| FORD   |
+| MILLER |
++--------+
+7 rows in set (0.00 sec)
+
+mysql> SELECT ENAME FROM EMP WHERE ENAME LIKE '%A';
+Empty set (0.00 sec)
+
+mysql> SELECT ENAME FROM EMP WHERE ENAME LIKE '%A%';
++--------+
+| ENAME  |
++--------+
+| ALLEN  |
+| WARD   |
+| MARTIN |
+| BLAKE  |
+| CLARK  |
+| ADAMS  |
+| JAMES  |
++--------+
+7 rows in set (0.00 sec)
+
+mysql> SELECT ENAME FROM EMP WHERE ENAME LIKE 'A%';
++-------+
+| ENAME |
++-------+
+| ALLEN |
+| ADAMS |
++-------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT ENAME FROM EMP WHERE ENAME LIKE '%R';
++--------+
+| ENAME  |
++--------+
+| TURNER |
+| MILLER |
++--------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT ENAME FROM EMP WHERE ENAME LIKE '%N';
++--------+
+| ENAME  |
++--------+
+| ALLEN  |
+| MARTIN |
++--------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT ENAME FROM EMP
+    -> ^C
+mysql> SELECT ENAME FROM EMP WHERE ENAME LIKE '_____';
++-------+
+| ENAME |
++-------+
+| SMITH |
+| ALLEN |
+| JONES |
+| BLAKE |
+| CLARK |
+| SCOTT |
+| ADAMS |
+| JAMES |
++-------+
+8 rows in set (0.00 sec)
+
+mysql> SELECT ENAME FROM EMP WHERE ENAME LIKE '__R__R%';
++--------+
+| ENAME  |
++--------+
+| TURNER |
++--------+
+1 row in set (0.00 sec)
+
+mysql> SELECT ENAME FROM EMP WHERE ENAME LIKE '__R%';
++--------+
+| ENAME  |
++--------+
+| WARD   |
+| MARTIN |
+| TURNER |
+| FORD   |
++--------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT ENAME FROM EMP WHERE ENAME NOT LIKE 'A%';
++--------+
+| ENAME  |
++--------+
+| SMITH  |
+| WARD   |
+| JONES  |
+| MARTIN |
+| BLAKE  |
+| CLARK  |
+| SCOTT  |
+| KING   |
+| TURNER |
+| JAMES  |
+| FORD   |
+| MILLER |
++--------+
+12 rows in set (0.00 sec)
+
+mysql> SELECT ENAME FROM EMP WHERE ENAME NOT LIKE '%A';
++--------+
+| ENAME  |
++--------+
+| SMITH  |
+| ALLEN  |
+| WARD   |
+| JONES  |
+| MARTIN |
+| BLAKE  |
+| CLARK  |
+| SCOTT  |
+| KING   |
+| TURNER |
+| ADAMS  |
+| JAMES  |
+| FORD   |
+| MILLER |
++--------+
+14 rows in set (0.00 sec)
+
+mysql> SELECT ENAME,SAL,COMM,SAL+ IFNULL(COMM,0) AS TOTSAL FROM EMP; 
++--------+---------+---------+---------+
+| ENAME  | SAL     | COMM    | TOTSAL  |
++--------+---------+---------+---------+
+| SMITH  |  800.00 |    NULL |  800.00 |
+| ALLEN  | 1600.00 |  300.00 | 1900.00 |
+| WARD   | 1250.00 |  500.00 | 1750.00 |
+| JONES  | 2975.00 |    NULL | 2975.00 |
+| MARTIN | 1250.00 | 1400.00 | 2650.00 |
+| BLAKE  | 2850.00 |    NULL | 2850.00 |
+| CLARK  | 2450.00 |    NULL | 2450.00 |
+| SCOTT  | 3000.00 |    NULL | 3000.00 |
+| KING   | 5000.00 |    NULL | 5000.00 |
+| TURNER | 1500.00 |    0.00 | 1500.00 |
+| ADAMS  | 1100.00 |    NULL | 1100.00 |
+| JAMES  |  950.00 |    NULL |  950.00 |
+| FORD   | 3000.00 |    NULL | 3000.00 |
+| MILLER | 1300.00 |    NULL | 1300.00 |
++--------+---------+---------+---------+
+14 rows in set (0.01 sec)
+
+mysql> SELECT ENAME SAL,SAL * 0.20 AS BONUS FROM EMP;
++--------+-----------+
+| SAL    | BONUS     |
++--------+-----------+
+| SMITH  |  160.0000 |
+| ALLEN  |  320.0000 |
+| WARD   |  250.0000 |
+| JONES  |  595.0000 |
+| MARTIN |  250.0000 |
+| BLAKE  |  570.0000 |
+| CLARK  |  490.0000 |
+| SCOTT  |  600.0000 |
+| KING   | 1000.0000 |
+| TURNER |  300.0000 |
+| ADAMS  |  220.0000 |
+| JAMES  |  190.0000 |
+| FORD   |  600.0000 |
+| MILLER |  260.0000 |
++--------+-----------+
+14 rows in set (0.00 sec)
+
+mysql> SELECT ENAME ,SAL,SAL * 0.20 AS BONUS FROM EMP;
++--------+---------+-----------+
+| ENAME  | SAL     | BONUS     |
++--------+---------+-----------+
+| SMITH  |  800.00 |  160.0000 |
+| ALLEN  | 1600.00 |  320.0000 |
+| WARD   | 1250.00 |  250.0000 |
+| JONES  | 2975.00 |  595.0000 |
+| MARTIN | 1250.00 |  250.0000 |
+| BLAKE  | 2850.00 |  570.0000 |
+| CLARK  | 2450.00 |  490.0000 |
+| SCOTT  | 3000.00 |  600.0000 |
+| KING   | 5000.00 | 1000.0000 |
+| TURNER | 1500.00 |  300.0000 |
+| ADAMS  | 1100.00 |  220.0000 |
+| JAMES  |  950.00 |  190.0000 |
+| FORD   | 3000.00 |  600.0000 |
+| MILLER | 1300.00 |  260.0000 |
++--------+---------+-----------+
+14 rows in set (0.00 sec)
+
+mysql> SELECT ENAME ,SAL+COMM AS ANNUAL FROM EMP;
++--------+---------+
+| ENAME  | ANNUAL  |
++--------+---------+
+| SMITH  |    NULL |
+| ALLEN  | 1900.00 |
+| WARD   | 1750.00 |
+| JONES  |    NULL |
+| MARTIN | 2650.00 |
+| BLAKE  |    NULL |
+| CLARK  |    NULL |
+| SCOTT  |    NULL |
+| KING   |    NULL |
+| TURNER | 1500.00 |
+| ADAMS  |    NULL |
+| JAMES  |    NULL |
+| FORD   |    NULL |
+| MILLER |    NULL |
++--------+---------+
+14 rows in set (0.00 sec)
+
+mysql> SELECT ENAME ,SAL+IFNULL(COMM,0) AS ANNUAL FROM EMP;
++--------+---------+
+| ENAME  | ANNUAL  |
++--------+---------+
+| SMITH  |  800.00 |
+| ALLEN  | 1900.00 |
+| WARD   | 1750.00 |
+| JONES  | 2975.00 |
+| MARTIN | 2650.00 |
+| BLAKE  | 2850.00 |
+| CLARK  | 2450.00 |
+| SCOTT  | 3000.00 |
+| KING   | 5000.00 |
+| TURNER | 1500.00 |
+| ADAMS  | 1100.00 |
+| JAMES  |  950.00 |
+| FORD   | 3000.00 |
+| MILLER | 1300.00 |
++--------+---------+
+14 rows in set (0.00 sec)
+
+mysql> SELECT ENAME ,SAL+(SAL * 0.20) TOTSAL  FROM EMP;
++--------+-----------+
+| ENAME  | TOTSAL    |
++--------+-----------+
+| SMITH  |  960.0000 |
+| ALLEN  | 1920.0000 |
+| WARD   | 1500.0000 |
+| JONES  | 3570.0000 |
+| MARTIN | 1500.0000 |
+| BLAKE  | 3420.0000 |
+| CLARK  | 2940.0000 |
+| SCOTT  | 3600.0000 |
+| KING   | 6000.0000 |
+| TURNER | 1800.0000 |
+| ADAMS  | 1320.0000 |
+| JAMES  | 1140.0000 |
+| FORD   | 3600.0000 |
+| MILLER | 1560.0000 |
++--------+-----------+
+14 rows in set (0.00 sec)
+
+mysql> SELECT ENAME ,(SAL*0.20),SAL+(SAL * 0.20) TOTSAL  FROM EMP;
++--------+------------+-----------+
+| ENAME  | (SAL*0.20) | TOTSAL    |
++--------+------------+-----------+
+| SMITH  |   160.0000 |  960.0000 |
+| ALLEN  |   320.0000 | 1920.0000 |
+| WARD   |   250.0000 | 1500.0000 |
+| JONES  |   595.0000 | 3570.0000 |
+| MARTIN |   250.0000 | 1500.0000 |
+| BLAKE  |   570.0000 | 3420.0000 |
+| CLARK  |   490.0000 | 2940.0000 |
+| SCOTT  |   600.0000 | 3600.0000 |
+| KING   |  1000.0000 | 6000.0000 |
+| TURNER |   300.0000 | 1800.0000 |
+| ADAMS  |   220.0000 | 1320.0000 |
+| JAMES  |   190.0000 | 1140.0000 |
+| FORD   |   600.0000 | 3600.0000 |
+| MILLER |   260.0000 | 1560.0000 |
++--------+------------+-----------+
+14 rows in set (0.00 sec)
+
+mysql> SELECT ENAME ,(SAL*0.20) AS BONUS,SAL+(SAL * 0.20) TOTSAL  FROM EMP;
++--------+-----------+-----------+
+| ENAME  | BONUS     | TOTSAL    |
++--------+-----------+-----------+
+| SMITH  |  160.0000 |  960.0000 |
+| ALLEN  |  320.0000 | 1920.0000 |
+| WARD   |  250.0000 | 1500.0000 |
+| JONES  |  595.0000 | 3570.0000 |
+| MARTIN |  250.0000 | 1500.0000 |
+| BLAKE  |  570.0000 | 3420.0000 |
+| CLARK  |  490.0000 | 2940.0000 |
+| SCOTT  |  600.0000 | 3600.0000 |
+| KING   | 1000.0000 | 6000.0000 |
+| TURNER |  300.0000 | 1800.0000 |
+| ADAMS  |  220.0000 | 1320.0000 |
+| JAMES  |  190.0000 | 1140.0000 |
+| FORD   |  600.0000 | 3600.0000 |
+| MILLER |  260.0000 | 1560.0000 |
++--------+-----------+-----------+
+14 rows in set (0.00 sec)
+
+mysql> SELECT ENAME ,SAL,(SAL*0.20) AS BONUS,SAL+(SAL * 0.20) TOTSAL  FROM EMP;
++--------+---------+-----------+-----------+
+| ENAME  | SAL     | BONUS     | TOTSAL    |
++--------+---------+-----------+-----------+
+| SMITH  |  800.00 |  160.0000 |  960.0000 |
+| ALLEN  | 1600.00 |  320.0000 | 1920.0000 |
+| WARD   | 1250.00 |  250.0000 | 1500.0000 |
+| JONES  | 2975.00 |  595.0000 | 3570.0000 |
+| MARTIN | 1250.00 |  250.0000 | 1500.0000 |
+| BLAKE  | 2850.00 |  570.0000 | 3420.0000 |
+| CLARK  | 2450.00 |  490.0000 | 2940.0000 |
+| SCOTT  | 3000.00 |  600.0000 | 3600.0000 |
+| KING   | 5000.00 | 1000.0000 | 6000.0000 |
+| TURNER | 1500.00 |  300.0000 | 1800.0000 |
+| ADAMS  | 1100.00 |  220.0000 | 1320.0000 |
+| JAMES  |  950.00 |  190.0000 | 1140.0000 |
+| FORD   | 3000.00 |  600.0000 | 3600.0000 |
+| MILLER | 1300.00 |  260.0000 | 1560.0000 |
++--------+---------+-----------+-----------+
+14 rows in set (0.00 sec)
+
+mysql> SELECT ENAME ,(SAL+COMM)IFNULL(COMM,0) AS ANNUAL FROM EMP;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(COMM,0) AS ANNUAL FROM EMP' at line 1
+mysql> SELECT ENAME ,SAL+COMM IFNULL(COMM,0) AS ANNUAL FROM EMP;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(COMM,0) AS ANNUAL FROM EMP' at line 1
+mysql> SELECT ENAME,SAL,COMM ,(SAL+COMM IFNULL(COMM,0)) AS ANNUAL FROM EMP;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'IFNULL(COMM,0)) AS ANNUAL FROM EMP' at line 1
+mysql> SELECT ENAME,SAL,COMM ,(SAL+ IFNULL(COMM,0))*12 AS ANNUAL FROM EMP;
++--------+---------+---------+----------+
+| ENAME  | SAL     | COMM    | ANNUAL   |
++--------+---------+---------+----------+
+| SMITH  |  800.00 |    NULL |  9600.00 |
+| ALLEN  | 1600.00 |  300.00 | 22800.00 |
+| WARD   | 1250.00 |  500.00 | 21000.00 |
+| JONES  | 2975.00 |    NULL | 35700.00 |
+| MARTIN | 1250.00 | 1400.00 | 31800.00 |
+| BLAKE  | 2850.00 |    NULL | 34200.00 |
+| CLARK  | 2450.00 |    NULL | 29400.00 |
+| SCOTT  | 3000.00 |    NULL | 36000.00 |
+| KING   | 5000.00 |    NULL | 60000.00 |
+| TURNER | 1500.00 |    0.00 | 18000.00 |
+| ADAMS  | 1100.00 |    NULL | 13200.00 |
+| JAMES  |  950.00 |    NULL | 11400.00 |
+| FORD   | 3000.00 |    NULL | 36000.00 |
+| MILLER | 1300.00 |    NULL | 15600.00 |
++--------+---------+---------+----------+
+14 rows in set (0.00 sec)
+
+mysql> SELECT SUM(SAL) AS TOTAL FROM EMP;
++----------+
+| TOTAL    |
++----------+
+| 29025.00 |
++----------+
+1 row in set (0.00 sec)
+
+mysql> SELECT MIN(SAL) AS "MINIUM SAL" FROM EMP;
++------------+
+| MINIUM SAL |
++------------+
+|     800.00 |
++------------+
+1 row in set (0.01 sec)
+
+mysql> SELECT MAX(SAL) AS "MAXIMUM SAL" FROM EMP;
++-------------+
+| MAXIMUM SAL |
++-------------+
+|     5000.00 |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT AVG(SAL) AS "AVERAGE SAL" FROM EMP;
++-------------+
+| AVERAGE SAL |
++-------------+
+| 2073.214286 |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT COUNT(SAL) AS "COUNT SAL" FROM EMP;
++-----------+
+| COUNT SAL |
++-----------+
+|        14 |
++-----------+
+1 row in set (0.01 sec)
+
+mysql> #WILL COUNT COMM
+mysql> 
+mysql> SELECT COUNT(COMM) FROM EMP;
++-------------+
+| COUNT(COMM) |
++-------------+
+|           4 |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT COUNT(COMM NOT NULL) FROM EMP;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'NULL) FROM EMP' at line 1
+mysql> SELECT COUNT(COMM) FROM EMP WHERE COMM IS NOT NULL;
++-------------+
+| COUNT(COMM) |
++-------------+
+|           4 |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT COUNT(COMM) FROM EMP WHERE COMM IS NULL;
++-------------+
+| COUNT(COMM) |
++-------------+
+|           0 |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT COUNT(COMM) FROM EMP WHERE COMM IS NOT NULL;
++-------------+
+| COUNT(COMM) |
++-------------+
+|           4 |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT SAL FROM EMP ORDER BY SAL;
++---------+
+| SAL     |
++---------+
+|  800.00 |
+|  950.00 |
+| 1100.00 |
+| 1250.00 |
+| 1250.00 |
+| 1300.00 |
+| 1500.00 |
+| 1600.00 |
+| 2450.00 |
+| 2850.00 |
+| 2975.00 |
+| 3000.00 |
+| 3000.00 |
+| 5000.00 |
++---------+
+14 rows in set (0.00 sec)
+
+mysql> SELECT SAL FROM EMP ORDER BY SAL DESC;
++---------+
+| SAL     |
++---------+
+| 5000.00 |
+| 3000.00 |
+| 3000.00 |
+| 2975.00 |
+| 2850.00 |
+| 2450.00 |
+| 1600.00 |
+| 1500.00 |
+| 1300.00 |
+| 1250.00 |
+| 1250.00 |
+| 1100.00 |
+|  950.00 |
+|  800.00 |
++---------+
+14 rows in set (0.00 sec)
+
+mysql> SELECT ENAME,SAL FROM EMP ORDER BY SAL DESC;
++--------+---------+
+| ENAME  | SAL     |
++--------+---------+
+| KING   | 5000.00 |
+| SCOTT  | 3000.00 |
+| FORD   | 3000.00 |
+| JONES  | 2975.00 |
+| BLAKE  | 2850.00 |
+| CLARK  | 2450.00 |
+| ALLEN  | 1600.00 |
+| TURNER | 1500.00 |
+| MILLER | 1300.00 |
+| WARD   | 1250.00 |
+| MARTIN | 1250.00 |
+| ADAMS  | 1100.00 |
+| JAMES  |  950.00 |
+| SMITH  |  800.00 |
++--------+---------+
+14 rows in set (0.00 sec)
+
+mysql> SELECT ENAME,SAL FROM EMP ORDER BY SAL ;
++--------+---------+
+| ENAME  | SAL     |
++--------+---------+
+| SMITH  |  800.00 |
+| JAMES  |  950.00 |
+| ADAMS  | 1100.00 |
+| WARD   | 1250.00 |
+| MARTIN | 1250.00 |
+| MILLER | 1300.00 |
+| TURNER | 1500.00 |
+| ALLEN  | 1600.00 |
+| CLARK  | 2450.00 |
+| BLAKE  | 2850.00 |
+| JONES  | 2975.00 |
+| SCOTT  | 3000.00 |
+| FORD   | 3000.00 |
+| KING   | 5000.00 |
++--------+---------+
+14 rows in set (0.00 sec)
+
+mysql> SELECT ENAME,SAL FROM EMP ORDER BY 2 ;
++--------+---------+
+| ENAME  | SAL     |
++--------+---------+
+| SMITH  |  800.00 |
+| JAMES  |  950.00 |
+| ADAMS  | 1100.00 |
+| WARD   | 1250.00 |
+| MARTIN | 1250.00 |
+| MILLER | 1300.00 |
+| TURNER | 1500.00 |
+| ALLEN  | 1600.00 |
+| CLARK  | 2450.00 |
+| BLAKE  | 2850.00 |
+| JONES  | 2975.00 |
+| SCOTT  | 3000.00 |
+| FORD   | 3000.00 |
+| KING   | 5000.00 |
++--------+---------+
+14 rows in set (0.00 sec)
+
+mysql> SELECT ENAME,SAL FROM EMP ORDER BY 1 ;
++--------+---------+
+| ENAME  | SAL     |
++--------+---------+
+| ADAMS  | 1100.00 |
+| ALLEN  | 1600.00 |
+| BLAKE  | 2850.00 |
+| CLARK  | 2450.00 |
+| FORD   | 3000.00 |
+| JAMES  |  950.00 |
+| JONES  | 2975.00 |
+| KING   | 5000.00 |
+| MARTIN | 1250.00 |
+| MILLER | 1300.00 |
+| SCOTT  | 3000.00 |
+| SMITH  |  800.00 |
+| TURNER | 1500.00 |
+| WARD   | 1250.00 |
++--------+---------+
+14 rows in set (0.04 sec)
+
+mysql> SELECT ENAME,SAL+500 FROM EMP ORDER BY SAL+500 ;
++--------+---------+
+| ENAME  | SAL+500 |
++--------+---------+
+| SMITH  | 1300.00 |
+| JAMES  | 1450.00 |
+| ADAMS  | 1600.00 |
+| WARD   | 1750.00 |
+| MARTIN | 1750.00 |
+| MILLER | 1800.00 |
+| TURNER | 2000.00 |
+| ALLEN  | 2100.00 |
+| CLARK  | 2950.00 |
+| BLAKE  | 3350.00 |
+| JONES  | 3475.00 |
+| SCOTT  | 3500.00 |
+| FORD   | 3500.00 |
+| KING   | 5500.00 |
++--------+---------+
+14 rows in set (0.00 sec)
+
+mysql> SELECT ENAME,SAL+500 AS NEWSAL FROM EMP ORDER BY SAL+500 AS NEW SAL ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'AS NEW SAL' at line 1
+mysql> SELECT ENAME,SAL+500 AS NEWSAL FROM EMP ORDER BY SAL+500 AS NEWSAL ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'AS NEWSAL' at line 1
+mysql> SELECT ENAME,SAL+500 AS NEWSAL FROM EMP ORDER BY SAL+500 NEWSAL ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'NEWSAL' at line 1
+mysql> SELECT ENAME,SAL+500 AS NEWSAL FROM EMP ORDER BY NEWSAL ;
++--------+---------+
+| ENAME  | NEWSAL  |
++--------+---------+
+| SMITH  | 1300.00 |
+| JAMES  | 1450.00 |
+| ADAMS  | 1600.00 |
+| WARD   | 1750.00 |
+| MARTIN | 1750.00 |
+| MILLER | 1800.00 |
+| TURNER | 2000.00 |
+| ALLEN  | 2100.00 |
+| CLARK  | 2950.00 |
+| BLAKE  | 3350.00 |
+| JONES  | 3475.00 |
+| SCOTT  | 3500.00 |
+| FORD   | 3500.00 |
+| KING   | 5500.00 |
++--------+---------+
+14 rows in set (0.00 sec)
+
+mysql> exit
+mysql> ^C
+mysql>  create table salespeople(SNUM NUMERIC(4),SNAME VARCHAR2(10),CITY VARCHAR2(10),COMM NUMERIC(3,2);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'VARCHAR2(10),CITY VARCHAR2(10),COMM NUMERIC(3,2)' at line 1
+mysql> 
+mysql>  create table salespeople(SNUM NUMERIC(4),SNAME VARCHAR2(10),CITY VARCHAR2(10),COMM NUMERIC(3,2));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'VARCHAR2(10),CITY VARCHAR2(10),COMM NUMERIC(3,2))' at line 1
+mysql> 
+mysql>  create table salespeople(SNUM NUMERIC(4),SNAME VARCHAR(10),CITY VARCHAR(10),COMM NUMERIC(3,2));
+Query OK, 0 rows affected (0.07 sec)
+
+mysql>  create table customers(CNUM NUMERIC(4),CNAME VARCHAR(10),CITY VARCHAR(10),RATING NUMERIC(4),SNUM NUMERIC(4));
+Query OK, 0 rows affected (0.01 sec)
+
+mysql>  create table orders(ONUM NUMERIC(4),AMT NUMERIC(7,2),ODATE DATE,CNUM(4),SNUM NUMERIC(4));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(4),SNUM NUMERIC(4))' at line 1
+mysql>  create table orders(ONUM NUMERIC(4),AMT DECIMAL(7,2),ODATE DATE,CNUM(4),SNUM NUMERIC(4));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(4),SNUM NUMERIC(4))' at line 1
+mysql> 
+mysql> CREATE TABLE orders (
+    ->     ONUM NUMERIC(4),
+    ->     AMT DECIMAL(7,2),
+    ->     ODATE DATE,
+    ->     CNUM NUMERIC(4),
+    ->     SNUM NUMERIC(4)
+    -> );
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> DROP TABLE ORDERS;
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> 
+mysql> CREATE TABLE orders (
+    ->     ONUM NUMERIC(4),
+    ->     AMT NUMERIC(7,2),
+    ->     ODATE DATE,
+    ->     CNUM NUMERIC(4),
+    ->     SNUM NUMERIC(4)
+    -> );
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> SELECT * FROM ORDERS;
+Empty set (0.01 sec)
+
+mysql> INSERT INTO ORDERS VALUES(3001,18.69,'03-OCT-1990',2008,1007);
+ERROR 1292 (22007): Incorrect date value: '03-OCT-1990' for column 'ODATE' at row 1
+mysql> 
+mysql> INSERT INTO ORDERS VALUES(3001,18.69,'03-10-1990',2008,1007);
+ERROR 1292 (22007): Incorrect date value: '03-10-1990' for column 'ODATE' at row 1
+mysql> 
+mysql> 
+mysql> INSERT INTO ORDERS VALUES(3001,18.69,'1990-10-03',2008,1007);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> SELECT * FROM ORDERS;
++------+-------+------------+------+------+
+| ONUM | AMT   | ODATE      | CNUM | SNUM |
++------+-------+------------+------+------+
+| 3001 | 18.69 | 1990-10-03 | 2008 | 1007 |
++------+-------+------------+------+------+
+1 row in set (0.00 sec)
+
+mysql> SOURCE C:\Users\CDAC\Desktop\Database\day2\ORDERTABLE.txt
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+mysql> SELECT * FROM ORDERS;
++------+---------+------------+------+------+
+| ONUM | AMT     | ODATE      | CNUM | SNUM |
++------+---------+------------+------+------+
+| 3001 |   18.69 | 1990-10-03 | 2008 | 1007 |
+| 3003 |  767.19 | 1990-10-03 | 2001 | 1001 |
+| 3002 | 1900.10 | 1990-10-03 | 2007 | 1004 |
+| 3005 | 5160.45 | 1990-10-03 | 2003 | 1002 |
+| 3006 | 1098.16 | 1990-10-03 | 2008 | 1007 |
+| 3009 | 1713.23 | 1990-10-04 | 2002 | 1003 |
+| 3007 |   75.75 | 1990-10-04 | 2004 | 1002 |
+| 3008 | 4723.00 | 1990-10-05 | 2006 | 1001 |
+| 3010 | 1309.95 | 1990-10-06 | 2004 | 1002 |
+| 3011 | 9891.98 | 1990-10-06 | 2006 | 1001 |
++------+---------+------------+------+------+
+10 rows in set (0.00 sec)
+
+mysql> SHOW TABLES;
++-----------------------+
+| Tables_in_assignment1 |
++-----------------------+
+| customers             |
+| orders                |
+| salespeople           |
++-----------------------+
+3 rows in set (0.02 sec)
+
+mysql> INSERT INTO customers (CNUM, CNAME, CITY, RATING, SNUM) VALUES
+    -> (2001, 'Hoffman', 'London', 100, 1001),
+    -> (2002, 'Giovanni', 'Rome', 200, 1003),
+    -> (2003, 'Liu', 'San Jose', 200, 1002),
+    -> (2004, 'Grass', 'Berlin', 300, 1002),
+    -> (2006, 'Clemens', 'London', 100, 1001),
+    -> (2008, 'Cisneros', 'San Jose', 300, 1007),
+    -> (2007, 'Pereira', 'Rome', 100, 1004);
+Query OK, 7 rows affected (0.01 sec)
+Records: 7  Duplicates: 0  Warnings: 0
+
+mysql> SELECT * FROM CUSTOMERS;
++------+----------+----------+--------+------+
+| CNUM | CNAME    | CITY     | RATING | SNUM |
++------+----------+----------+--------+------+
+| 2001 | Hoffman  | London   |    100 | 1001 |
+| 2002 | Giovanni | Rome     |    200 | 1003 |
+| 2003 | Liu      | San Jose |    200 | 1002 |
+| 2004 | Grass    | Berlin   |    300 | 1002 |
+| 2006 | Clemens  | London   |    100 | 1001 |
+| 2008 | Cisneros | San Jose |    300 | 1007 |
+| 2007 | Pereira  | Rome     |    100 | 1004 |
++------+----------+----------+--------+------+
+7 rows in set (0.00 sec)
+
+mysql> SOURCE C:\Users\CDAC\Desktop\Database\day2\ORDERTABLE.txt
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+mysql> SELECT * FROM SALESPEOPLE;
++------+---------+-----------+------+
+| SNUM | SNAME   | CITY      | COMM |
++------+---------+-----------+------+
+| 1001 | PEEL    | LONDON    | 0.12 |
+| 1002 | SERRES  | SAN JOSE  | 0.13 |
+| 1004 | MOTIKA  | LONDON    | 0.11 |
+| 1007 | RIFKIN  | BARCELONA | 0.15 |
+| 1003 | AXELROD | NEW YORK  | 0.10 |
++------+---------+-----------+------+
+5 rows in set (0.00 sec)
+
+mysql> SELECT * FROM ORDERS WHERE AMT>1000;
++------+---------+------------+------+------+
+| ONUM | AMT     | ODATE      | CNUM | SNUM |
++------+---------+------------+------+------+
+| 3002 | 1900.10 | 1990-10-03 | 2007 | 1004 |
+| 3005 | 5160.45 | 1990-10-03 | 2003 | 1002 |
+| 3006 | 1098.16 | 1990-10-03 | 2008 | 1007 |
+| 3009 | 1713.23 | 1990-10-04 | 2002 | 1003 |
+| 3008 | 4723.00 | 1990-10-05 | 2006 | 1001 |
+| 3010 | 1309.95 | 1990-10-06 | 2004 | 1002 |
+| 3011 | 9891.98 | 1990-10-06 | 2006 | 1001 |
++------+---------+------------+------+------+
+7 rows in set (0.00 sec)
+
+mysql> SELECT SNAME,CITY FROM SALESPEOPLE WHERE CITY='LONDON' AND COMM>10;
+Empty set (0.00 sec)
+
+mysql> SELECT SNAME,CITY FROM SALESPEOPLE WHERE CITY='LONDON' AND COMM>.10;
++--------+--------+
+| SNAME  | CITY   |
++--------+--------+
+| PEEL   | LONDON |
+| MOTIKA | LONDON |
++--------+--------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT * FROM CUSTOMERS WHERE NOT (RATING <=100 AND CITY <> 'ROME');
++------+----------+----------+--------+------+
+| CNUM | CNAME    | CITY     | RATING | SNUM |
++------+----------+----------+--------+------+
+| 2002 | Giovanni | Rome     |    200 | 1003 |
+| 2003 | Liu      | San Jose |    200 | 1002 |
+| 2004 | Grass    | Berlin   |    300 | 1002 |
+| 2008 | Cisneros | San Jose |    300 | 1007 |
+| 2007 | Pereira  | Rome     |    100 | 1004 |
++------+----------+----------+--------+------+
+5 rows in set (0.00 sec)
+
+mysql> SELECT ONUM FROM ORDERS WHERE ODATE BETWEEN 1990-10-03 AND 1990-10-04;
+Empty set, 2 warnings (0.00 sec)
+
+mysql> SELECT ONUM FROM ORDERS WHERE ODATE BETWEEN '1990-10-03' AND '1990-10-04';
++------+
+| ONUM |
++------+
+| 3001 |
+| 3003 |
+| 3002 |
+| 3005 |
+| 3006 |
+| 3009 |
+| 3007 |
++------+
+7 rows in set (0.00 sec)
+
+mysql> EXIT
+mysql> |! cls
+    -> '
+    '> ;
+    '> ^C
+mysql> \! cls
+mysql> use cdac;
+Database changed
+mysql> select * from emp;
++-------+--------+-----------+------+------------+---------+---------+--------+
+| EMPNO | ENAME  | JOB       | MGR  | HIREDATE   | SAL     | COMM    | DEPTNO |
++-------+--------+-----------+------+------------+---------+---------+--------+
+|  7369 | SMITH  | CLERK     | 7902 | 2012-02-02 |  800.00 |    NULL |     20 |
+|  7499 | ALLEN  | SALESMAN  | 7698 | 2012-01-02 | 1600.00 |  300.00 |     30 |
+|  7521 | WARD   | SALESMAN  | 7698 | 2013-01-02 | 1250.00 |  500.00 |     30 |
+|  7566 | JONES  | MANAGER   | 7839 | 2013-01-02 | 2975.00 |    NULL |     20 |
+|  7654 | MARTIN | SALESMAN  | 7698 | 2012-05-02 | 1250.00 | 1400.00 |     30 |
+|  7698 | BLAKE  | MANAGER   | 7839 | 2012-01-06 | 2850.00 |    NULL |     30 |
+|  7782 | CLARK  | MANAGER   | 7839 | 2012-01-06 | 2450.00 |    NULL |     10 |
+|  7788 | SCOTT  | ANALYST   | 7566 | 2012-01-10 | 3000.00 |    NULL |     20 |
+|  7839 | KING   | PRESIDENT | NULL | 2012-01-15 | 5000.00 |    NULL |     10 |
+|  7844 | TURNER | SALESMAN  | 7698 | 2012-01-20 | 1500.00 |    0.00 |     30 |
+|  7876 | ADAMS  | CLERK     | 7788 | 2013-01-02 | 1100.00 |    NULL |     20 |
+|  7900 | JAMES  | CLERK     | 7698 | 2012-03-02 |  950.00 |    NULL |     30 |
+|  7902 | FORD   | ANALYST   | 7566 | 2012-04-02 | 3000.00 |    NULL |     20 |
+|  7934 | MILLER | CLERK     | 7782 | 2012-05-02 | 1300.00 |    NULL |     10 |
++-------+--------+-----------+------+------------+---------+---------+--------+
+14 rows in set (0.00 sec)
+
+mysql> 	SELECT DEPTNO,SUM(SAL) TOTSAL FROM EMP GROUP BY DEPTNO;
++--------+----------+
+| DEPTNO | TOTSAL   |
++--------+----------+
+|     20 | 10875.00 |
+|     30 |  9400.00 |
+|     10 |  8750.00 |
++--------+----------+
+3 rows in set (0.01 sec)
+
+mysql> 	SELECT DEPTNO,SUM(SAL) TOTSAL FROM EMP GROUP BY DEPTNO ORDER BY DEPTNO;
++--------+----------+
+| DEPTNO | TOTSAL   |
++--------+----------+
+|     10 |  8750.00 |
+|     20 | 10875.00 |
+|     30 |  9400.00 |
++--------+----------+
+3 rows in set (0.00 sec)
+
+mysql> 	SELECT DEPTNO,SUM(SAL) TOTSAL,MAX(SAL) MAXIMUMsAL,MIN(SAL) MINIMUMsAL,AVG(SAL) AVERAGEsAL FROM EMP GROUP BY DEPTNO ORDER BY DEPTNO;
++--------+----------+------------+------------+-------------+
+| DEPTNO | TOTSAL   | MAXIMUMsAL | MINIMUMsAL | AVERAGEsAL  |
++--------+----------+------------+------------+-------------+
+|     10 |  8750.00 |    5000.00 |    1300.00 | 2916.666667 |
+|     20 | 10875.00 |    3000.00 |     800.00 | 2175.000000 |
+|     30 |  9400.00 |    2850.00 |     950.00 | 1566.666667 |
++--------+----------+------------+------------+-------------+
+3 rows in set (0.01 sec)
+
+mysql> SELECT ENAME,COUNT(JOB) TOTEMP FROM EMP GROUP BY JOB;
+ERROR 1055 (42000): Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'cdac.EMP.ENAME' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+mysql> SELECT ENAME,COUNT(*) TOTEMP FROM EMP GROUP BY JOB;
+ERROR 1055 (42000): Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'cdac.EMP.ENAME' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+mysql> SELECT JOB, COUNT(*) AS TOTEMP FROM EMP GROUP BY JOB;
++-----------+--------+
+| JOB       | TOTEMP |
++-----------+--------+
+| CLERK     |      4 |
+| SALESMAN  |      4 |
+| MANAGER   |      3 |
+| ANALYST   |      2 |
+| PRESIDENT |      1 |
++-----------+--------+
+5 rows in set (0.00 sec)
+
+mysql> SELECT JOB, COUNT(EMPNO) AS TOTEMP FROM EMP GROUP BY JOB;
++-----------+--------+
+| JOB       | TOTEMP |
++-----------+--------+
+| CLERK     |      4 |
+| SALESMAN  |      4 |
+| MANAGER   |      3 |
+| ANALYST   |      2 |
+| PRESIDENT |      1 |
++-----------+--------+
+5 rows in set (0.00 sec)
+
+mysql> SELECT DEPTNO, COUNT(EMPNO) AS TOTEMP FROM EMP GROUP BY DEPTNO;
++--------+--------+
+| DEPTNO | TOTEMP |
++--------+--------+
+|     20 |      5 |
+|     30 |      6 |
+|     10 |      3 |
++--------+--------+
+3 rows in set (0.01 sec)
+
+mysql> SELECT DEPTNO, COUNT(EMPNO) AS TOTEMP FROM EMP GROUP BY DEPTNO ORDER BY;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+mysql> SELECT DEPTNO, COUNT(EMPNO) AS TOTEMP FROM EMP GROUP BY DEPTNO ORDER BY DEPTNO;
++--------+--------+
+| DEPTNO | TOTEMP |
++--------+--------+
+|     10 |      3 |
+|     20 |      5 |
+|     30 |      6 |
++--------+--------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT DEPTNO,ENAME, COUNT(EMPNO) FROM EMP GROUP BY DEPTNO;
+ERROR 1055 (42000): Expression #2 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'cdac.EMP.ENAME' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+mysql> 
+mysql> SELECT DEPTNO,ENAME, COUNT(EMPNO) FROM EMP GROUP BY DEPTNO,ENAME;
++--------+--------+--------------+
+| DEPTNO | ENAME  | COUNT(EMPNO) |
++--------+--------+--------------+
+|     20 | SMITH  |            1 |
+|     30 | ALLEN  |            1 |
+|     30 | WARD   |            1 |
+|     20 | JONES  |            1 |
+|     30 | MARTIN |            1 |
+|     30 | BLAKE  |            1 |
+|     10 | CLARK  |            1 |
+|     20 | SCOTT  |            1 |
+|     10 | KING   |            1 |
+|     30 | TURNER |            1 |
+|     20 | ADAMS  |            1 |
+|     30 | JAMES  |            1 |
+|     20 | FORD   |            1 |
+|     10 | MILLER |            1 |
++--------+--------+--------------+
+14 rows in set (0.00 sec)
+
+mysql> EXIT

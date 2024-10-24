@@ -1,0 +1,242 @@
+mysql> \! cls
+mysql> select deptno,job, count(empno) as totemp
+    -> from emp
+    -> group by deptno,job
+    -> order by deptno;
++--------+-----------+--------+
+| deptno | job       | totemp |
++--------+-----------+--------+
+|     10 | CLERK     |      1 |
+|     10 | MANAGER   |      1 |
+|     10 | PRESIDENT |      1 |
+|     20 | ANALYST   |      2 |
+|     20 | CLERK     |      2 |
+|     20 | MANAGER   |      1 |
+|     30 | CLERK     |      1 |
+|     30 | MANAGER   |      1 |
+|     30 | SALESMAN  |      4 |
++--------+-----------+--------+
+9 rows in set (0.01 sec)
+
+mysql> select  ename,deptno,sal
+    -> from emp
+    -> order by deptno,sal,ename;
++--------+--------+---------+
+| ename  | deptno | sal     |
++--------+--------+---------+
+| MILLER |     10 | 1300.00 |
+| CLARK  |     10 | 2450.00 |
+| KING   |     10 | 5000.00 |
+| SMITH  |     20 |  800.00 |
+| ADAMS  |     20 | 1100.00 |
+| JONES  |     20 | 2975.00 |
+| FORD   |     20 | 3000.00 |
+| SCOTT  |     20 | 3000.00 |
+| JAMES  |     30 |  950.00 |
+| MARTIN |     30 | 1250.00 |
+| WARD   |     30 | 1250.00 |
+| TURNER |     30 | 1500.00 |
+| ALLEN  |     30 | 1600.00 |
+| BLAKE  |     30 | 2850.00 |
++--------+--------+---------+
+14 rows in set (0.00 sec)
+
+mysql> select  ename,deptno,sal
+    -> from emp
+    -> order by ename,deptno,sal;
++--------+--------+---------+
+| ename  | deptno | sal     |
++--------+--------+---------+
+| ADAMS  |     20 | 1100.00 |
+| ALLEN  |     30 | 1600.00 |
+| BLAKE  |     30 | 2850.00 |
+| CLARK  |     10 | 2450.00 |
+| FORD   |     20 | 3000.00 |
+| JAMES  |     30 |  950.00 |
+| JONES  |     20 | 2975.00 |
+| KING   |     10 | 5000.00 |
+| MARTIN |     30 | 1250.00 |
+| MILLER |     10 | 1300.00 |
+| SCOTT  |     20 | 3000.00 |
+| SMITH  |     20 |  800.00 |
+| TURNER |     30 | 1500.00 |
+| WARD   |     30 | 1250.00 |
++--------+--------+---------+
+14 rows in set (0.00 sec)
+
+mysql> select deptno, sum(sal)
+    -> from emp
+    -> group by deptno
+    -> having sum(sal)>10000;
++--------+----------+
+| deptno | sum(sal) |
++--------+----------+
+|     20 | 10875.00 |
++--------+----------+
+1 row in set (0.00 sec)
+
+mysql> #using all the clauses
+mysql> 
+mysql> select deptno,sum(sal) as totsal
+    -> from emp
+    -> where deptno in(10,20) and sal>800
+    -> group by deptno
+    -> having sum(sal)>10000
+    -> order by deptno;
++--------+----------+
+| deptno | totsal   |
++--------+----------+
+|     20 | 10075.00 |
++--------+----------+
+1 row in set (0.00 sec)
+
+mysql> #sequence is important
+mysql> #1.from  2.where 3.group by 4.having 5.order by
+mysql>  
+mysql> 
+mysql> #constrains
+mysql> 
+mysql> create table dept1(
+    -> deptno numeric(2) primary key,
+    -> dname varchar(20) not null,
+    -> loc varchar(20) not null);
+Query OK, 0 rows affected (0.08 sec)
+
+mysql> insert into dept1 values(10,'finance','mum');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into dept1 values(10,'finance','mum');
+ERROR 1062 (23000): Duplicate entry '10' for key 'dept1.PRIMARY'
+mysql> 
+mysql> insert into dept1 values(20,'finance','mum');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into dept1 values(20,'finance',null);
+ERROR 1048 (23000): Column 'loc' cannot be null
+mysql> 
+mysql> insert into dept1 values(30,null,null);
+ERROR 1048 (23000): Column 'dname' cannot be null
+mysql> 
+mysql> insert into dept1 values(30,'mkt','mum');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into dept1 values(40,'it','pune');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from dept1;
++--------+---------+------+
+| deptno | dname   | loc  |
++--------+---------+------+
+|     10 | finance | mum  |
+|     20 | finance | mum  |
+|     30 | mkt     | mum  |
+|     40 | it      | pune |
++--------+---------+------+
+4 rows in set (0.00 sec)
+
+mysql> drop table emp1;
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> create table emp1(
+    -> empno numeric(4) primary key,
+    -> ename varchar(20) not null,
+    -> sal float(10,2)check ( sal>10000),
+    -> deptno numeric(2),
+    -> city varchar(20) check(city in('pune','mum','nashik')),
+    -> pan char(10) unique,
+    -> foreign key (deptno) references dept1(deptno));
+Query OK, 0 rows affected, 1 warning (0.08 sec)
+
+mysql> insert into emp1 values(1,'shrikant',90000,40,'pune','p001');
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into emp1 values(2,'Rahul',50000,40,'mum','p002');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into emp1 values(3,'sudar',4000,20,'bang','p001');
+ERROR 3819 (HY000): Check constraint 'emp1_chk_1' is violated.
+mysql> 
+mysql> insert into emp1 values(3,'sudar',40000,20,'bang','p003');
+ERROR 3819 (HY000): Check constraint 'emp1_chk_2' is violated.
+mysql> 
+mysql> insert into emp1 values(3,'sudar',40000,20,'bang','p003');
+ERROR 3819 (HY000): Check constraint 'emp1_chk_2' is violated.
+mysql> 
+mysql> insert into emp1 values(3,'sudar',40000,20,'nashik','p003');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from emp1;
++-------+----------+----------+--------+--------+------+
+| empno | ename    | sal      | deptno | city   | pan  |
++-------+----------+----------+--------+--------+------+
+|     1 | shrikant | 90000.00 |     40 | pune   | p001 |
+|     2 | Rahul    | 50000.00 |     40 | mum    | p002 |
+|     3 | sudar    | 40000.00 |     20 | nashik | p003 |
++-------+----------+----------+--------+--------+------+
+3 rows in set (0.00 sec)
+
+mysql> drop table emp1;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> create table emp1(
+    -> empno varchar(4) check(empno like'e%') primary key,
+    -> ename varchar(20) not null,
+    -> sal float(10,2) not null
+    -> check ( sal>10000),
+    -> deptno numeric(2),
+    -> city varchar(20) default 'nashik'
+    ->  check(city in('pune','mum','nashik')),
+    -> pan char(10) unique,
+    -> foreign key (deptno) references dept1(deptno));
+Query OK, 0 rows affected, 1 warning (0.03 sec)
+
+mysql> insert into emp1 values(1,'shrikant',90000,40,'pune','p001');
+ERROR 3819 (HY000): Check constraint 'emp1_chk_1' is violated.
+mysql> 
+mysql> insert into emp1 values(2,'Rahul',50000,40,'mum','p002');
+ERROR 3819 (HY000): Check constraint 'emp1_chk_1' is violated.
+mysql> 
+mysql> insert into emp1 values(3,'sudar',40000,20,'nashik','p003');
+ERROR 3819 (HY000): Check constraint 'emp1_chk_1' is violated.
+mysql> 
+mysql> 
+mysql> 
+mysql> insert into emp1 values('003','sudar',40000,20,'nashik','p003');
+ERROR 3819 (HY000): Check constraint 'emp1_chk_1' is violated.
+mysql> 
+mysql> insert into emp1 values('e001','shrikant',90000,40,'pune','p001');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> 
+mysql> insert into emp1 values('e002','Rahul',50000,40,'mum','p002');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> 
+mysql> insert into emp1 values('e003','sudar',40000,20,'nashik','p003');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from Emp1;
++-------+----------+----------+--------+--------+------+
+| empno | ename    | sal      | deptno | city   | pan  |
++-------+----------+----------+--------+--------+------+
+| e001  | shrikant | 90000.00 |     40 | pune   | p001 |
+| e002  | Rahul    | 50000.00 |     40 | mum    | p002 |
+| e003  | sudar    | 40000.00 |     20 | nashik | p003 |
++-------+----------+----------+--------+--------+------+
+3 rows in set (0.00 sec)
+
+mysql> insert into emp1 values('e004','Rohit',500000,20,default,'p004');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from Emp1;
++-------+----------+-----------+--------+--------+------+
+| empno | ename    | sal       | deptno | city   | pan  |
++-------+----------+-----------+--------+--------+------+
+| e001  | shrikant |  90000.00 |     40 | pune   | p001 |
+| e002  | Rahul    |  50000.00 |     40 | mum    | p002 |
+| e003  | sudar    |  40000.00 |     20 | nashik | p003 |
+| e004  | Rohit    | 500000.00 |     20 | nashik | p004 |
++-------+----------+-----------+--------+--------+------+
+4 rows in set (0.00 sec)
+
+mysql> exit

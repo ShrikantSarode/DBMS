@@ -1,0 +1,92 @@
+create table emp1(
+       empno varchar(4) check(empno like'e%') primary key,
+        ename varchar(20) not null,
+        sal float(10,2) not null
+    check ( sal>10000),
+       dno numeric(2),
+         city varchar(20) default 'nashik'
+        check(city in('pune','mum','nashik')),
+     pan char(10) unique,
+      foreign key (dno) references dept1(deptno),
+ 	on delete cascade set null
+ 	on update cascade);
+
+
+CREATE TABLE emp1 (
+    empno VARCHAR(4) PRIMARY KEY CHECK (empno LIKE 'e%'),
+    ename VARCHAR(20) NOT NULL,
+    sal FLOAT(10,2) NOT NULL CHECK (sal > 10000),
+    deptno NUMERIC(2),
+    city VARCHAR(20) DEFAULT 'nashik' CHECK (city IN ('pune', 'mum', 'nashik')),
+    pan CHAR(10) UNIQUE,
+    FOREIGN KEY (deptno) REFERENCES dept1(deptno) 
+        ON DELETE SET NULL 
+        ON UPDATE CASCADE
+);
+
+insert into emp1 values('e003','sudar',40000,20,'nashik','p003');
+
+  insert into emp1 values('e002','Rahul',50000,40,'mum','p002');
+ 
+
+ insert into emp1 values('e001','shrikant',90000,40,'pune','p001');
+
+create table emp2(
+empno int,
+ename varchar(20),
+sal int);
+
+add col-->
+alter table emp2
+add comm numeric(10,2);
+
+alter table emp2
+add email varchar(20);
+
+drop col-->
+ alter table emp2
+   drop comm;
+
+modify col -
+alter table emp2
+modify email varchar(40);
+
+
+change col_name-->
+alter table emp2
+change sal salary int;
+
+
+
+#create view 
+create view v1
+as
+select ename,empno,hiredate from emp 
+where deptno=10;
+
+
+#grant the view to user
+grant select,insert to hr;
+
+create view v4
+as
+select JOB,empno,hiredate,sal from emp 
+where deptno=10 and sal between 1000 and 2000;
+
+insert into v4 values('software ',1708 ,'2012-05-02 ' ,1200);
+
+UPDATE emp
+SET deptno = 10 
+where empno=1708;
+
+GRANT SELECT ON VIEW v4 TO username;
+
+Revoke SELECT ON VIEW v4 TO username;
+
+
+create index job_id on emp(job desc);
+
+drop index job_id on emp;
+
+
+

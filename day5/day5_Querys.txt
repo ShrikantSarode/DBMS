@@ -1,0 +1,377 @@
+create table emp3(
+empno int,
+enmae varchar(20),
+sal int);
+
+insert into emp3 values(1,'Shrikant',900000);
+
+insert into emp3 values(2,'Megha',40000);
+
+ select * from emp3;
+
+truncate table emp3;
+
+set autocommit=0;
+
+rollback;
+
+insert into emp3 values(1,'Shrikant',900000);
+
+commit;
+
+ select * from emp3;
+
+insert into emp3 values(2,'Megha',40000);
+
+ select * from emp3;
+
+oracle:-
+ connect hr;
+
+select * from tab;
+
+create table emp3(
+empno int,
+ename  varchar2(20),
+sal int);
+
+
+insert into emp3 values(1,'Shrikant',900000);
+
+insert into emp3 values(2,'Megha',40000);
+
+savepoint a;
+
+insert into emp3 values(3,'Raghini',900000);
+
+insert into emp3 values(4,'Fatima',40000);
+
+savepoint b;
+
+insert into emp3 values(5,'Juli',900000);
+
+insert into emp3 values(6,'sima',40000);
+
+rollback to a;
+
+insert into emp3 values(7,'remma',900000);
+
+insert into emp3 values(8,'Hakkati',40000);
+commit;
+
+
+
+select * from emp3;
+
+ EMPNO ENAME                       SAL
+---------- -------------------- ----------
+         1 Shrikant                 900000
+         2 Megha                     40000
+         7 remma                    900000
+         8 Hakkati                   40000
+
+
+create table emp5(
+empno int auto_increment primary key,
+ename  varchar(20) not null,
+sal int not null);
+
+
+insert into emp5 values(default,'Juli',900000);
+
+insert into emp5 values(default,'sima',40000);
+
+insert into emp5 values(default,'Raghini',900000);
+
+insert into emp5 values(default,'Fatima',40000);
+
+insert into emp5 (ename,sal) values('Kaku',70000);
+
+
+ select * from emp5;
++-------+---------+--------+
+| empno | ename   | sal    |
++-------+---------+--------+
+|     1 | Juli    | 900000 |
+|     2 | sima    |  40000 |
+|     3 | Raghini | 900000 |
+|     4 | Fatima  |  40000 |
+|     5 | Kaku    |  70000 |
++-------+---------+--------+
+5 rows in set (0.00 sec)
+
+
+create table present_bike(
+model_no int,
+color varchar2(20));
+
+insert into present_bike values(1,'red');
+insert into present_bike values(2,'black');
+
+create table sold_bike(
+model_no int,
+color varchar(20));
+
+insert into sold_bike values(1,'red');
+insert into sold_bike values(3,'blue');
+
+
+select * from present_bike
+union
+select * from sold_bike;
+
+select * from present_bike
+union all
+select * from sold_bike;
+
+select * from present_bike
+intersect
+select * from sold_bike;
+
+select * from present_bike
+minus
+select * from sold_bike;
+
+spool out
+
+
+select ename,sal, row_number() 
+over(order by sal desc) ranking
+from emp;
+
+select ename,sal, rank() 
+over(order by sal desc) ranking
+from emp;
+
+select ename,sal, dense_rank() 
+over(order by sal desc) ranking
+from emp;
+
+#display name of first highest paid emps
+
+select ename ,ranking from
+(select ename,sal,dense_rank() over (order by sal desc) ranking
+from emp)
+where ranking=1;
+
+# 1st 3
+select ename ,ranking from
+(select ename,sal,dense_rank() over (order by sal desc) ranking
+from emp)
+where ranking<=3;
+
+# 1st 6
+select ename ,ranking from
+(select ename,sal,dense_rank() over (order by sal desc) ranking
+from emp)
+where ranking<=6;
+
+
+select ename ,ranking from
+(select ename,sal,dense_rank() over (order by sal desc) ranking
+from emp)
+where ranking<=2;
+
+select concat(ename ,' is a ', job , ' and earns salary of rs-', sal ) from emp;
+
+#String functions
+select length('its Shrikant ');
+
+select rtrim('      cdac          ');
+
+select ltrim( '    cdac         ');
+
+select trim( '    cdac         ');
+
+select lpad('Shrikant',10,'*');
+
+select rpad('Shrikant',10,'*');
+
+#nested function
+
+select lpad(rpad('Shrikant',10,'*'),14,'*'); 
+
+#to print thr part of the string
+
+select substr('Shrikant',4);
+
+select substr('Shrikant',5,3);
+
+#5 ---->is starting
+#3 --->no of ch
+
+#to find the position of the ch
+
+select instr('Shrikant','i');
+
+#round 
+
+select round(1111.5678);
+
+select round(1111.5678,2);
+
+select round(1111.5678,1);
+
+select round(1111.5678,0););------->1112
+
+select round( 1245.452,-2);----> 1000 
+
+select round( 1645.452,-3);------->2000
+
+select pow(2,8);
+
+select sqrt(144);
+
+select ceiling(12.7);
+
+select floor(22.2);
+
+select format(12324.5647875,2);
+
+select greatest(12,32,4.5,64,78,75,2);
+
+select least(12,32,4.5,64,78,75,2);
+
+select truncate(54856.65444,2);
+
+#date 
+select sysdate();
+
+select now();
+
+select curdate();
+
+select curtime();
+
+select datediff('2024-12-26', curdate());
+
+select date_format('2024-10-26 ','%M');
+
+select date_format('2024-10-26 ','%m');
+
+select date_format('2024-10-26 ','%D');
+
+select date_format('2024-10-26 ','%d');
+
+select date_format('2024-10-26 ','%h');
+
+select date_format('2024-10-26 ','%H');
+
+select date_format('2024-10-26 ','%i');
+
+select date_format('2024-10-26 ','%I');
+
+select date_format('2024-10-26 ','%s');
+
+select date_format('2024-10-26 ','%S');
+
+ select date_format('2024-10-26','%d/%m/%y');
+
+select ename,hiredate,round(datediff( curdate(),hiredate )/365) exp
+from emp;
+
+
+#subquery
+select ename from emp where job =
+(select job from emp where ename='smith')
+and ename!='smith';
+
+select ename from emp where sal >
+(select avg(sal) from emp);
+
+select ename from emp where 
+(select dname from dept where dname='accounting');
+
+select ename,deptno from emp where deptno=
+ (select deptno from dept where dname='accounting');
+
+select ename,deptno from emp where deptno=
+ (select deptno from dept where dname='research');
+
+select ename,deptno from emp where deptno=
+ (select deptno from dept where loc='ew york';
+
+select ename,deptno from emp where deptno=
+  (select deptno from dept where loc='new york');
+
+select ename,job from emp where job=
+(select ename='smith' and ename='allen');
+
+select ename , job from emp where job in
+(select empno where ename in th' and ename='allen');
+
+
+ select ename,job from emp where job in(select job from emp where ename in ('smith','allen'));
+
+
+
+
+ select ename, job from emp where job in
+(select job from emp where job  not in ('clerk','salesman'));
+
+
+select ename,sal from emp
+where sal>any
+(select sal from emp
+where deptno=20);
+
+select ename,sal from emp
+where sal>all
+(select sal from emp
+where deptno=20);
+
+select ename,sal from emp
+where sal=
+(select max(sal) from emp
+where deptno=20);
+
+select ename,sal from emp
+where sal=
+(select min(sal) from emp
+where deptno=20);
+
+select * from dept
+where  exists(
+select * from emp
+where emp.deptno=dept.deptno);
+
+select * from dept
+where not exists(
+select * from emp
+where emp.deptno=dept.deptno);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

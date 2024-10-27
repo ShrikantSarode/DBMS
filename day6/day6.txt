@@ -1,0 +1,2097 @@
+mysql> 
+mysql> select ename,(round(curdate(),hiredate)/365) as exp
+    -> where (round(curdate(),hiredate)/365)>12;
+ERROR 1054 (42S22): Unknown column 'ename' in 'field list'
+mysql> 
+mysql> 
+mysql> select ename,(round(curdate(),hiredate)/365) as exp from emp
+    -> where (round(curdate(),hiredate)/365)>12;
+ERROR 1046 (3D000): No database selected
+mysql> 
+mysql> use cdac
+Database changed
+mysql> 
+mysql> \! cls
+mysql> select ename,(round(curdate(),hiredate)/365) as exp from emp
+    -> where (round(curdate(),hiredate)/365)>12;
++----------+-------------------+
+| ename    | exp               |
++----------+-------------------+
+| NULL     | 55454.86849315069 |
+| SMITH    | 55454.86849315069 |
+| ALLEN    | 55454.86849315069 |
+| WARD     | 55454.86849315069 |
+| JONES    | 55454.86849315069 |
+| MARTIN   | 55454.86849315069 |
+| BLAKE    | 55454.86849315069 |
+| SHRIKANT | 55454.86849315069 |
+| CLARK    | 55454.86849315069 |
+| SCOTT    | 55454.86849315069 |
+| KING     | 55454.86849315069 |
+| TURNER   | 55454.86849315069 |
+| ADAMS    | 55454.86849315069 |
+| JAMES    | 55454.86849315069 |
+| FORD     | 55454.86849315069 |
+| MILLER   | 55454.86849315069 |
++----------+-------------------+
+16 rows in set (0.01 sec)
+
+mysql> select ename,datediff(round(curdate(),hiredate)/365) as exp from emp
+    -> where (round(curdate(),hiredate)/365)>12;
+ERROR 1582 (42000): Incorrect parameter count in the call to native function 'datediff'
+mysql> select ename,round(datediff(curdate(),hiredate)/365) as exp from emp
+    -> where (round(curdate(),hiredate)/365)>12;
++----------+------+
+| ename    | exp  |
++----------+------+
+| NULL     |   12 |
+| SMITH    |   13 |
+| ALLEN    |   13 |
+| WARD     |   12 |
+| JONES    |   12 |
+| MARTIN   |   12 |
+| BLAKE    |   13 |
+| SHRIKANT |   12 |
+| CLARK    |   13 |
+| SCOTT    |   13 |
+| KING     |   13 |
+| TURNER   |   13 |
+| ADAMS    |   12 |
+| JAMES    |   13 |
+| FORD     |   13 |
+| MILLER   |   12 |
++----------+------+
+16 rows in set (0.00 sec)
+
+mysql> select ename,round(datediff(curdate(),hiredate)/365) as exp from emp
+    -> where round(datediff(curdate(),hiredate)/365);
++----------+------+
+| ename    | exp  |
++----------+------+
+| NULL     |   12 |
+| SMITH    |   13 |
+| ALLEN    |   13 |
+| WARD     |   12 |
+| JONES    |   12 |
+| MARTIN   |   12 |
+| BLAKE    |   13 |
+| SHRIKANT |   12 |
+| CLARK    |   13 |
+| SCOTT    |   13 |
+| KING     |   13 |
+| TURNER   |   13 |
+| ADAMS    |   12 |
+| JAMES    |   13 |
+| FORD     |   13 |
+| MILLER   |   12 |
++----------+------+
+16 rows in set (0.00 sec)
+
+mysql> select ename,round(datediff(curdate(),hiredate)/365) as exp from emp
+    -> where round(datediff(curdate(),hiredate)/365)>12;
++--------+------+
+| ename  | exp  |
++--------+------+
+| SMITH  |   13 |
+| ALLEN  |   13 |
+| BLAKE  |   13 |
+| CLARK  |   13 |
+| SCOTT  |   13 |
+| KING   |   13 |
+| TURNER |   13 |
+| JAMES  |   13 |
+| FORD   |   13 |
++--------+------+
+9 rows in set (0.00 sec)
+
+mysql> 	select ename ,instr(ename,'le') as position from emp;
++----------+----------+
+| ename    | position |
++----------+----------+
+| NULL     |     NULL |
+| ADAMS    |        0 |
+| ALLEN    |        3 |
+| BLAKE    |        0 |
+| CLARK    |        0 |
+| FORD     |        0 |
+| JAMES    |        0 |
+| JONES    |        0 |
+| KING     |        0 |
+| MARTIN   |        0 |
+| MILLER   |        4 |
+| SCOTT    |        0 |
+| SHRIKANT |        0 |
+| SMITH    |        0 |
+| TURNER   |        0 |
+| WARD     |        0 |
++----------+----------+
+16 rows in set (0.00 sec)
+
+mysql> select ename,hiredate adddate(hiredate,1825) from emp;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(hiredate,1825) from emp' at line 1
+mysql> 
+mysql> select ename,hiredate ,adddate(hiredate,1825) from emp;
++----------+------------+------------------------+
+| ename    | hiredate   | adddate(hiredate,1825) |
++----------+------------+------------------------+
+| NULL     | 2012-05-02 | 2017-05-01             |
+| SMITH    | 2012-02-02 | 2017-01-31             |
+| ALLEN    | 2012-01-02 | 2016-12-31             |
+| WARD     | 2013-01-02 | 2018-01-01             |
+| JONES    | 2013-01-02 | 2018-01-01             |
+| MARTIN   | 2012-05-02 | 2017-05-01             |
+| BLAKE    | 2012-01-06 | 2017-01-04             |
+| SHRIKANT | 2012-05-05 | 2017-05-04             |
+| CLARK    | 2012-01-06 | 2017-01-04             |
+| SCOTT    | 2012-01-10 | 2017-01-08             |
+| KING     | 2012-01-15 | 2017-01-13             |
+| TURNER   | 2012-01-20 | 2017-01-18             |
+| ADAMS    | 2013-01-02 | 2018-01-01             |
+| JAMES    | 2012-03-02 | 2017-03-01             |
+| FORD     | 2012-04-02 | 2017-04-01             |
+| MILLER   | 2012-05-02 | 2017-05-01             |
++----------+------------+------------------------+
+16 rows in set (0.00 sec)
+
+mysql> select * from emp
+    -> cross join
+    -> dept;
++-------+----------+-----------+------+------------+---------+---------+--------+--------+------------+----------+
+| EMPNO | ENAME    | JOB       | MGR  | HIREDATE   | SAL     | COMM    | DEPTNO | DEPTNO | DNAME      | LOC      |
++-------+----------+-----------+------+------------+---------+---------+--------+--------+------------+----------+
+|  1708 | NULL     | software  | NULL | 2012-05-02 | 1200.00 |    NULL |     10 |     40 | OPERATIONS | BOSTON   |
+|  1708 | NULL     | software  | NULL | 2012-05-02 | 1200.00 |    NULL |     10 |     30 | SALES      | CHICAGO  |
+|  1708 | NULL     | software  | NULL | 2012-05-02 | 1200.00 |    NULL |     10 |     20 | RESEARCH   | DALLAS   |
+|  1708 | NULL     | software  | NULL | 2012-05-02 | 1200.00 |    NULL |     10 |     10 | ACCOUNTING | NEW YORK |
+|  7369 | SMITH    | CLERK     | 7902 | 2012-02-02 |  800.00 |    NULL |     20 |     40 | OPERATIONS | BOSTON   |
+|  7369 | SMITH    | CLERK     | 7902 | 2012-02-02 |  800.00 |    NULL |     20 |     30 | SALES      | CHICAGO  |
+|  7369 | SMITH    | CLERK     | 7902 | 2012-02-02 |  800.00 |    NULL |     20 |     20 | RESEARCH   | DALLAS   |
+|  7369 | SMITH    | CLERK     | 7902 | 2012-02-02 |  800.00 |    NULL |     20 |     10 | ACCOUNTING | NEW YORK |
+|  7499 | ALLEN    | SALESMAN  | 7698 | 2012-01-02 | 1600.00 |  300.00 |     30 |     40 | OPERATIONS | BOSTON   |
+|  7499 | ALLEN    | SALESMAN  | 7698 | 2012-01-02 | 1600.00 |  300.00 |     30 |     30 | SALES      | CHICAGO  |
+|  7499 | ALLEN    | SALESMAN  | 7698 | 2012-01-02 | 1600.00 |  300.00 |     30 |     20 | RESEARCH   | DALLAS   |
+|  7499 | ALLEN    | SALESMAN  | 7698 | 2012-01-02 | 1600.00 |  300.00 |     30 |     10 | ACCOUNTING | NEW YORK |
+|  7521 | WARD     | SALESMAN  | 7698 | 2013-01-02 | 1250.00 |  500.00 |     30 |     40 | OPERATIONS | BOSTON   |
+|  7521 | WARD     | SALESMAN  | 7698 | 2013-01-02 | 1250.00 |  500.00 |     30 |     30 | SALES      | CHICAGO  |
+|  7521 | WARD     | SALESMAN  | 7698 | 2013-01-02 | 1250.00 |  500.00 |     30 |     20 | RESEARCH   | DALLAS   |
+|  7521 | WARD     | SALESMAN  | 7698 | 2013-01-02 | 1250.00 |  500.00 |     30 |     10 | ACCOUNTING | NEW YORK |
+|  7566 | JONES    | MANAGER   | 7839 | 2013-01-02 | 2975.00 |    NULL |     20 |     40 | OPERATIONS | BOSTON   |
+|  7566 | JONES    | MANAGER   | 7839 | 2013-01-02 | 2975.00 |    NULL |     20 |     30 | SALES      | CHICAGO  |
+|  7566 | JONES    | MANAGER   | 7839 | 2013-01-02 | 2975.00 |    NULL |     20 |     20 | RESEARCH   | DALLAS   |
+|  7566 | JONES    | MANAGER   | 7839 | 2013-01-02 | 2975.00 |    NULL |     20 |     10 | ACCOUNTING | NEW YORK |
+|  7654 | MARTIN   | SALESMAN  | 7698 | 2012-05-02 | 1250.00 | 1400.00 |     30 |     40 | OPERATIONS | BOSTON   |
+|  7654 | MARTIN   | SALESMAN  | 7698 | 2012-05-02 | 1250.00 | 1400.00 |     30 |     30 | SALES      | CHICAGO  |
+|  7654 | MARTIN   | SALESMAN  | 7698 | 2012-05-02 | 1250.00 | 1400.00 |     30 |     20 | RESEARCH   | DALLAS   |
+|  7654 | MARTIN   | SALESMAN  | 7698 | 2012-05-02 | 1250.00 | 1400.00 |     30 |     10 | ACCOUNTING | NEW YORK |
+|  7698 | BLAKE    | MANAGER   | 7839 | 2012-01-06 | 2850.00 |    NULL |     30 |     40 | OPERATIONS | BOSTON   |
+|  7698 | BLAKE    | MANAGER   | 7839 | 2012-01-06 | 2850.00 |    NULL |     30 |     30 | SALES      | CHICAGO  |
+|  7698 | BLAKE    | MANAGER   | 7839 | 2012-01-06 | 2850.00 |    NULL |     30 |     20 | RESEARCH   | DALLAS   |
+|  7698 | BLAKE    | MANAGER   | 7839 | 2012-01-06 | 2850.00 |    NULL |     30 |     10 | ACCOUNTING | NEW YORK |
+|  7777 | SHRIKANT | NULL      | NULL | 2012-05-05 |    NULL |    NULL |   NULL |     40 | OPERATIONS | BOSTON   |
+|  7777 | SHRIKANT | NULL      | NULL | 2012-05-05 |    NULL |    NULL |   NULL |     30 | SALES      | CHICAGO  |
+|  7777 | SHRIKANT | NULL      | NULL | 2012-05-05 |    NULL |    NULL |   NULL |     20 | RESEARCH   | DALLAS   |
+|  7777 | SHRIKANT | NULL      | NULL | 2012-05-05 |    NULL |    NULL |   NULL |     10 | ACCOUNTING | NEW YORK |
+|  7782 | CLARK    | MANAGER   | 7839 | 2012-01-06 | 2450.00 |    NULL |     10 |     40 | OPERATIONS | BOSTON   |
+|  7782 | CLARK    | MANAGER   | 7839 | 2012-01-06 | 2450.00 |    NULL |     10 |     30 | SALES      | CHICAGO  |
+|  7782 | CLARK    | MANAGER   | 7839 | 2012-01-06 | 2450.00 |    NULL |     10 |     20 | RESEARCH   | DALLAS   |
+|  7782 | CLARK    | MANAGER   | 7839 | 2012-01-06 | 2450.00 |    NULL |     10 |     10 | ACCOUNTING | NEW YORK |
+|  7788 | SCOTT    | ANALYST   | 7566 | 2012-01-10 | 3000.00 |    NULL |     20 |     40 | OPERATIONS | BOSTON   |
+|  7788 | SCOTT    | ANALYST   | 7566 | 2012-01-10 | 3000.00 |    NULL |     20 |     30 | SALES      | CHICAGO  |
+|  7788 | SCOTT    | ANALYST   | 7566 | 2012-01-10 | 3000.00 |    NULL |     20 |     20 | RESEARCH   | DALLAS   |
+|  7788 | SCOTT    | ANALYST   | 7566 | 2012-01-10 | 3000.00 |    NULL |     20 |     10 | ACCOUNTING | NEW YORK |
+|  7839 | KING     | PRESIDENT | NULL | 2012-01-15 | 5000.00 |    NULL |     10 |     40 | OPERATIONS | BOSTON   |
+|  7839 | KING     | PRESIDENT | NULL | 2012-01-15 | 5000.00 |    NULL |     10 |     30 | SALES      | CHICAGO  |
+|  7839 | KING     | PRESIDENT | NULL | 2012-01-15 | 5000.00 |    NULL |     10 |     20 | RESEARCH   | DALLAS   |
+|  7839 | KING     | PRESIDENT | NULL | 2012-01-15 | 5000.00 |    NULL |     10 |     10 | ACCOUNTING | NEW YORK |
+|  7844 | TURNER   | SALESMAN  | 7698 | 2012-01-20 | 1500.00 |    0.00 |     30 |     40 | OPERATIONS | BOSTON   |
+|  7844 | TURNER   | SALESMAN  | 7698 | 2012-01-20 | 1500.00 |    0.00 |     30 |     30 | SALES      | CHICAGO  |
+|  7844 | TURNER   | SALESMAN  | 7698 | 2012-01-20 | 1500.00 |    0.00 |     30 |     20 | RESEARCH   | DALLAS   |
+|  7844 | TURNER   | SALESMAN  | 7698 | 2012-01-20 | 1500.00 |    0.00 |     30 |     10 | ACCOUNTING | NEW YORK |
+|  7876 | ADAMS    | CLERK     | 7788 | 2013-01-02 | 1100.00 |    NULL |     20 |     40 | OPERATIONS | BOSTON   |
+|  7876 | ADAMS    | CLERK     | 7788 | 2013-01-02 | 1100.00 |    NULL |     20 |     30 | SALES      | CHICAGO  |
+|  7876 | ADAMS    | CLERK     | 7788 | 2013-01-02 | 1100.00 |    NULL |     20 |     20 | RESEARCH   | DALLAS   |
+|  7876 | ADAMS    | CLERK     | 7788 | 2013-01-02 | 1100.00 |    NULL |     20 |     10 | ACCOUNTING | NEW YORK |
+|  7900 | JAMES    | CLERK     | 7698 | 2012-03-02 |  950.00 |    NULL |     30 |     40 | OPERATIONS | BOSTON   |
+|  7900 | JAMES    | CLERK     | 7698 | 2012-03-02 |  950.00 |    NULL |     30 |     30 | SALES      | CHICAGO  |
+|  7900 | JAMES    | CLERK     | 7698 | 2012-03-02 |  950.00 |    NULL |     30 |     20 | RESEARCH   | DALLAS   |
+|  7900 | JAMES    | CLERK     | 7698 | 2012-03-02 |  950.00 |    NULL |     30 |     10 | ACCOUNTING | NEW YORK |
+|  7902 | FORD     | ANALYST   | 7566 | 2012-04-02 | 3000.00 |    NULL |     20 |     40 | OPERATIONS | BOSTON   |
+|  7902 | FORD     | ANALYST   | 7566 | 2012-04-02 | 3000.00 |    NULL |     20 |     30 | SALES      | CHICAGO  |
+|  7902 | FORD     | ANALYST   | 7566 | 2012-04-02 | 3000.00 |    NULL |     20 |     20 | RESEARCH   | DALLAS   |
+|  7902 | FORD     | ANALYST   | 7566 | 2012-04-02 | 3000.00 |    NULL |     20 |     10 | ACCOUNTING | NEW YORK |
+|  7934 | MILLER   | CLERK     | 7782 | 2012-05-02 | 1300.00 |    NULL |     10 |     40 | OPERATIONS | BOSTON   |
+|  7934 | MILLER   | CLERK     | 7782 | 2012-05-02 | 1300.00 |    NULL |     10 |     30 | SALES      | CHICAGO  |
+|  7934 | MILLER   | CLERK     | 7782 | 2012-05-02 | 1300.00 |    NULL |     10 |     20 | RESEARCH   | DALLAS   |
+|  7934 | MILLER   | CLERK     | 7782 | 2012-05-02 | 1300.00 |    NULL |     10 |     10 | ACCOUNTING | NEW YORK |
++-------+----------+-----------+------+------------+---------+---------+--------+--------+------------+----------+
+64 rows in set (0.00 sec)
+
+mysql> 
+mysql> select ename,job,sal,dname,loc from emp
+    -> cross join 
+    -> where sal between 1000 and 2000;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'where sal between 1000 and 2000' at line 3
+mysql> 
+mysql> 
+mysql> select ename,job,sal,dname,loc from emp
+    -> cross join 
+    -> where sal between 1000 and 2000
+    -> dept;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'where sal between 1000 and 2000
+dept' at line 3
+mysql> 
+mysql> select ename,job,sal,dname,loc from emp
+    -> cross join  dept
+    -> where sal between 1000 and 2000;
++--------+-----------+---------+------------+----------+
+| ename  | job       | sal     | dname      | loc      |
++--------+-----------+---------+------------+----------+
+| MILLER | CLERK     | 1300.00 | ACCOUNTING | NEW YORK |
+| ADAMS  | CLERK     | 1100.00 | ACCOUNTING | NEW YORK |
+| TURNER | SALESMAN  | 1500.00 | ACCOUNTING | NEW YORK |
+| MARTIN | SALESMAN  | 1250.00 | ACCOUNTING | NEW YORK |
+| WARD   | SALESMAN  | 1250.00 | ACCOUNTING | NEW YORK |
+| ALLEN  | SALESMAN  | 1600.00 | ACCOUNTING | NEW YORK |
+| NULL   | software  | 1200.00 | ACCOUNTING | NEW YORK |
+| MILLER | CLERK     | 1300.00 | RESEARCH   | DALLAS   |
+| ADAMS  | CLERK     | 1100.00 | RESEARCH   | DALLAS   |
+| TURNER | SALESMAN  | 1500.00 | RESEARCH   | DALLAS   |
+| MARTIN | SALESMAN  | 1250.00 | RESEARCH   | DALLAS   |
+| WARD   | SALESMAN  | 1250.00 | RESEARCH   | DALLAS   |
+| ALLEN  | SALESMAN  | 1600.00 | RESEARCH   | DALLAS   |
+| NULL   | software  | 1200.00 | RESEARCH   | DALLAS   |
+| MILLER | CLERK     | 1300.00 | SALES      | CHICAGO  |
+| ADAMS  | CLERK     | 1100.00 | SALES      | CHICAGO  |
+| TURNER | SALESMAN  | 1500.00 | SALES      | CHICAGO  |
+| MARTIN | SALESMAN  | 1250.00 | SALES      | CHICAGO  |
+| WARD   | SALESMAN  | 1250.00 | SALES      | CHICAGO  |
+| ALLEN  | SALESMAN  | 1600.00 | SALES      | CHICAGO  |
+| NULL   | software  | 1200.00 | SALES      | CHICAGO  |
+| MILLER | CLERK     | 1300.00 | OPERATIONS | BOSTON   |
+| ADAMS  | CLERK     | 1100.00 | OPERATIONS | BOSTON   |
+| TURNER | SALESMAN  | 1500.00 | OPERATIONS | BOSTON   |
+| MARTIN | SALESMAN  | 1250.00 | OPERATIONS | BOSTON   |
+| WARD   | SALESMAN  | 1250.00 | OPERATIONS | BOSTON   |
+| ALLEN  | SALESMAN  | 1600.00 | OPERATIONS | BOSTON   |
+| NULL   | software  | 1200.00 | OPERATIONS | BOSTON   |
++--------+-----------+---------+------------+----------+
+28 rows in set (0.01 sec)
+
+mysql> 
+mysql> select ename ,job,sal,dname,loc,deptno from emp
+    -> cross join dept
+    -> where sal between 1000 and 2000;
+ERROR 1052 (23000): Column 'deptno' in field list is ambiguous
+mysql> 
+mysql> select ename ,job,sal,dname,loc, d.deptno  from emp
+    -> cross join dept as d
+    -> where sal between 1000 and 2000;
++--------+-----------+---------+------------+----------+--------+
+| ename  | job       | sal     | dname      | loc      | deptno |
++--------+-----------+---------+------------+----------+--------+
+| MILLER | CLERK     | 1300.00 | ACCOUNTING | NEW YORK |     10 |
+| ADAMS  | CLERK     | 1100.00 | ACCOUNTING | NEW YORK |     10 |
+| TURNER | SALESMAN  | 1500.00 | ACCOUNTING | NEW YORK |     10 |
+| MARTIN | SALESMAN  | 1250.00 | ACCOUNTING | NEW YORK |     10 |
+| WARD   | SALESMAN  | 1250.00 | ACCOUNTING | NEW YORK |     10 |
+| ALLEN  | SALESMAN  | 1600.00 | ACCOUNTING | NEW YORK |     10 |
+| NULL   | software  | 1200.00 | ACCOUNTING | NEW YORK |     10 |
+| MILLER | CLERK     | 1300.00 | RESEARCH   | DALLAS   |     20 |
+| ADAMS  | CLERK     | 1100.00 | RESEARCH   | DALLAS   |     20 |
+| TURNER | SALESMAN  | 1500.00 | RESEARCH   | DALLAS   |     20 |
+| MARTIN | SALESMAN  | 1250.00 | RESEARCH   | DALLAS   |     20 |
+| WARD   | SALESMAN  | 1250.00 | RESEARCH   | DALLAS   |     20 |
+| ALLEN  | SALESMAN  | 1600.00 | RESEARCH   | DALLAS   |     20 |
+| NULL   | software  | 1200.00 | RESEARCH   | DALLAS   |     20 |
+| MILLER | CLERK     | 1300.00 | SALES      | CHICAGO  |     30 |
+| ADAMS  | CLERK     | 1100.00 | SALES      | CHICAGO  |     30 |
+| TURNER | SALESMAN  | 1500.00 | SALES      | CHICAGO  |     30 |
+| MARTIN | SALESMAN  | 1250.00 | SALES      | CHICAGO  |     30 |
+| WARD   | SALESMAN  | 1250.00 | SALES      | CHICAGO  |     30 |
+| ALLEN  | SALESMAN  | 1600.00 | SALES      | CHICAGO  |     30 |
+| NULL   | software  | 1200.00 | SALES      | CHICAGO  |     30 |
+| MILLER | CLERK     | 1300.00 | OPERATIONS | BOSTON   |     40 |
+| ADAMS  | CLERK     | 1100.00 | OPERATIONS | BOSTON   |     40 |
+| TURNER | SALESMAN  | 1500.00 | OPERATIONS | BOSTON   |     40 |
+| MARTIN | SALESMAN  | 1250.00 | OPERATIONS | BOSTON   |     40 |
+| WARD   | SALESMAN  | 1250.00 | OPERATIONS | BOSTON   |     40 |
+| ALLEN  | SALESMAN  | 1600.00 | OPERATIONS | BOSTON   |     40 |
+| NULL   | software  | 1200.00 | OPERATIONS | BOSTON   |     40 |
++--------+-----------+---------+------------+----------+--------+
+28 rows in set (0.00 sec)
+
+mysql> 
+mysql> select empno,job,hiredate,dname from emp
+    -> inner join dept
+    -> where deptno in (10,20) and sal>1000;
+ERROR 1052 (23000): Column 'deptno' in where clause is ambiguous
+mysql> 
+mysql> select empno,job,hiredate,dname from emp
+    -> where deptno as d in (10,20) and sal>1000;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'as d in (10,20) and sal>1000' at line 2
+mysql> 
+mysql> select empno,job,hiredate,dname from emp
+    -> where deptno as d in (10,20) and sal>1000;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'as d in (10,20) and sal>1000' at line 2
+mysql> 
+mysql> select empno,job,hiredate,dname from emp
+    -> inner join dept d
+    -> where d.deptno in (10,20) and sal>1000;
++-------+-----------+------------+------------+
+| empno | job       | hiredate   | dname      |
++-------+-----------+------------+------------+
+|  1708 | software  | 2012-05-02 | RESEARCH   |
+|  1708 | software  | 2012-05-02 | ACCOUNTING |
+|  7499 | SALESMAN  | 2012-01-02 | RESEARCH   |
+|  7499 | SALESMAN  | 2012-01-02 | ACCOUNTING |
+|  7521 | SALESMAN  | 2013-01-02 | RESEARCH   |
+|  7521 | SALESMAN  | 2013-01-02 | ACCOUNTING |
+|  7566 | MANAGER   | 2013-01-02 | RESEARCH   |
+|  7566 | MANAGER   | 2013-01-02 | ACCOUNTING |
+|  7654 | SALESMAN  | 2012-05-02 | RESEARCH   |
+|  7654 | SALESMAN  | 2012-05-02 | ACCOUNTING |
+|  7698 | MANAGER   | 2012-01-06 | RESEARCH   |
+|  7698 | MANAGER   | 2012-01-06 | ACCOUNTING |
+|  7782 | MANAGER   | 2012-01-06 | RESEARCH   |
+|  7782 | MANAGER   | 2012-01-06 | ACCOUNTING |
+|  7788 | ANALYST   | 2012-01-10 | RESEARCH   |
+|  7788 | ANALYST   | 2012-01-10 | ACCOUNTING |
+|  7839 | PRESIDENT | 2012-01-15 | RESEARCH   |
+|  7839 | PRESIDENT | 2012-01-15 | ACCOUNTING |
+|  7844 | SALESMAN  | 2012-01-20 | RESEARCH   |
+|  7844 | SALESMAN  | 2012-01-20 | ACCOUNTING |
+|  7876 | CLERK     | 2013-01-02 | RESEARCH   |
+|  7876 | CLERK     | 2013-01-02 | ACCOUNTING |
+|  7902 | ANALYST   | 2012-04-02 | RESEARCH   |
+|  7902 | ANALYST   | 2012-04-02 | ACCOUNTING |
+|  7934 | CLERK     | 2012-05-02 | RESEARCH   |
+|  7934 | CLERK     | 2012-05-02 | ACCOUNTING |
++-------+-----------+------------+------------+
+26 rows in set (0.00 sec)
+
+mysql> create table location(
+    -> loc varchar(20),
+    -> remark varchar(20)
+    -> );
+Query OK, 0 rows affected (0.58 sec)
+
+mysql> 
+mysql> insert into location values('NEW YORK','remark1');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into location values('DALLAS','remark2');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into location values('CHICAGO','remark3');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into location values('BOSTON','remark4');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> SELECT * FROM LOCATION;
++----------+---------+
+| loc      | remark  |
++----------+---------+
+| NEW YORK | remark1 |
+| DALLAS   | remark2 |
+| CHICAGO  | remark3 |
+| BOSTON   | remark4 |
++----------+---------+
+4 rows in set (0.00 sec)
+
+mysql> 
+mysql> SELECT ename,sal,dname,d.deptno,l.loc,remark
+    -> from emp e ,dept d, loc l
+    -> where e.deptno=d.deptno and d.loc=l.loc;
+ERROR 1146 (42S02): Table 'cdac.loc' doesn't exist
+mysql> 
+mysql> SELECT ename,sal,dname,d.deptno,l.loc,remark
+    -> from emp e ,dept d, location l
+    -> where e.deptno=d.deptno and d.loc=l.loc;
++--------+---------+------------+--------+----------+---------+
+| ename  | sal     | dname      | deptno | loc      | remark  |
++--------+---------+------------+--------+----------+---------+
+| NULL   | 1200.00 | ACCOUNTING |     10 | NEW YORK | remark1 |
+| SMITH  |  800.00 | RESEARCH   |     20 | DALLAS   | remark2 |
+| ALLEN  | 1600.00 | SALES      |     30 | CHICAGO  | remark3 |
+| WARD   | 1250.00 | SALES      |     30 | CHICAGO  | remark3 |
+| JONES  | 2975.00 | RESEARCH   |     20 | DALLAS   | remark2 |
+| MARTIN | 1250.00 | SALES      |     30 | CHICAGO  | remark3 |
+| BLAKE  | 2850.00 | SALES      |     30 | CHICAGO  | remark3 |
+| CLARK  | 2450.00 | ACCOUNTING |     10 | NEW YORK | remark1 |
+| SCOTT  | 3000.00 | RESEARCH   |     20 | DALLAS   | remark2 |
+| KING   | 5000.00 | ACCOUNTING |     10 | NEW YORK | remark1 |
+| TURNER | 1500.00 | SALES      |     30 | CHICAGO  | remark3 |
+| ADAMS  | 1100.00 | RESEARCH   |     20 | DALLAS   | remark2 |
+| JAMES  |  950.00 | SALES      |     30 | CHICAGO  | remark3 |
+| FORD   | 3000.00 | RESEARCH   |     20 | DALLAS   | remark2 |
+| MILLER | 1300.00 | ACCOUNTING |     10 | NEW YORK | remark1 |
++--------+---------+------------+--------+----------+---------+
+15 rows in set (0.01 sec)
+
+mysql> create view v6
+    -> as
+    -> SELECT ename,sal,dname,d.deptno,l.loc,remark
+    -> from emp e ,dept d, location l
+    -> where e.deptno=d.deptno and d.loc=l.loc;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> select * from v6;
++--------+---------+------------+--------+----------+---------+
+| ename  | sal     | dname      | deptno | loc      | remark  |
++--------+---------+------------+--------+----------+---------+
+| NULL   | 1200.00 | ACCOUNTING |     10 | NEW YORK | remark1 |
+| SMITH  |  800.00 | RESEARCH   |     20 | DALLAS   | remark2 |
+| ALLEN  | 1600.00 | SALES      |     30 | CHICAGO  | remark3 |
+| WARD   | 1250.00 | SALES      |     30 | CHICAGO  | remark3 |
+| JONES  | 2975.00 | RESEARCH   |     20 | DALLAS   | remark2 |
+| MARTIN | 1250.00 | SALES      |     30 | CHICAGO  | remark3 |
+| BLAKE  | 2850.00 | SALES      |     30 | CHICAGO  | remark3 |
+| CLARK  | 2450.00 | ACCOUNTING |     10 | NEW YORK | remark1 |
+| SCOTT  | 3000.00 | RESEARCH   |     20 | DALLAS   | remark2 |
+| KING   | 5000.00 | ACCOUNTING |     10 | NEW YORK | remark1 |
+| TURNER | 1500.00 | SALES      |     30 | CHICAGO  | remark3 |
+| ADAMS  | 1100.00 | RESEARCH   |     20 | DALLAS   | remark2 |
+| JAMES  |  950.00 | SALES      |     30 | CHICAGO  | remark3 |
+| FORD   | 3000.00 | RESEARCH   |     20 | DALLAS   | remark2 |
+| MILLER | 1300.00 | ACCOUNTING |     10 | NEW YORK | remark1 |
++--------+---------+------------+--------+----------+---------+
+15 rows in set (0.00 sec)
+
+mysql> #left outer-
+mysql> select ename,sal,d.deptno,dname
+    -> from emp e
+    -> left join 
+    -> dept d
+    -> on (e.deptno=d.deptno);
++----------+---------+--------+------------+
+| ename    | sal     | deptno | dname      |
++----------+---------+--------+------------+
+| NULL     | 1200.00 |     10 | ACCOUNTING |
+| SMITH    |  800.00 |     20 | RESEARCH   |
+| ALLEN    | 1600.00 |     30 | SALES      |
+| WARD     | 1250.00 |     30 | SALES      |
+| JONES    | 2975.00 |     20 | RESEARCH   |
+| MARTIN   | 1250.00 |     30 | SALES      |
+| BLAKE    | 2850.00 |     30 | SALES      |
+| SHRIKANT |    NULL |   NULL | NULL       |
+| CLARK    | 2450.00 |     10 | ACCOUNTING |
+| SCOTT    | 3000.00 |     20 | RESEARCH   |
+| KING     | 5000.00 |     10 | ACCOUNTING |
+| TURNER   | 1500.00 |     30 | SALES      |
+| ADAMS    | 1100.00 |     20 | RESEARCH   |
+| JAMES    |  950.00 |     30 | SALES      |
+| FORD     | 3000.00 |     20 | RESEARCH   |
+| MILLER   | 1300.00 |     10 | ACCOUNTING |
++----------+---------+--------+------------+
+16 rows in set (0.00 sec)
+
+mysql> select ename,sal,d.deptno,dname
+    -> from emp e
+    -> right join 
+    -> dept d
+    -> on (e.deptno=d.deptno);
++--------+---------+--------+------------+
+| ename  | sal     | deptno | dname      |
++--------+---------+--------+------------+
+| MILLER | 1300.00 |     10 | ACCOUNTING |
+| KING   | 5000.00 |     10 | ACCOUNTING |
+| CLARK  | 2450.00 |     10 | ACCOUNTING |
+| NULL   | 1200.00 |     10 | ACCOUNTING |
+| FORD   | 3000.00 |     20 | RESEARCH   |
+| ADAMS  | 1100.00 |     20 | RESEARCH   |
+| SCOTT  | 3000.00 |     20 | RESEARCH   |
+| JONES  | 2975.00 |     20 | RESEARCH   |
+| SMITH  |  800.00 |     20 | RESEARCH   |
+| JAMES  |  950.00 |     30 | SALES      |
+| TURNER | 1500.00 |     30 | SALES      |
+| BLAKE  | 2850.00 |     30 | SALES      |
+| MARTIN | 1250.00 |     30 | SALES      |
+| WARD   | 1250.00 |     30 | SALES      |
+| ALLEN  | 1600.00 |     30 | SALES      |
+| NULL   |    NULL |     40 | OPERATIONS |
++--------+---------+--------+------------+
+16 rows in set (0.00 sec)
+
+mysql> select ename,sal,d.deptno,dname
+    -> from emp e
+    -> full outer join 
+    -> dept d
+    -> on (e.deptno=d.deptno);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'full outer join 
+dept d
+on (e.deptno=d.deptno)' at line 3
+mysql> 
+mysql> #self join-
+mysql> select a.ename,b.ename as mgr_name
+    -> from emp a,emp b
+    -> where a.mgr=b.empno;
++--------+----------+
+| ename  | mgr_name |
++--------+----------+
+| SMITH  | FORD     |
+| ALLEN  | BLAKE    |
+| WARD   | BLAKE    |
+| JONES  | KING     |
+| MARTIN | BLAKE    |
+| BLAKE  | KING     |
+| CLARK  | KING     |
+| SCOTT  | JONES    |
+| TURNER | BLAKE    |
+| ADAMS  | SCOTT    |
+| JAMES  | BLAKE    |
+| FORD   | JONES    |
+| MILLER | CLARK    |
++--------+----------+
+13 rows in set (0.00 sec)
+
+mysql> select a.hiredate,b.ename as mgr_name
+    -> from emp a,emp b
+    -> where a.mgr=b.empno;
++------------+----------+
+| hiredate   | mgr_name |
++------------+----------+
+| 2012-02-02 | FORD     |
+| 2012-01-02 | BLAKE    |
+| 2013-01-02 | BLAKE    |
+| 2013-01-02 | KING     |
+| 2012-05-02 | BLAKE    |
+| 2012-01-06 | KING     |
+| 2012-01-06 | KING     |
+| 2012-01-10 | JONES    |
+| 2012-01-20 | BLAKE    |
+| 2013-01-02 | SCOTT    |
+| 2012-03-02 | BLAKE    |
+| 2012-04-02 | JONES    |
+| 2012-05-02 | CLARK    |
++------------+----------+
+13 rows in set (0.00 sec)
+
+mysql> select a.hiredate,b.hiredate as mgr_name
+    -> from emp a,emp b
+    -> where a.mgr=b.empno;
++------------+------------+
+| hiredate   | mgr_name   |
++------------+------------+
+| 2012-02-02 | 2012-04-02 |
+| 2012-01-02 | 2012-01-06 |
+| 2013-01-02 | 2012-01-06 |
+| 2013-01-02 | 2012-01-15 |
+| 2012-05-02 | 2012-01-06 |
+| 2012-01-06 | 2012-01-15 |
+| 2012-01-06 | 2012-01-15 |
+| 2012-01-10 | 2013-01-02 |
+| 2012-01-20 | 2012-01-06 |
+| 2013-01-02 | 2012-01-10 |
+| 2012-03-02 | 2012-01-06 |
+| 2012-04-02 | 2013-01-02 |
+| 2012-05-02 | 2012-01-06 |
++------------+------------+
+13 rows in set (0.00 sec)
+
+mysql> select a.ename, a.hiredate,b.ename,b.hiredate as mgr_name
+    -> from emp a,emp b
+    -> where a.mgr=b.empno;
++--------+------------+-------+------------+
+| ename  | hiredate   | ename | mgr_name   |
++--------+------------+-------+------------+
+| SMITH  | 2012-02-02 | FORD  | 2012-04-02 |
+| ALLEN  | 2012-01-02 | BLAKE | 2012-01-06 |
+| WARD   | 2013-01-02 | BLAKE | 2012-01-06 |
+| JONES  | 2013-01-02 | KING  | 2012-01-15 |
+| MARTIN | 2012-05-02 | BLAKE | 2012-01-06 |
+| BLAKE  | 2012-01-06 | KING  | 2012-01-15 |
+| CLARK  | 2012-01-06 | KING  | 2012-01-15 |
+| SCOTT  | 2012-01-10 | JONES | 2013-01-02 |
+| TURNER | 2012-01-20 | BLAKE | 2012-01-06 |
+| ADAMS  | 2013-01-02 | SCOTT | 2012-01-10 |
+| JAMES  | 2012-03-02 | BLAKE | 2012-01-06 |
+| FORD   | 2012-04-02 | JONES | 2013-01-02 |
+| MILLER | 2012-05-02 | CLARK | 2012-01-06 |
++--------+------------+-------+------------+
+13 rows in set (0.00 sec)
+
+mysql> select a.ename, a.hiredate,b.ename,b.hiredate as mgr_name
+    -> from emp a,emp b
+    -> where a.mgr!=b.empno;
++--------+------------+----------+------------+
+| ename  | hiredate   | ename    | mgr_name   |
++--------+------------+----------+------------+
+| MILLER | 2012-05-02 | NULL     | 2012-05-02 |
+| FORD   | 2012-04-02 | NULL     | 2012-05-02 |
+| JAMES  | 2012-03-02 | NULL     | 2012-05-02 |
+| ADAMS  | 2013-01-02 | NULL     | 2012-05-02 |
+| TURNER | 2012-01-20 | NULL     | 2012-05-02 |
+| SCOTT  | 2012-01-10 | NULL     | 2012-05-02 |
+| CLARK  | 2012-01-06 | NULL     | 2012-05-02 |
+| BLAKE  | 2012-01-06 | NULL     | 2012-05-02 |
+| MARTIN | 2012-05-02 | NULL     | 2012-05-02 |
+| JONES  | 2013-01-02 | NULL     | 2012-05-02 |
+| WARD   | 2013-01-02 | NULL     | 2012-05-02 |
+| ALLEN  | 2012-01-02 | NULL     | 2012-05-02 |
+| SMITH  | 2012-02-02 | NULL     | 2012-05-02 |
+| MILLER | 2012-05-02 | SMITH    | 2012-02-02 |
+| FORD   | 2012-04-02 | SMITH    | 2012-02-02 |
+| JAMES  | 2012-03-02 | SMITH    | 2012-02-02 |
+| ADAMS  | 2013-01-02 | SMITH    | 2012-02-02 |
+| TURNER | 2012-01-20 | SMITH    | 2012-02-02 |
+| SCOTT  | 2012-01-10 | SMITH    | 2012-02-02 |
+| CLARK  | 2012-01-06 | SMITH    | 2012-02-02 |
+| BLAKE  | 2012-01-06 | SMITH    | 2012-02-02 |
+| MARTIN | 2012-05-02 | SMITH    | 2012-02-02 |
+| JONES  | 2013-01-02 | SMITH    | 2012-02-02 |
+| WARD   | 2013-01-02 | SMITH    | 2012-02-02 |
+| ALLEN  | 2012-01-02 | SMITH    | 2012-02-02 |
+| SMITH  | 2012-02-02 | SMITH    | 2012-02-02 |
+| MILLER | 2012-05-02 | ALLEN    | 2012-01-02 |
+| FORD   | 2012-04-02 | ALLEN    | 2012-01-02 |
+| JAMES  | 2012-03-02 | ALLEN    | 2012-01-02 |
+| ADAMS  | 2013-01-02 | ALLEN    | 2012-01-02 |
+| TURNER | 2012-01-20 | ALLEN    | 2012-01-02 |
+| SCOTT  | 2012-01-10 | ALLEN    | 2012-01-02 |
+| CLARK  | 2012-01-06 | ALLEN    | 2012-01-02 |
+| BLAKE  | 2012-01-06 | ALLEN    | 2012-01-02 |
+| MARTIN | 2012-05-02 | ALLEN    | 2012-01-02 |
+| JONES  | 2013-01-02 | ALLEN    | 2012-01-02 |
+| WARD   | 2013-01-02 | ALLEN    | 2012-01-02 |
+| ALLEN  | 2012-01-02 | ALLEN    | 2012-01-02 |
+| SMITH  | 2012-02-02 | ALLEN    | 2012-01-02 |
+| MILLER | 2012-05-02 | WARD     | 2013-01-02 |
+| FORD   | 2012-04-02 | WARD     | 2013-01-02 |
+| JAMES  | 2012-03-02 | WARD     | 2013-01-02 |
+| ADAMS  | 2013-01-02 | WARD     | 2013-01-02 |
+| TURNER | 2012-01-20 | WARD     | 2013-01-02 |
+| SCOTT  | 2012-01-10 | WARD     | 2013-01-02 |
+| CLARK  | 2012-01-06 | WARD     | 2013-01-02 |
+| BLAKE  | 2012-01-06 | WARD     | 2013-01-02 |
+| MARTIN | 2012-05-02 | WARD     | 2013-01-02 |
+| JONES  | 2013-01-02 | WARD     | 2013-01-02 |
+| WARD   | 2013-01-02 | WARD     | 2013-01-02 |
+| ALLEN  | 2012-01-02 | WARD     | 2013-01-02 |
+| SMITH  | 2012-02-02 | WARD     | 2013-01-02 |
+| MILLER | 2012-05-02 | JONES    | 2013-01-02 |
+| JAMES  | 2012-03-02 | JONES    | 2013-01-02 |
+| ADAMS  | 2013-01-02 | JONES    | 2013-01-02 |
+| TURNER | 2012-01-20 | JONES    | 2013-01-02 |
+| CLARK  | 2012-01-06 | JONES    | 2013-01-02 |
+| BLAKE  | 2012-01-06 | JONES    | 2013-01-02 |
+| MARTIN | 2012-05-02 | JONES    | 2013-01-02 |
+| JONES  | 2013-01-02 | JONES    | 2013-01-02 |
+| WARD   | 2013-01-02 | JONES    | 2013-01-02 |
+| ALLEN  | 2012-01-02 | JONES    | 2013-01-02 |
+| SMITH  | 2012-02-02 | JONES    | 2013-01-02 |
+| MILLER | 2012-05-02 | MARTIN   | 2012-05-02 |
+| FORD   | 2012-04-02 | MARTIN   | 2012-05-02 |
+| JAMES  | 2012-03-02 | MARTIN   | 2012-05-02 |
+| ADAMS  | 2013-01-02 | MARTIN   | 2012-05-02 |
+| TURNER | 2012-01-20 | MARTIN   | 2012-05-02 |
+| SCOTT  | 2012-01-10 | MARTIN   | 2012-05-02 |
+| CLARK  | 2012-01-06 | MARTIN   | 2012-05-02 |
+| BLAKE  | 2012-01-06 | MARTIN   | 2012-05-02 |
+| MARTIN | 2012-05-02 | MARTIN   | 2012-05-02 |
+| JONES  | 2013-01-02 | MARTIN   | 2012-05-02 |
+| WARD   | 2013-01-02 | MARTIN   | 2012-05-02 |
+| ALLEN  | 2012-01-02 | MARTIN   | 2012-05-02 |
+| SMITH  | 2012-02-02 | MARTIN   | 2012-05-02 |
+| MILLER | 2012-05-02 | BLAKE    | 2012-01-06 |
+| FORD   | 2012-04-02 | BLAKE    | 2012-01-06 |
+| ADAMS  | 2013-01-02 | BLAKE    | 2012-01-06 |
+| SCOTT  | 2012-01-10 | BLAKE    | 2012-01-06 |
+| CLARK  | 2012-01-06 | BLAKE    | 2012-01-06 |
+| BLAKE  | 2012-01-06 | BLAKE    | 2012-01-06 |
+| JONES  | 2013-01-02 | BLAKE    | 2012-01-06 |
+| SMITH  | 2012-02-02 | BLAKE    | 2012-01-06 |
+| MILLER | 2012-05-02 | SHRIKANT | 2012-05-05 |
+| FORD   | 2012-04-02 | SHRIKANT | 2012-05-05 |
+| JAMES  | 2012-03-02 | SHRIKANT | 2012-05-05 |
+| ADAMS  | 2013-01-02 | SHRIKANT | 2012-05-05 |
+| TURNER | 2012-01-20 | SHRIKANT | 2012-05-05 |
+| SCOTT  | 2012-01-10 | SHRIKANT | 2012-05-05 |
+| CLARK  | 2012-01-06 | SHRIKANT | 2012-05-05 |
+| BLAKE  | 2012-01-06 | SHRIKANT | 2012-05-05 |
+| MARTIN | 2012-05-02 | SHRIKANT | 2012-05-05 |
+| JONES  | 2013-01-02 | SHRIKANT | 2012-05-05 |
+| WARD   | 2013-01-02 | SHRIKANT | 2012-05-05 |
+| ALLEN  | 2012-01-02 | SHRIKANT | 2012-05-05 |
+| SMITH  | 2012-02-02 | SHRIKANT | 2012-05-05 |
+| FORD   | 2012-04-02 | CLARK    | 2012-01-06 |
+| JAMES  | 2012-03-02 | CLARK    | 2012-01-06 |
+| ADAMS  | 2013-01-02 | CLARK    | 2012-01-06 |
+| TURNER | 2012-01-20 | CLARK    | 2012-01-06 |
+| SCOTT  | 2012-01-10 | CLARK    | 2012-01-06 |
+| CLARK  | 2012-01-06 | CLARK    | 2012-01-06 |
+| BLAKE  | 2012-01-06 | CLARK    | 2012-01-06 |
+| MARTIN | 2012-05-02 | CLARK    | 2012-01-06 |
+| JONES  | 2013-01-02 | CLARK    | 2012-01-06 |
+| WARD   | 2013-01-02 | CLARK    | 2012-01-06 |
+| ALLEN  | 2012-01-02 | CLARK    | 2012-01-06 |
+| SMITH  | 2012-02-02 | CLARK    | 2012-01-06 |
+| MILLER | 2012-05-02 | SCOTT    | 2012-01-10 |
+| FORD   | 2012-04-02 | SCOTT    | 2012-01-10 |
+| JAMES  | 2012-03-02 | SCOTT    | 2012-01-10 |
+| TURNER | 2012-01-20 | SCOTT    | 2012-01-10 |
+| SCOTT  | 2012-01-10 | SCOTT    | 2012-01-10 |
+| CLARK  | 2012-01-06 | SCOTT    | 2012-01-10 |
+| BLAKE  | 2012-01-06 | SCOTT    | 2012-01-10 |
+| MARTIN | 2012-05-02 | SCOTT    | 2012-01-10 |
+| JONES  | 2013-01-02 | SCOTT    | 2012-01-10 |
+| WARD   | 2013-01-02 | SCOTT    | 2012-01-10 |
+| ALLEN  | 2012-01-02 | SCOTT    | 2012-01-10 |
+| SMITH  | 2012-02-02 | SCOTT    | 2012-01-10 |
+| MILLER | 2012-05-02 | KING     | 2012-01-15 |
+| FORD   | 2012-04-02 | KING     | 2012-01-15 |
+| JAMES  | 2012-03-02 | KING     | 2012-01-15 |
+| ADAMS  | 2013-01-02 | KING     | 2012-01-15 |
+| TURNER | 2012-01-20 | KING     | 2012-01-15 |
+| SCOTT  | 2012-01-10 | KING     | 2012-01-15 |
+| MARTIN | 2012-05-02 | KING     | 2012-01-15 |
+| WARD   | 2013-01-02 | KING     | 2012-01-15 |
+| ALLEN  | 2012-01-02 | KING     | 2012-01-15 |
+| SMITH  | 2012-02-02 | KING     | 2012-01-15 |
+| MILLER | 2012-05-02 | TURNER   | 2012-01-20 |
+| FORD   | 2012-04-02 | TURNER   | 2012-01-20 |
+| JAMES  | 2012-03-02 | TURNER   | 2012-01-20 |
+| ADAMS  | 2013-01-02 | TURNER   | 2012-01-20 |
+| TURNER | 2012-01-20 | TURNER   | 2012-01-20 |
+| SCOTT  | 2012-01-10 | TURNER   | 2012-01-20 |
+| CLARK  | 2012-01-06 | TURNER   | 2012-01-20 |
+| BLAKE  | 2012-01-06 | TURNER   | 2012-01-20 |
+| MARTIN | 2012-05-02 | TURNER   | 2012-01-20 |
+| JONES  | 2013-01-02 | TURNER   | 2012-01-20 |
+| WARD   | 2013-01-02 | TURNER   | 2012-01-20 |
+| ALLEN  | 2012-01-02 | TURNER   | 2012-01-20 |
+| SMITH  | 2012-02-02 | TURNER   | 2012-01-20 |
+| MILLER | 2012-05-02 | ADAMS    | 2013-01-02 |
+| FORD   | 2012-04-02 | ADAMS    | 2013-01-02 |
+| JAMES  | 2012-03-02 | ADAMS    | 2013-01-02 |
+| ADAMS  | 2013-01-02 | ADAMS    | 2013-01-02 |
+| TURNER | 2012-01-20 | ADAMS    | 2013-01-02 |
+| SCOTT  | 2012-01-10 | ADAMS    | 2013-01-02 |
+| CLARK  | 2012-01-06 | ADAMS    | 2013-01-02 |
+| BLAKE  | 2012-01-06 | ADAMS    | 2013-01-02 |
+| MARTIN | 2012-05-02 | ADAMS    | 2013-01-02 |
+| JONES  | 2013-01-02 | ADAMS    | 2013-01-02 |
+| WARD   | 2013-01-02 | ADAMS    | 2013-01-02 |
+| ALLEN  | 2012-01-02 | ADAMS    | 2013-01-02 |
+| SMITH  | 2012-02-02 | ADAMS    | 2013-01-02 |
+| MILLER | 2012-05-02 | JAMES    | 2012-03-02 |
+| FORD   | 2012-04-02 | JAMES    | 2012-03-02 |
+| JAMES  | 2012-03-02 | JAMES    | 2012-03-02 |
+| ADAMS  | 2013-01-02 | JAMES    | 2012-03-02 |
+| TURNER | 2012-01-20 | JAMES    | 2012-03-02 |
+| SCOTT  | 2012-01-10 | JAMES    | 2012-03-02 |
+| CLARK  | 2012-01-06 | JAMES    | 2012-03-02 |
+| BLAKE  | 2012-01-06 | JAMES    | 2012-03-02 |
+| MARTIN | 2012-05-02 | JAMES    | 2012-03-02 |
+| JONES  | 2013-01-02 | JAMES    | 2012-03-02 |
+| WARD   | 2013-01-02 | JAMES    | 2012-03-02 |
+| ALLEN  | 2012-01-02 | JAMES    | 2012-03-02 |
+| SMITH  | 2012-02-02 | JAMES    | 2012-03-02 |
+| MILLER | 2012-05-02 | FORD     | 2012-04-02 |
+| FORD   | 2012-04-02 | FORD     | 2012-04-02 |
+| JAMES  | 2012-03-02 | FORD     | 2012-04-02 |
+| ADAMS  | 2013-01-02 | FORD     | 2012-04-02 |
+| TURNER | 2012-01-20 | FORD     | 2012-04-02 |
+| SCOTT  | 2012-01-10 | FORD     | 2012-04-02 |
+| CLARK  | 2012-01-06 | FORD     | 2012-04-02 |
+| BLAKE  | 2012-01-06 | FORD     | 2012-04-02 |
+| MARTIN | 2012-05-02 | FORD     | 2012-04-02 |
+| JONES  | 2013-01-02 | FORD     | 2012-04-02 |
+| WARD   | 2013-01-02 | FORD     | 2012-04-02 |
+| ALLEN  | 2012-01-02 | FORD     | 2012-04-02 |
+| MILLER | 2012-05-02 | MILLER   | 2012-05-02 |
+| FORD   | 2012-04-02 | MILLER   | 2012-05-02 |
+| JAMES  | 2012-03-02 | MILLER   | 2012-05-02 |
+| ADAMS  | 2013-01-02 | MILLER   | 2012-05-02 |
+| TURNER | 2012-01-20 | MILLER   | 2012-05-02 |
+| SCOTT  | 2012-01-10 | MILLER   | 2012-05-02 |
+| CLARK  | 2012-01-06 | MILLER   | 2012-05-02 |
+| BLAKE  | 2012-01-06 | MILLER   | 2012-05-02 |
+| MARTIN | 2012-05-02 | MILLER   | 2012-05-02 |
+| JONES  | 2013-01-02 | MILLER   | 2012-05-02 |
+| WARD   | 2013-01-02 | MILLER   | 2012-05-02 |
+| ALLEN  | 2012-01-02 | MILLER   | 2012-05-02 |
+| SMITH  | 2012-02-02 | MILLER   | 2012-05-02 |
++--------+------------+----------+------------+
+195 rows in set (0.00 sec)
+
+mysql> select a.ename,a.job,a.deptno
+    -> from emp a,emp b
+    -> where a.job=b.job and a.deptno !=b.deptno;
++--------+---------+--------+
+| ename  | job     | deptno |
++--------+---------+--------+
+| MILLER | CLERK   |     10 |
+| JAMES  | CLERK   |     30 |
+| CLARK  | MANAGER |     10 |
+| BLAKE  | MANAGER |     30 |
+| CLARK  | MANAGER |     10 |
+| JONES  | MANAGER |     20 |
+| BLAKE  | MANAGER |     30 |
+| JONES  | MANAGER |     20 |
+| MILLER | CLERK   |     10 |
+| JAMES  | CLERK   |     30 |
+| MILLER | CLERK   |     10 |
+| ADAMS  | CLERK   |     20 |
+| SMITH  | CLERK   |     20 |
+| JAMES  | CLERK   |     30 |
+| ADAMS  | CLERK   |     20 |
+| SMITH  | CLERK   |     20 |
++--------+---------+--------+
+16 rows in set (0.00 sec)
+
+mysql> #non equi join-+
+mysql> 
+mysql> \!cls
+ERROR: 
+Usage: \! shell-command
+mysql> \! cls
+mysql> tee C:\Users\CDAC\Desktop\Database\day6\day6.txt
+mysql> 
+mysql> set @a:=100;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> set @b:=200;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> 
+mysql> select @a;
++------+
+| @a   |
++------+
+|  100 |
++------+
+1 row in set (0.00 sec)
+
+mysql> select @b;
++------+
+| @b   |
++------+
+|  200 |
++------+
+1 row in set (0.00 sec)
+
+mysql> set @name1:='Shrikant';
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> set @score:=89.55;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> set @add:='Nashik';
+Query OK, 0 rows affected (0.00 sec)
+
+mysql>  
+mysql> select @name1;
++----------+
+| @name1   |
++----------+
+| Shrikant |
++----------+
+1 row in set (0.00 sec)
+
+mysql> select @score;
++--------+
+| @score |
++--------+
+|  89.55 |
++--------+
+1 row in set (0.00 sec)
+
+mysql> select @add:='Nashik';
++----------------+
+| @add:='Nashik' |
++----------------+
+| Nashik         |
++----------------+
+1 row in set, 1 warning (0.02 sec)
+
+mysql> #plsql
+mysql> select @max:=max(sal),@min:=min(sal),@avg:=avg(sal),
+    -> @count:=count(sal);
+ERROR 1054 (42S22): Unknown column 'sal' in 'field list'
+mysql> 
+mysql> select @max;
++------------+
+| @max       |
++------------+
+|        |
++------------+
+1 row in set (0.00 sec)
+
+mysql> select @min;
++------------+
+| @min       |
++------------+
+|        |
++------------+
+1 row in set (0.00 sec)
+
+mysql> select @avg;
++------------+
+| @avg       |
++------------+
+|        |
++------------+
+1 row in set (0.00 sec)
+
+mysql> select @count;
++----------------+
+| @count         |
++----------------+
+|            |
++----------------+
+1 row in set (0.00 sec)
+
+mysql> select @max:=max(sal),@min:=min(sal),@avg:=avg(sal),
+    -> @count:=count(sal) from emp;
+ERROR 1046 (3D000): No database selected
+mysql> 
+mysql> select @max;
++------------+
+| @max       |
++------------+
+|        |
++------------+
+1 row in set (0.00 sec)
+
+mysql> select @min;
++------------+
+| @min       |
++------------+
+|        |
++------------+
+1 row in set (0.00 sec)
+
+mysql> select @avg;
++------------+
+| @avg       |
++------------+
+|        |
++------------+
+1 row in set (0.00 sec)
+
+mysql> select @count;
++----------------+
+| @count         |
++----------------+
+|            |
++----------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT @max:=MAX(sal), @min:=MIN(sal), @avg:=AVG(sal), @count:=COUNT(sal) FROM emp;
+ERROR 1046 (3D000): No database selected
+mysql> use cdac;
+Database changed
+mysql> SELECT @max:=MAX(sal), @min:=MIN(sal), @avg:=AVG(sal), @count:=COUNT(sal) FROM emp;
++----------------+----------------+----------------+--------------------+
+| @max:=MAX(sal) | @min:=MIN(sal) | @avg:=AVG(sal) | @count:=COUNT(sal) |
++----------------+----------------+----------------+--------------------+
+|        5000.00 |         800.00 |    2015.000000 |                 15 |
++----------------+----------------+----------------+--------------------+
+1 row in set, 4 warnings (0.02 sec)
+
+mysql> select @max:=max(sal),@min:=min(sal),@avg:=avg(sal),
+    -> @count:=count(sal) from emp;
++----------------+----------------+----------------+--------------------+
+| @max:=max(sal) | @min:=min(sal) | @avg:=avg(sal) | @count:=count(sal) |
++----------------+----------------+----------------+--------------------+
+|        5000.00 |         800.00 |    2015.000000 |                 15 |
++----------------+----------------+----------------+--------------------+
+1 row in set, 4 warnings (0.00 sec)
+
+mysql> set autocommit=0;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> delimiter $$
+mysql> create procedure p1()
+    -> begin
+    -> select * from emp;
+    -> select * from dept;
+    -> select * from emp where ename='smith';
+    -> end;
+    -> $$
+Query OK, 0 rows affected (0.07 sec)
+
+mysql> delimiter;
+    -> call p1();
+    -> ^C
+mysql> delimiter \;
+mysql> delimiter ;
+mysql> call p1();
++-------+----------+-----------+------+------------+---------+---------+--------+
+| EMPNO | ENAME    | JOB       | MGR  | HIREDATE   | SAL     | COMM    | DEPTNO |
++-------+----------+-----------+------+------------+---------+---------+--------+
+|  1708 | NULL     | software  | NULL | 2012-05-02 | 1200.00 |    NULL |     10 |
+|  7369 | SMITH    | CLERK     | 7902 | 2012-02-02 |  800.00 |    NULL |     20 |
+|  7499 | ALLEN    | SALESMAN  | 7698 | 2012-01-02 | 1600.00 |  300.00 |     30 |
+|  7521 | WARD     | SALESMAN  | 7698 | 2013-01-02 | 1250.00 |  500.00 |     30 |
+|  7566 | JONES    | MANAGER   | 7839 | 2013-01-02 | 2975.00 |    NULL |     20 |
+|  7654 | MARTIN   | SALESMAN  | 7698 | 2012-05-02 | 1250.00 | 1400.00 |     30 |
+|  7698 | BLAKE    | MANAGER   | 7839 | 2012-01-06 | 2850.00 |    NULL |     30 |
+|  7777 | SHRIKANT | NULL      | NULL | 2012-05-05 |    NULL |    NULL |   NULL |
+|  7782 | CLARK    | MANAGER   | 7839 | 2012-01-06 | 2450.00 |    NULL |     10 |
+|  7788 | SCOTT    | ANALYST   | 7566 | 2012-01-10 | 3000.00 |    NULL |     20 |
+|  7839 | KING     | PRESIDENT | NULL | 2012-01-15 | 5000.00 |    NULL |     10 |
+|  7844 | TURNER   | SALESMAN  | 7698 | 2012-01-20 | 1500.00 |    0.00 |     30 |
+|  7876 | ADAMS    | CLERK     | 7788 | 2013-01-02 | 1100.00 |    NULL |     20 |
+|  7900 | JAMES    | CLERK     | 7698 | 2012-03-02 |  950.00 |    NULL |     30 |
+|  7902 | FORD     | ANALYST   | 7566 | 2012-04-02 | 3000.00 |    NULL |     20 |
+|  7934 | MILLER   | CLERK     | 7782 | 2012-05-02 | 1300.00 |    NULL |     10 |
++-------+----------+-----------+------+------------+---------+---------+--------+
+16 rows in set (0.05 sec)
+
++--------+------------+----------+
+| DEPTNO | DNAME      | LOC      |
++--------+------------+----------+
+|     10 | ACCOUNTING | NEW YORK |
+|     20 | RESEARCH   | DALLAS   |
+|     30 | SALES      | CHICAGO  |
+|     40 | OPERATIONS | BOSTON   |
++--------+------------+----------+
+4 rows in set (0.07 sec)
+
++-------+-------+-------+------+------------+--------+------+--------+
+| EMPNO | ENAME | JOB   | MGR  | HIREDATE   | SAL    | COMM | DEPTNO |
++-------+-------+-------+------+------------+--------+------+--------+
+|  7369 | SMITH | CLERK | 7902 | 2012-02-02 | 800.00 | NULL |     20 |
++-------+-------+-------+------+------------+--------+------+--------+
+1 row in set (0.08 sec)
+
+Query OK, 0 rows affected (0.08 sec)
+
+mysql> select ename,sal+100 as increment
+    -> from emp
+    -> where ename in('allen','ford');
++-------+-----------+
+| ename | increment |
++-------+-----------+
+| ALLEN |   1700.00 |
+| FORD  |   3100.00 |
++-------+-----------+
+2 rows in set (0.00 sec)
+
+mysql> select ename,max(sal),sal+100 as increment
+    -> from emp
+    -> where ename in('allen','ford');
+ERROR 1140 (42000): In aggregated query without GROUP BY, expression #1 of SELECT list contains nonaggregated column 'cdac.emp.ENAME'; this is incompatible with sql_mode=only_full_group_by
+mysql> select max(sal) from emp where 
+    -> (select ename,max(sal),sal+100 as increment
+    -> from emp
+    -> where ename in('allen','ford'));
+ERROR 1241 (21000): Operand should contain 1 column(s)
+mysql> 
+mysql> select ename,sal+100 as increment
+    -> from emp
+    -> where ename in('allen','ford');
++-------+-----------+
+| ename | increment |
++-------+-----------+
+| ALLEN |   1700.00 |
+| FORD  |   3100.00 |
++-------+-----------+
+2 rows in set (0.00 sec)
+
+mysql> 
+mysql> select max(sal) from emp;
++----------+
+| max(sal) |
++----------+
+|  5000.00 |
++----------+
+1 row in set (0.00 sec)
+
+mysql> set autocommit=0;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> delimiter $$
+mysql> create procedure p2()
+    -> begin
+    -> select ename,sal+100 as increment
+    -> from emp
+    -> where ename in('allen','ford');
+    -> 
+    -> select max(sal) from emp;
+    -> end;
+    -> $$
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> 
+mysql> delimiter ;
+mysql> call p2();
++-------+-----------+
+| ename | increment |
++-------+-----------+
+| ALLEN |   1700.00 |
+| FORD  |   3100.00 |
++-------+-----------+
+2 rows in set (0.00 sec)
+
++----------+
+| max(sal) |
++----------+
+|  5000.00 |
++----------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> rollback;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> call p2();
++-------+-----------+
+| ename | increment |
++-------+-----------+
+| ALLEN |   1700.00 |
+| FORD  |   3100.00 |
++-------+-----------+
+2 rows in set (0.00 sec)
+
++----------+
+| max(sal) |
++----------+
+|  5000.00 |
++----------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> set autocommit=0;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> 
+mysql> delimiter $$
+mysql> create procedure p3()
+    -> begin
+    -> UPDATE emp
+    -> SET sal = sal * 0.10;
+    -> 
+    -> select ename,hiredate ,sal from emp;
+    -> 
+    -> delete * from emp where sal>2000 and deptno=30;
+    -> select * from emp;
+    -> end;
+    -> $$
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '* from emp where sal>2000 and deptno=30;
+select * from emp;
+end' at line 8
+mysql> set autocommit=0;
+    -> ^C
+mysql> set autocommit=0;
+    -> 
+    -> ^C
+mysql> delimiter ;
+mysql> call p3();
+ERROR 1305 (42000): PROCEDURE cdac.p3 does not exist
+mysql> 
+mysql> delimiter $$
+mysql> create procedure p3()
+    -> begin
+    -> UPDATE emp
+    -> SET sal = sal * 1.10;
+    -> 
+    -> select ename,hiredate ,sal from emp;
+    -> 
+    -> delete * from emp where sal>2000 and deptno=30;
+    -> select * from emp;
+    -> end;
+    -> $$
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '* from emp where sal>2000 and deptno=30;
+select * from emp;
+end' at line 8
+mysql> 
+mysql> 
+mysql> delimiter $$
+mysql> create procedure p3()
+    -> begin
+    -> 
+    -> UPDATE emp
+    -> SET sal = sal * 1.1;
+    -> 
+    -> select ename,hiredate ,sal from emp;
+    -> 
+    -> delete * from emp where0  deptno=30  and sal>200;
+    -> 
+    -> select * from emp;
+    -> 
+    -> end;
+    -> $$
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '* from emp where0  deptno=30  and sal>200;
+
+select * from emp;
+
+end' at line 9
+mysql> ^C
+mysql> 
+mysql> DELIMITER $$
+mysql> 
+mysql> CREATE PROCEDURE p3()
+    -> BEGIN
+    ->  
+    ->     UPDATE emp
+    ->     SET sal = sal * 1.1;
+    ->   
+    ->     SELECT ename, hiredate, sal FROM emp;
+    ->     
+    ->    
+    ->     DELETE FROM emp 
+    ->     WHERE deptno = 30 AND sal > 200;
+    ->  
+    ->     SELECT * FROM emp;
+    -> END $$
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> 
+mysql> DELIMITER ;
+mysql> 
+mysql>  
+mysql> call p3();
++----------+------------+---------+
+| ename    | hiredate   | sal     |
++----------+------------+---------+
+| NULL     | 2012-05-02 | 1320.00 |
+| SMITH    | 2012-02-02 |  880.00 |
+| ALLEN    | 2012-01-02 | 1760.00 |
+| WARD     | 2013-01-02 | 1375.00 |
+| JONES    | 2013-01-02 | 3272.50 |
+| MARTIN   | 2012-05-02 | 1375.00 |
+| BLAKE    | 2012-01-06 | 3135.00 |
+| SHRIKANT | 2012-05-05 |    NULL |
+| CLARK    | 2012-01-06 | 2695.00 |
+| SCOTT    | 2012-01-10 | 3300.00 |
+| KING     | 2012-01-15 | 5500.00 |
+| TURNER   | 2012-01-20 | 1650.00 |
+| ADAMS    | 2013-01-02 | 1210.00 |
+| JAMES    | 2012-03-02 | 1045.00 |
+| FORD     | 2012-04-02 | 3300.00 |
+| MILLER   | 2012-05-02 | 1430.00 |
++----------+------------+---------+
+16 rows in set (0.01 sec)
+
++-------+----------+-----------+------+------------+---------+------+--------+
+| EMPNO | ENAME    | JOB       | MGR  | HIREDATE   | SAL     | COMM | DEPTNO |
++-------+----------+-----------+------+------------+---------+------+--------+
+|  1708 | NULL     | software  | NULL | 2012-05-02 | 1320.00 | NULL |     10 |
+|  7369 | SMITH    | CLERK     | 7902 | 2012-02-02 |  880.00 | NULL |     20 |
+|  7566 | JONES    | MANAGER   | 7839 | 2013-01-02 | 3272.50 | NULL |     20 |
+|  7777 | SHRIKANT | NULL      | NULL | 2012-05-05 |    NULL | NULL |   NULL |
+|  7782 | CLARK    | MANAGER   | 7839 | 2012-01-06 | 2695.00 | NULL |     10 |
+|  7788 | SCOTT    | ANALYST   | 7566 | 2012-01-10 | 3300.00 | NULL |     20 |
+|  7839 | KING     | PRESIDENT | NULL | 2012-01-15 | 5500.00 | NULL |     10 |
+|  7876 | ADAMS    | CLERK     | 7788 | 2013-01-02 | 1210.00 | NULL |     20 |
+|  7902 | FORD     | ANALYST   | 7566 | 2012-04-02 | 3300.00 | NULL |     20 |
+|  7934 | MILLER   | CLERK     | 7782 | 2012-05-02 | 1430.00 | NULL |     10 |
++-------+----------+-----------+------+------------+---------+------+--------+
+10 rows in set (0.02 sec)
+
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> rollback;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> show procedure;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+mysql> 
+mysql> show procedure status where db='cdac';
++------+------+-----------+----------------+---------------------+---------------------+---------------+---------+----------------------+----------------------+--------------------+
+| Db   | Name | Type      | Definer        | Modified            | Created             | Security_type | Comment | character_set_client | collation_connection | Database Collation |
++------+------+-----------+----------------+---------------------+---------------------+---------------+---------+----------------------+----------------------+--------------------+
+| cdac | p1   | PROCEDURE | root@localhost | 2024-10-27 15:39:39 | 2024-10-27 15:39:39 | DEFINER       |         | utf8mb4              | utf8mb4_0900_ai_ci   | utf8mb4_0900_ai_ci |
+| cdac | p2   | PROCEDURE | root@localhost | 2024-10-27 15:55:29 | 2024-10-27 15:55:29 | DEFINER       |         | utf8mb4              | utf8mb4_0900_ai_ci   | utf8mb4_0900_ai_ci |
+| cdac | p3   | PROCEDURE | root@localhost | 2024-10-27 17:00:37 | 2024-10-27 17:00:37 | DEFINER       |         | utf8mb4              | utf8mb4_0900_ai_ci   | utf8mb4_0900_ai_ci |
++------+------+-----------+----------------+---------------------+---------------------+---------------+---------+----------------------+----------------------+--------------------+
+3 rows in set (0.04 sec)
+
+mysql> delimiter //
+mysql> create procedure if_pro()
+    -> begin
+    -> set @a:=100;
+    -> set @b:=200;
+    -> if(@a>@b)
+    -> set @result:='a is greater';
+    -> elseif(@a<@b)
+    -> set @result:='b is greater';
+    -> else
+    -> set @result:='both are same';
+    -> 
+    -> select @result;
+    -> end;
+    -> 
+    -> //
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'set @result:='a is greater';
+elseif(@a<@b)
+set @result:='b is greater';
+else
+set' at line 6
+mysql> 
+mysql> delimiter //
+mysql> create procedure if_pro()
+    -> begin
+    -> set @a:=100;
+    -> set @b:=200;
+    -> if(@a>@b) then
+    -> set @result:='a is greater';
+    -> elseif(@a<@b) then
+    -> set @result:='b is greater';
+    -> else
+    -> set @result:='both are same';
+    -> 
+    -> select @result;
+    -> end;
+    -> 
+    -> //
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 13
+mysql> 
+mysql> DELIMITER //
+mysql> 
+mysql> CREATE PROCEDURE if_pro()
+    -> BEGIN
+    ->     SET @a := 100;
+    ->     SET @b := 200;
+    -> 
+    ->     IF (@a > @b) THEN
+    ->         SET @result := 'a is greater';
+    ->     ELSEIF (@a < @b) THEN
+    ->         SET @result := 'b is greater';
+    ->     ELSE
+    ->         SET @result := 'both are same';
+    ->     END IF;
+    -> 
+    ->     SELECT @result;
+    -> END //
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> DELIMITER ;
+mysql> 
+mysql> call if_pro();
++--------------+
+| @result      |
++--------------+
+| b is greater |
++--------------+
+1 row in set (0.01 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> DELIMITER //
+mysql> 
+mysql> CREATE PROCEDURE in_Demo(in num int)
+    -> BEGIN
+    -> 
+    -> declare result varchar(20);
+    -> if(num>0 && num<10) then
+    -> set @result:='1 digit number';
+    -> elseif(num>9 && num<100) then
+    -> set @result:='2 digit number';
+    -> elseif(num>99 && num<1000) then
+    -> set @result:='3 digit number';
+    -> elseif(num>999 && num<10000) then
+    -> set @result:='4 digit number';
+    -> 
+    ->  END IF;
+    -> 
+    ->     SELECT @result;
+    -> END //
+Query OK, 0 rows affected, 4 warnings (0.04 sec)
+
+mysql> DELIMITER ;
+mysql> 
+mysql> call in_Demo(6);
++----------------+
+| @result        |
++----------------+
+| 1 digit number |
++----------------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> call in_Demo(16);
++----------------+
+| @result        |
++----------------+
+| 2 digit number |
++----------------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> call in_Demo(116);
++----------------+
+| @result        |
++----------------+
+| 3 digit number |
++----------------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> call in_Demo(1160);
++----------------+
+| @result        |
++----------------+
+| 4 digit number |
++----------------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> CREATE PROCEDURE in_Demo1(in num int)
+    -> BEGIN
+    -> 
+    -> declare result varchar(20);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 4
+mysql> 
+mysql> if()then
+    -> set @result:='num is +ve';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'if()then
+set @result:='num is +ve'' at line 1
+mysql> elseif() then
+    -> set @result:='num is -ve';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'elseif() then
+set @result:='num is -ve'' at line 1
+mysql> else
+    -> set @result:='num is zero';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'else
+set @result:='num is zero'' at line 1
+mysql> 
+mysql> END IF;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'END IF' at line 1
+mysql> 
+mysql>     SELECT @result;
++----------------+
+| @result        |
++----------------+
+| 4 digit number |
++----------------+
+1 row in set (0.00 sec)
+
+mysql> END //
+    -> ^C
+mysql> DELIMITER //
+mysql> CREATE PROCEDURE in_Demo1(in num int)
+    -> BEGIN
+    -> 
+    -> declare result varchar(20);
+    -> 
+    -> if()then
+    -> set @result:='num is +ve';
+    -> elseif() then
+    -> set @result:='num is -ve';
+    -> else
+    -> set @result:='num is zero';
+    -> 
+    -> END IF;
+    -> 
+    ->     SELECT @result;
+    -> END //
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')then
+set @result:='num is +ve';
+elseif() then
+set @result:='num is -ve';
+else
+s' at line 6
+mysql> DELIMITER //
+mysql> CREATE PROCEDURE in_Demo1(in num int)
+    -> BEGIN
+    -> 
+    -> declare result varchar(20);
+    -> 
+    -> if(num>0)then
+    -> set @result:='num is +ve';
+    -> elseif(num<0) then
+    -> set @result:='num is -ve';
+    -> else
+    -> set @result:='num is zero';
+    -> 
+    -> END IF;
+    -> 
+    ->     SELECT @result;
+    -> END //
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> DELIMITER ;
+mysql> 
+mysql> in_Demo1(-2);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'in_Demo1(-2)' at line 1
+mysql> 
+mysql> DELIMITER ;
+mysql> 
+mysql> in_Demo1(2);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'in_Demo1(2)' at line 1
+mysql> 
+mysql> \!cls
+ERROR: 
+Usage: \! shell-command
+mysql> \! cls
+mysql> DELIMITER //
+mysql> 
+mysql> CREATE PROCEDURE in_Demo1(IN num INT)
+    -> BEGIN
+    ->     DECLARE result VARCHAR(20);
+    -> 
+    ->     IF (num > 0) THEN
+    ->         SET result := 'num is +ve';
+    ->     ELSEIF ( num < 0) THEN
+    ->         SET result := 'num is -ve';
+    ->     ELSE
+    ->         SET result := 'num is zero';
+    ->     END IF;
+    -> 
+    ->     SELECT result;
+    -> END //
+ERROR 1304 (42000): PROCEDURE in_Demo1 already exists
+mysql> 
+mysql> drop procedure in_Demo1;
+    -> ^C
+mysql> DELIMITER //
+mysql> 
+mysql> CREATE PROCEDURE in_Demo2(IN num INT)
+    -> BEGIN
+    ->     DECLARE result VARCHAR(20);
+    -> 
+    ->     IF (num > 0) THEN
+    ->         SET result := 'num is +ve';
+    ->     ELSEIF ( num < 0) THEN
+    ->         SET result := 'num is -ve';
+    ->     ELSE
+    ->         SET result := 'num is zero';
+    ->     END IF;
+    -> 
+    ->     SELECT result;
+    -> END //
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> DELIMITER ;
+mysql> 
+mysql> in_Demo2(2);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'in_Demo2(2)' at line 1
+mysql> 
+mysql> DELIMITER ;
+mysql> 
+mysql> call in_Demo2(2);
++------------+
+| result     |
++------------+
+| num is +ve |
++------------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> call in_Demo2(-2);
++------------+
+| result     |
++------------+
+| num is -ve |
++------------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> 
+mysql> call in_Demo2(0);
++-------------+
+| result      |
++-------------+
+| num is zero |
++-------------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> DELIMITER //
+mysql> 
+mysql> CREATE PROCEDURE in_Demo3(pdeptno INT, pjob VARCHAR(20))
+    -> BEGIN
+    ->     SELECT * 
+    ->     FROM emp
+    ->     WHERE deptno = pdeptno AND job = pjob;
+    -> END //
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> DELIMITER ;
+mysql> 
+mysql> in_Demo3(10,'manager');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'in_Demo3(10,'manager')' at line 1
+mysql> 
+mysql> DELIMITER ;
+mysql> 
+mysql> call in_Demo3(10,'manager');
++-------+-------+---------+------+------------+---------+------+--------+
+| EMPNO | ENAME | JOB     | MGR  | HIREDATE   | SAL     | COMM | DEPTNO |
++-------+-------+---------+------+------------+---------+------+--------+
+|  7782 | CLARK | MANAGER | 7839 | 2012-01-06 | 2450.00 | NULL |     10 |
++-------+-------+---------+------+------------+---------+------+--------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> call in_Demo3(20,'clerk');
++-------+-------+-------+------+------------+---------+------+--------+
+| EMPNO | ENAME | JOB   | MGR  | HIREDATE   | SAL     | COMM | DEPTNO |
++-------+-------+-------+------+------------+---------+------+--------+
+|  7369 | SMITH | CLERK | 7902 | 2012-02-02 |  800.00 | NULL |     20 |
+|  7876 | ADAMS | CLERK | 7788 | 2013-01-02 | 1100.00 | NULL |     20 |
++-------+-------+-------+------+------------+---------+------+--------+
+2 rows in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> call in_Demo3(30,'salesman');
++-------+--------+----------+------+------------+---------+---------+--------+
+| EMPNO | ENAME  | JOB      | MGR  | HIREDATE   | SAL     | COMM    | DEPTNO |
++-------+--------+----------+------+------------+---------+---------+--------+
+|  7499 | ALLEN  | SALESMAN | 7698 | 2012-01-02 | 1600.00 |  300.00 |     30 |
+|  7521 | WARD   | SALESMAN | 7698 | 2013-01-02 | 1250.00 |  500.00 |     30 |
+|  7654 | MARTIN | SALESMAN | 7698 | 2012-05-02 | 1250.00 | 1400.00 |     30 |
+|  7844 | TURNER | SALESMAN | 7698 | 2012-01-20 | 1500.00 |    0.00 |     30 |
++-------+--------+----------+------+------------+---------+---------+--------+
+4 rows in set (0.00 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> set autocommit=0;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> 
+mysql> DELIMITER //
+mysql> 
+mysql> CREATE PROCEDURE in_Demo3(in pempno INT,out psal int,out pcomm int))
+    -> BEGIN
+    ->  declare vsal int;
+    -> select @vsal:= sal from emp where empno=pempno;
+    -> if @vsal < 5000 then
+    -> update emp set sal=sal+2000 where empno=pempno;
+    -> select sal,comm into psal,pcomm from emp from emp where empno=pempno;
+    -> end if;
+    -> end;
+    -> //
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')
+BEGIN
+ declare vsal int;
+select @vsal:= sal from emp where empno=pempno;
+if @v' at line 1
+mysql> 
+mysql> DELIMITER //
+mysql> 
+mysql> CREATE PROCEDURE in_Demo3(in pempno INT,out psal int,out pcomm int))
+    -> BEGIN
+    ->  declare vsal int;
+    -> select @vsal:= sal from emp where empno=pempno;
+    -> if @vsal < 5000 then
+    -> update emp set sal=sal+2000 where empno=pempno;
+    -> select sal,comm into psal,pcomm from emp from emp where empno=pempno;
+    -> end if;
+    -> end
+    -> //
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')
+BEGIN
+ declare vsal int;
+select @vsal:= sal from emp where empno=pempno;
+if @v' at line 1
+mysql> 
+mysql> 
+mysql> DELIMITER //
+mysql> 
+mysql> CREATE PROCEDURE in_Demo3(in pempno INT,out psal int,out pcomm int)
+    -> BEGIN
+    ->  declare vsal int;
+    -> select @vsal:= sal from emp where empno=pempno;
+    -> if @vsal < 5000 then
+    -> update emp set sal=sal+2000 where empno=pempno;
+    -> select sal,comm into psal,pcomm from emp from emp where empno=pempno;
+    -> end if;
+    -> end
+    -> //
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'from emp where empno=pempno;
+end if;
+end' at line 7
+mysql> ^C
+mysql> DELIMITER //
+mysql> 
+mysql> CREATE PROCEDURE in_Demo3(IN pempno INT, OUT psal INT, OUT pcomm INT)
+    -> BEGIN
+    ->     DECLARE vsal INT;
+    ->     SELECT sal INTO vsal FROM emp WHERE empno = pempno;
+    ->     
+    ->     IF vsal < 5000 THEN
+    ->         UPDATE emp SET sal = sal + 2000 WHERE empno = pempno;
+    ->     END IF;
+    ->     
+    ->     SELECT sal, comm INTO psal, pcomm FROM emp WHERE empno = pempno;
+    -> END //
+ERROR 1304 (42000): PROCEDURE in_Demo3 already exists
+mysql> 
+mysql> DELIMITER ;
+mysql> 
+mysql> DELIMITER //
+mysql> 
+mysql> CREATE PROCEDURE in_Demo3(IN pempno INT, OUT psal INT, OUT pcomm INT)
+    -> BEGIN
+    ->     DECLARE vsal INT;
+    ->     SELECT sal INTO vsal FROM emp WHERE empno = pempno;
+    -> 
+    ->     IF vsal < 5000 THEN
+    ->         UPDATE emp SET sal = sal + 2000 WHERE empno = pempno;
+    ->     END IF;
+    -> 
+    ->     SELECT sal, comm INTO psal, pcomm FROM emp WHERE empno = pempno;
+    -> END //
+ERROR 1304 (42000): PROCEDURE in_Demo3 already exists
+mysql> 
+mysql> DELIMITER ;
+mysql> 
+mysql> drop PROCEDURE in_Demo3;
+Query OK, 0 rows affected (0.16 sec)
+
+mysql> DELIMITER //
+mysql> 
+mysql> CREATE PROCEDURE in_Demo3(IN pempno INT, OUT psal INT, OUT pcomm INT)
+    -> BEGIN
+    ->     DECLARE vsal INT;
+    ->     SELECT sal INTO vsal FROM emp WHERE empno = pempno;
+    -> 
+    ->     IF vsal < 5000 THEN
+    ->         UPDATE emp SET sal = sal + 2000 WHERE empno = pempno;
+    ->     END IF;
+    -> 
+    ->     SELECT sal, comm INTO psal, pcomm FROM emp WHERE empno = pempno;
+    -> END //
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> DELIMITER ;
+mysql> 
+mysql> call  in_Demo3(7369,@updatedsal,@pcomm);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> select @updatedsal;
++-------------+
+| @updatedsal |
++-------------+
+|        2800 |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> select @pcomm;
++--------+
+| @pcomm |
++--------+
+|   NULL |
++--------+
+1 row in set (0.00 sec)
+
+mysql> rollback;
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> DELIMITER //
+mysql> 
+mysql> CREATE PROCEDURE in_Demo2(IN num INT)
+    -> BEGIN
+    ->     DECLARE result VARCHAR(20);
+    ->     
+    ->     IF (num % 2 = 0) THEN
+    ->         SET result := 'num is even';
+    ->     ELSE
+    ->         SET result := 'num is odd';
+    ->     END IF;
+    -> 
+    ->     SELECT result;
+    -> END //
+ERROR 1304 (42000): PROCEDURE in_Demo2 already exists
+mysql> 
+mysql> DELIMITER ;
+mysql> 
+mysql> DELIMITER //
+mysql> 
+mysql> CREATE PROCEDURE in_Demo3(IN num INT)
+    -> BEGIN
+    ->     DECLARE result VARCHAR(20);
+    ->     
+    ->     IF (num % 2 = 0) THEN
+    ->         SET result := 'num is even';
+    ->     ELSE
+    ->         SET result := 'num is odd';
+    ->     END IF;
+    -> 
+    ->     SELECT result;
+    -> END //
+ERROR 1304 (42000): PROCEDURE in_Demo3 already exists
+mysql> 
+mysql> DELIMITER //
+mysql> 
+mysql> CREATE PROCEDURE Demo1(IN num INT)
+    -> BEGIN
+    ->     DECLARE result VARCHAR(20);
+    ->     
+    ->     IF (num % 2 = 0) THEN
+    ->         SET result := 'num is even';
+    ->     ELSE
+    ->         SET result := 'num is odd';
+    ->     END IF;
+    -> 
+    ->     SELECT result;
+    -> END //
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> 
+mysql> DELIMITER ;call Demo2(0);
+mysql> call Demo2(2);
+    -> ^C
+mysql> call Demo2(0);
+    -> call Demo2(2);
+    -> ^C
+mysql> 
+mysql> DELIMITER ;
+mysql> 
+mysql> call Demo2(0);
+ERROR 1305 (42000): PROCEDURE cdac.Demo2 does not exist
+mysql> call Demo2(2);
+ERROR 1305 (42000): PROCEDURE cdac.Demo2 does not exist
+mysql> 
+mysql> 
+mysql> DELIMITER //
+mysql> 
+mysql> CREATE PROCEDURE Demo1(IN num INT)
+    -> BEGIN
+    ->     DECLARE result VARCHAR(20);
+    ->     
+    ->     IF (num % 2 = 0) THEN
+    ->         SET result := 'num is even';
+    ->     ELSE
+    ->         SET result := 'num is odd';
+    ->     END IF;
+    -> 
+    ->     SELECT result;
+    -> END //
+ERROR 1304 (42000): PROCEDURE Demo1 already exists
+mysql> 
+mysql> drop  PROCEDURE Demo1;
+    -> //
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> set autocommit=0;
+    -> //
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> DELIMITER //
+mysql> 
+mysql> CREATE PROCEDURE Demo1(IN num INT)
+    -> BEGIN
+    ->     DECLARE result VARCHAR(20);
+    ->     
+    ->     IF (num % 2 = 0) THEN
+    ->         SET result := 'num is even';
+    ->     ELSE
+    ->         SET result := 'num is odd';
+    ->     END IF;
+    -> 
+    ->     SELECT result;
+    -> END //
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> 
+mysql> DELIMITER ;
+mysql> 
+mysql> call Demo2(0);
+ERROR 1305 (42000): PROCEDURE cdac.Demo2 does not exist
+mysql> call Demo2(2);
+ERROR 1305 (42000): PROCEDURE cdac.Demo2 does not exist
+mysql> 
+mysql> DELIMITER //
+mysql> 
+mysql> CREATE PROCEDURE Demo1(IN num INT)
+    -> BEGIN
+    ->     DECLARE result VARCHAR(20);
+    ->     
+    ->     IF (num % 2 = 0) THEN
+    ->         SET result := 'num is even';
+    ->     ELSE
+    ->         SET result := 'num is odd';
+    ->     END IF;
+    -> 
+    ->     SELECT result;
+    -> END //
+ERROR 1304 (42000): PROCEDURE Demo1 already exists
+mysql> DELIMITER ;
+mysql> 
+mysql> call Demo2(0);
+ERROR 1305 (42000): PROCEDURE cdac.Demo2 does not exist
+mysql> call Demo2(2);
+ERROR 1305 (42000): PROCEDURE cdac.Demo2 does not exist
+mysql> 
+mysql> DELIMITER ;
+mysql> 
+mysql> call Demo1(0);
++-------------+
+| result      |
++-------------+
+| num is even |
++-------------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> call Demo1(2);
++-------------+
+| result      |
++-------------+
+| num is even |
++-------------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> ^C
+mysql> rollback;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> set autocommit=0;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> DELIMITER //
+mysql> 
+mysql> CREATE PROCEDURE Demo2(pename varchar(20))
+    -> BEGIN
+    ->  
+    ->     IF vsal < 2000 THEN
+    ->         delect * from emp WHERE ename = pename;
+    ->     END IF;
+    -> 
+    -> END //
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '* from emp WHERE ename = pename;
+    END IF;
+
+END' at line 5
+mysql> 
+mysql> DELIMITER //
+mysql> 
+mysql> CREATE PROCEDURE Demo2(pename varchar(20))
+    -> BEGIN
+    ->  
+    ->     IF vsal < 2000 THEN
+    ->         delect * from emp
+    -> 	 WHERE ename = pename;
+    ->     END IF;
+    -> 
+    -> END //
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '* from emp
+	 WHERE ename = pename;
+    END IF;
+
+END' at line 5
+mysql> 
+mysql> DELIMITER ;
+mysql> 
+mysql> call Demo2('smith');
+ERROR 1305 (42000): PROCEDURE cdac.Demo2 does not exist
+mysql> call Demo2('clark');
+ERROR 1305 (42000): PROCEDURE cdac.Demo2 does not exist
+mysql> 
+mysql> 
+mysql> DELIMITER //
+mysql> 
+mysql> CREATE PROCEDURE Demo2(pename varchar(20))
+    -> BEGIN
+    ->  
+    ->     IF vsal < 2000 THEN
+    ->         delect * from emp
+    -> 	 WHERE ename = pename;
+    ->     END IF;
+    -> 
+    -> END //
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '* from emp
+	 WHERE ename = pename;
+    END IF;
+
+END' at line 5
+mysql> 
+mysql> DELIMITER //
+mysql> 
+mysql> CREATE PROCEDURE Demo2(pename varchar(20))
+    -> BEGIN
+    ->  
+    ->     IF vsal < 2000 THEN
+    ->         delect * from emp
+    -> 	 WHERE ename = 'pename';
+    ->     END IF;
+    -> 
+    -> END //
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '* from emp
+	 WHERE ename = 'pename';
+    END IF;
+
+END' at line 5
+mysql> 
+mysql> DELIMITER //
+mysql> 
+mysql> CREATE PROCEDURE Demo2(pename VARCHAR(20))
+    -> BEGIN
+    ->     DECLARE vsal INT;
+    ->     SELECT sal INTO vsal FROM emp WHERE ename = pename;
+    ->     
+    ->     IF vsal < 2000 THEN
+    ->         DELETE FROM emp WHERE ename = pename;
+    ->     END IF;
+    -> END //
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> 
+mysql> DELIMITER ;
+mysql> 
+mysql> 
+mysql> call Demo2('smith');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> call Demo2('clark');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from emp;
++-------+----------+-----------+------+------------+---------+---------+--------+
+| EMPNO | ENAME    | JOB       | MGR  | HIREDATE   | SAL     | COMM    | DEPTNO |
++-------+----------+-----------+------+------------+---------+---------+--------+
+|  1708 | NULL     | software  | NULL | 2012-05-02 | 1200.00 |    NULL |     10 |
+|  7499 | ALLEN    | SALESMAN  | 7698 | 2012-01-02 | 1600.00 |  300.00 |     30 |
+|  7521 | WARD     | SALESMAN  | 7698 | 2013-01-02 | 1250.00 |  500.00 |     30 |
+|  7566 | JONES    | MANAGER   | 7839 | 2013-01-02 | 2975.00 |    NULL |     20 |
+|  7654 | MARTIN   | SALESMAN  | 7698 | 2012-05-02 | 1250.00 | 1400.00 |     30 |
+|  7698 | BLAKE    | MANAGER   | 7839 | 2012-01-06 | 2850.00 |    NULL |     30 |
+|  7777 | SHRIKANT | NULL      | NULL | 2012-05-05 |    NULL |    NULL |   NULL |
+|  7782 | CLARK    | MANAGER   | 7839 | 2012-01-06 | 2450.00 |    NULL |     10 |
+|  7788 | SCOTT    | ANALYST   | 7566 | 2012-01-10 | 3000.00 |    NULL |     20 |
+|  7839 | KING     | PRESIDENT | NULL | 2012-01-15 | 5000.00 |    NULL |     10 |
+|  7844 | TURNER   | SALESMAN  | 7698 | 2012-01-20 | 1500.00 |    0.00 |     30 |
+|  7876 | ADAMS    | CLERK     | 7788 | 2013-01-02 | 1100.00 |    NULL |     20 |
+|  7900 | JAMES    | CLERK     | 7698 | 2012-03-02 |  950.00 |    NULL |     30 |
+|  7902 | FORD     | ANALYST   | 7566 | 2012-04-02 | 3000.00 |    NULL |     20 |
+|  7934 | MILLER   | CLERK     | 7782 | 2012-05-02 | 1300.00 |    NULL |     10 |
++-------+----------+-----------+------+------------+---------+---------+--------+
+15 rows in set (0.00 sec)
+
+mysql> rollback;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> select * from emp;
++-------+----------+-----------+------+------------+---------+---------+--------+
+| EMPNO | ENAME    | JOB       | MGR  | HIREDATE   | SAL     | COMM    | DEPTNO |
++-------+----------+-----------+------+------------+---------+---------+--------+
+|  1708 | NULL     | software  | NULL | 2012-05-02 | 1200.00 |    NULL |     10 |
+|  7369 | SMITH    | CLERK     | 7902 | 2012-02-02 |  800.00 |    NULL |     20 |
+|  7499 | ALLEN    | SALESMAN  | 7698 | 2012-01-02 | 1600.00 |  300.00 |     30 |
+|  7521 | WARD     | SALESMAN  | 7698 | 2013-01-02 | 1250.00 |  500.00 |     30 |
+|  7566 | JONES    | MANAGER   | 7839 | 2013-01-02 | 2975.00 |    NULL |     20 |
+|  7654 | MARTIN   | SALESMAN  | 7698 | 2012-05-02 | 1250.00 | 1400.00 |     30 |
+|  7698 | BLAKE    | MANAGER   | 7839 | 2012-01-06 | 2850.00 |    NULL |     30 |
+|  7777 | SHRIKANT | NULL      | NULL | 2012-05-05 |    NULL |    NULL |   NULL |
+|  7782 | CLARK    | MANAGER   | 7839 | 2012-01-06 | 2450.00 |    NULL |     10 |
+|  7788 | SCOTT    | ANALYST   | 7566 | 2012-01-10 | 3000.00 |    NULL |     20 |
+|  7839 | KING     | PRESIDENT | NULL | 2012-01-15 | 5000.00 |    NULL |     10 |
+|  7844 | TURNER   | SALESMAN  | 7698 | 2012-01-20 | 1500.00 |    0.00 |     30 |
+|  7876 | ADAMS    | CLERK     | 7788 | 2013-01-02 | 1100.00 |    NULL |     20 |
+|  7900 | JAMES    | CLERK     | 7698 | 2012-03-02 |  950.00 |    NULL |     30 |
+|  7902 | FORD     | ANALYST   | 7566 | 2012-04-02 | 3000.00 |    NULL |     20 |
+|  7934 | MILLER   | CLERK     | 7782 | 2012-05-02 | 1300.00 |    NULL |     10 |
++-------+----------+-----------+------+------------+---------+---------+--------+
+16 rows in set (0.00 sec)
+
+mysql> exit

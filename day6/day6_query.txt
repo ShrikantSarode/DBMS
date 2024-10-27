@@ -1,0 +1,402 @@
+select ename,hiredate adddate(hiredate,1825) from emp;
+
+select * from emp
+cross join
+dept;
+
+select ename,job,sal,dname,loc from emp
+cross join  dept
+where sal between 1000 and 2000;
+
+select ename ,job,sal,dname,loc, d.deptno  from emp
+cross join dept as d
+where sal between 1000 and 2000;
+
+create table location(
+loc varchar(20),
+remark varchar(20)
+);
+
+insert into location values('NEW YORK','remark1');
+insert into location values('DALLAS','remark2');
+insert into location values('CHICAGO','remark3');
+insert into location values('BOSTON','remark4');
+
+inner join-
+
+SELECT ename,sal,dname,d.deptno,l.loc,remark
+from emp e ,dept d, location l
+where e.deptno=d.deptno and d.loc=l.loc;
+
+
+create view v6
+as
+SELECT ename,sal,dname,d.deptno,l.loc,remark
+from emp e ,dept d, location l
+where e.deptno=d.deptno and d.loc=l.loc;
+
+select * from v6;
+
+#left outer-
+select ename,sal,d.deptno,dname
+from emp e
+left join 
+dept d
+on (e.deptno=d.deptno);
+
+#right outer-
+
+select ename,sal,d.deptno,dname
+from emp e
+right join 
+dept d
+on (e.deptno=d.deptno);
+
+#full outer -
+
+select ename,sal,d.deptno,dname
+from emp e
+full outer join 
+dept d
+on (e.deptno=d.deptno);
+
+#self join-
+select a.ename,b.ename as mgr_name
+from emp a,emp b
+where a.mgr=b.empno;
+
+select a.ename, a.hiredate,b.ename,b.hiredate as mgr_name
+from emp a,emp b
+where a.mgr=b.empno;
+
+#non equi join-
+select a.ename, a.hiredate,b.ename,b.hiredate as mgr_name
+from emp a,emp b
+where a.mgr!=b.empno;
+
+select a.ename,a.job,a.deptno
+from emp a,emp b
+where a.job=b.job and a.deptno !=b.deptno;
+
+#plsql
+set @a:=100;
+set @b:=200;
+
+select @a;
+select @b;
+
+set @name1:='Shrikant';
+set @score:=89.55;
+set @add:='Nashik';
+ 
+select @name1;
+select @score;
+select @add:='Nashik';
+
+select @max:=max(sal),@min:=min(sal),@avg:=avg(sal),
+@count:=count(sal) from emp;
+
+select @max;
+select @min;
+select @avg;
+select @count;
+
+set autocommit=0;
+stored procedure
+
+delimiter $$
+create procedure p1()
+begin
+select * from emp;
+select * from dept;
+select * from emp where ename='smith';
+end;
+$$
+
+to ex:-
+
+delimiter ;
+call p1();
+
+
+delimiter $$
+create procedure p2()
+begin
+select ename,sal+100 as increment
+from emp
+where ename in('allen','ford');
+
+select max(sal) from emp;
+end;
+$$
+
+delimiter ;
+call p2();
+
+
+DELIMITER $$
+
+CREATE PROCEDURE p3()
+BEGIN
+ 
+    UPDATE emp
+    SET sal = sal * 1.1;
+  
+    SELECT ename, hiredate, sal FROM emp;
+    
+   
+    DELETE FROM emp 
+    WHERE deptno = 30 AND sal > 200;
+ 
+    SELECT * FROM emp;
+END $$
+
+DELIMITER ;
+
+ 
+call p3();
+
+show procedure status where db='cdac';
+
+DELIMITER //
+
+CREATE PROCEDURE if_pro()
+BEGIN
+    SET @a := 100;
+    SET @b := 200;
+
+    IF (@a > @b) THEN
+        SET @result := 'a is greater';
+    ELSEIF (@a < @b) THEN
+        SET @result := 'b is greater';
+    ELSE
+        SET @result := 'both are same';
+    END IF;
+
+    SELECT @result;
+END //
+
+DELIMITER ;
+
+call if_pro();
+--------------------------------------------
+DELIMITER //
+
+CREATE PROCEDURE in_Demo(in num int)
+BEGIN
+
+declare result varchar(20);
+if(num>0 && num<10) then
+set @result:='1 digit number';
+elseif(num>9 && num<100) then
+set @result:='2 digit number';
+elseif(num>99 && num<1000) then
+set @result:='3 digit number';
+elseif(num>999 && num<10000) then
+set @result:='4 digit number';
+
+ END IF;
+
+    SELECT @result;
+END //
+
+DELIMITER ;
+
+call in_Demo(1160);
+--------------------------------------------
+DELIMITER //
+CREATE PROCEDURE in_Demo1(in num int)
+BEGIN
+
+declare result varchar(20);
+
+if(num>0)then
+set @result:='num is +ve';
+elseif(num<0) then
+set @result:='num is -ve';
+else
+set @result:='num is zero';
+
+END IF;
+
+    SELECT @result;
+END //
+
+DELIMITER ;
+
+in_Demo1(2);
+- ----------------------------------
+DELIMITER //
+
+CREATE PROCEDURE in_Demo2(IN num INT)
+BEGIN
+    DECLARE result VARCHAR(20);
+
+    IF (num > 0) THEN
+        SET result := 'num is +ve';
+    ELSEIF ( num < 0) THEN
+        SET result := 'num is -ve';
+    ELSE
+        SET result := 'num is zero';
+    END IF;
+
+    SELECT result;
+END //
+
+DELIMITER ;
+
+call in_Demo2(2);
+
+call in_Demo2(-2);
+
+call in_Demo2(0);
+
+-----------------------------------------------
+
+DELIMITER //
+
+CREATE PROCEDURE in_Demo3(pdeptno INT, pjob VARCHAR(20))
+BEGIN
+    SELECT * 
+    FROM emp
+    WHERE deptno = pdeptno AND job = pjob;
+END //
+
+DELIMITER ;
+
+call in_Demo3(10,'manager');
+call in_Demo3(20,'clerk');
+call in_Demo3(30,'salesman');
+ -----------------------------------------------
+
+DELIMITER //
+
+CREATE PROCEDURE in_Demo3(IN pempno INT, OUT psal INT, OUT pcomm INT)
+BEGIN
+    DECLARE vsal INT;
+    SELECT sal INTO vsal FROM emp WHERE empno = pempno;
+
+    IF vsal < 5000 THEN
+        UPDATE emp SET sal = sal + 2000 WHERE empno = pempno;
+    END IF;
+
+    SELECT sal, comm INTO psal, pcomm FROM emp WHERE empno = pempno;
+END //
+
+DELIMITER ;
+
+call  in_Demo3(7369,@updatedsal,@pcomm);
+select @updatedsal;
+select @pcomm;
+
+- ----------------------------------
+DELIMITER //
+
+CREATE PROCEDURE in_Demo2(IN num INT)
+BEGIN
+    DECLARE result VARCHAR(20);
+
+    IF (num > 0) THEN
+        SET result := 'num is +ve';
+    ELSEIF ( num < 0) THEN
+        SET result := 'num is -ve';
+    ELSE
+        SET result := 'num is zero';
+    END IF;
+
+    SELECT result;
+END //
+
+DELIMITER ;
+
+call in_Demo2(2);
+
+call in_Demo2(-2);
+
+call in_Demo2(0);
+
+-----------------------------------------------
+DELIMITER //
+
+CREATE PROCEDURE Demo1(IN num INT)
+BEGIN
+    DECLARE result VARCHAR(20);
+    
+    IF (num % 2 = 0) THEN
+        SET result := 'num is even';
+    ELSE
+        SET result := 'num is odd';
+    END IF;
+
+    SELECT result;
+END //
+
+DELIMITER ;
+
+call Demo1(0);
+call Demo1(2);
+
+mysql> call Demo1(0);
++-------------+
+| result      |
++-------------+
+| num is even |
++-------------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> call Demo1(2);
++-------------+
+| result      |
++-------------+
+| num is even |
++-------------+
+1 row in set (0.00 sec)
+
+--------------------------------------------
+
+DELIMITER //
+
+CREATE PROCEDURE Demo2(pename VARCHAR(20))
+BEGIN
+    DECLARE vsal INT;
+    SELECT sal INTO vsal FROM emp WHERE ename = pename;
+    
+    IF vsal < 2000 THEN
+        DELETE FROM emp WHERE ename = pename;
+    END IF;
+END //
+
+DELIMITER ;
+
+
+call Demo2('smith');
+call Demo2('clark');
+--------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

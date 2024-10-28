@@ -1,0 +1,433 @@
+delimiter //
+create procedure pro1(in num int)
+begin
+	set @a:=1;
+repeat 
+	select @a;
+	set @a:=@a +1;
+until @a>num
+end repeat;
+end;
+//
+
+delimiter ;
+call pro1(10);
+call pro1(20);
+
+drop procedure pro1;
+
+=============================
+
+delimiter //
+create procedure pro2(in num int)
+begin
+	set @a:=2;
+repeat 
+	select @a;
+	set @a:=@a +2;
+until @a>num
+end repeat;
+end;
+//
+
+delimiter ;
+call pro2(10);
+call pro2(20);
+=============================
+
+delimiter //
+create procedure pro3(in num int)
+begin
+	set @a:=2;
+repeat 
+if(mod(@a,2) =0) then
+	select @a;
+end if;
+	set @a:=@a +1;
+until @a>num
+end repeat;
+end;
+//
+delimiter ;
+call pro3(10);
+call pro3(20);
+=============================
+
+delimiter //
+create procedure simple_loop(in num int)
+begin
+	set @a:=1;
+myloop:loop
+	select @a;
+	set @a:=@a+1;
+if @a>num then
+	leave myloop;
+end if;
+end loop myloop;
+end;
+//
+
+delimiter ;
+call simple_loop(10);
+call simple_loop(20);
+
+=============================
+delimiter //
+create procedure while_loop()
+begin
+	set @a:=1;
+while @a<=10
+do 
+	select 'Shrikant';
+	set @a:=@a+1;
+end while;
+end;
+//
+
+delimiter ;
+call while_loop();
+
+drop procedure while_loop;
+
+=============================
+function-
+delimiter //
+create function cube_fun( num int)
+returns int
+deterministic
+	return num * num* num;
+//
+
+select cube_fun(4);
+
+=============================
+
+delimiter //
+create function cal_annual(pempno int)
+returns int
+deterministic
+begin
+	declare annsal int;
+	select (sal + ifnull(comm,0)) *12 into annsal from emp
+	where empno=pempno;
+	return annsal;
+end;
+//
+
+delimiter ;
+select cal_annual(7369) as annualSal ;
+select cal_annual(7900);
+select cal_annual(7902);
+=============================
+
+delimiter //
+create function cal_totSal(pdeptno int)
+returns int
+deterministic
+begin
+	declare totSal int;
+	select sum(sal)  into totSal from emp
+	where deptno=pdeptno  ;
+	return totSal;
+end;
+//
+
+delimiter ;
+ select cal_totSal(10) as TotSal;
+select cal_totSal(20) as TotSal;
+ select cal_totSal(30) as TotSal;
+ 
+
+=============================
+
+#multiple inputs
+DELIMITER //
+CREATE FUNCTION cal_totSal1(pdeptno INT, psal1 INT, psal2 INT)
+RETURNS INT
+DETERMINISTIC
+BEGIN
+    DECLARE totSal INT;
+    SELECT SUM(sal) INTO totSal 
+    FROM emp
+    WHERE deptno = pdeptno 
+      AND sal BETWEEN psal1 AND psal2;
+    RETURN totSal;
+END;
+//
+
+delimiter ;
+ select cal_totSal1(10,1000,2000) as TotSal;
+select cal_totSal1(20,2000,5000) as TotSal;
+
+=============================
+
+DELIMITER //
+CREATE FUNCTION cal_totSal2(pdeptno INT, psal1 INT, psal2 INT, pjob varchar(20))
+RETURNS INT
+DETERMINISTIC
+BEGIN
+    DECLARE totSal INT;
+    SELECT SUM(sal) INTO totSal 
+    FROM emp
+    WHERE deptno = pdeptno 
+      AND sal BETWEEN psal1 AND psal2 and job =pjob;
+    RETURN totSal;
+END;
+//
+
+delimiter ;
+ select cal_totSal2(10,100,5000,'manager') as  TotSal_ofManager;
+select cal_totSal2(20,100,5000,'analyst') as TotSal_ofAnalyst;
+select cal_totSal2(30,100,5000,'salesman') as TotSal_Salesman;
+
+=============================
+#functions name
+select routine_name from information_schema.routines
+where routine_type='FUNCTION'
+and routine_schema='cdac';
+
+=============================
+#PROCEDURE NAMES
+select routine_name from information_schema.routines
+where routine_type='PROCEDURE'
+and routine_schema='cdac';
+
+=============================
+
+oracle
+
+create table emp5(
+empno int,
+ename varchar(20),
+sal int
+);
+=============================
+#it is like autocommit=0
+set serveroutput on;
+=============================
+to display the message ( name,college,add,stream):--->
+
+begin
+dbms_output.put_line('Shrikant');
+dbms_output.put_line('MET');
+dbms_output.put_line('Nashik');
+dbms_output.put_line('Computer');
+end;
+/
+=============================
+#create trigger
+
+CREATE or replace  TRIGGER tr_emp5_insert
+BEFORE INSERT ON emp5
+
+BEGIN
+    dbms_output.put_line('This insert trigger got executed');
+END;
+/
+
+INSERT INTO emp5 VALUES (1, 'Shrikant', 100000);
+
+
+drop trigger tr_emp5_insert;
+
+
+truncate table emp5;
+
+=============================
+
+create or replace trigger delete_emp5
+before delete on emp5
+begin
+	raise_application_error(-20201,'Deletion is not allowed');
+end;
+/
+
+delete  from emp5 where empno=1;
+
+drop trigger delete_emp5
+
+=============================
+
+create or replace trigger dml_emp5
+before insert or update or delete on emp5
+begin
+	raise_application_error(-20201,'DML are not allowed');
+end;
+/
+
+INSERT INTO emp5 VALUES (1, 'Shrikant', 100000);
+INSERT INTO emp5 VALUES (2, 'Ashvini', 10000);
+delete  from emp5 where empno=1;
+update emp5 set sal =sal+1000;
+
+drop trigger dml_emp5;
+
+=============================
+redirect the information
+
+create table sal_history(
+empno int,
+oldsal int,
+newsal int
+);
+
+-update 
+update emp5 set sal=sal+5000 where ename='Shrikant';
+
+old.sal=100000
+new.sal=105000
+
+insert 
+insert into emp5 values(3,'Kaku',51000);
+
+old.sal=null
+new.sal=51000
+
+=============================
+
+insert into emp5 values(4,'ashish',60000);
+insert into emp5 values(5,'jayesh',61000);
+insert into emp5 values(6,'suresh',62000);
+
+update emp5 set sal=sal+100 where empno in(2,3);
+
+create or replace trigger sal_update_emp5
+after update of sal on emp5
+for each row
+begin
+		if updating then
+		insert into sal_history values(:new.empno, :old.sal, :new.sal);
+	end if;
+end;
+/
+
+
+drop trigger sal_update_emp5;
+
+update emp5 set sal=sal+100 where empno in(4,5);
+
+
+drop trigger sal_update_emp5;
+
+show error
+
+=============================
+# create log table
+
+create table log_table(
+table_name varchar(20),
+operation_date date,
+operation char(1),
+username varchar(20)
+);
+
+drop table  log_table;
+
+create trigger log_emp5
+after insert or update or delete 
+on emp5 for each row
+begin
+ 	if inserting then
+		insert into log_table values('emp5',sysdate,'I',user);
+	elsif updating then
+		insert into log_table values('emp5',sysdate,'U',user);
+	elsif deleting then
+		insert into log_table values('emp5',sysdate,'D',user);
+end if;
+end;
+/
+
+insert into emp5 values(3,'Kaku',51000);
+
+update emp5 set sal=sal+10 where empno=2;
+
+delete from emp5 where empno=3;
+
+==========================================
+see tigger names
+
+select trigger_name
+from ALL_TRIGGERS;
+
+select trigger_name
+from USER_TRIGGERS;
+
+==========================================
+|| -------->concat in oracle
+
+set serveroutput on
+declare
+vrec emp%rowtype;
+begin
+	select * into vrec from emp where ename ='KING';
+	dbms_output.put_line('Emp no is ' || vrec.empno);
+	dbms_output.put_line('Name is ' || vrec.ename);
+	dbms_output.put_line('Salary is ' || vrec.sal);
+	dbms_output.put_line('Job is ' || vrec.job);
+	dbms_output.put_line('Dept NO is ' || vrec.deptno);
+end;
+/
+
+
+note ---->vrec emp%rowtype : to store entire row of emp table
+
+vname varchar(20);
+|		|
+V		datatype
+a int;
+==========================================
+
+
+declare   --1
+vrec emp%rowtype;
+cursor c1 is select * from emp;
+begin
+	open c1; --2
+	loop
+		fetch c1 into vrec; --3 row will be copied to vrec
+		exit when c1%notfound;
+		
+		if vrec.deptno=10 then
+			-- delete / insert t2
+			update emp set sal = sal * 1.1 where empno=vrec.empno;
+		elsif vrec.deptno=20 then
+			update emp set sal = sal * 1.2 where empno=vrec.empno;
+		elsif vrec.deptno=30 then
+			update emp set sal = sal * 1.3 where empno=vrec.empno;
+		end if;
+	end loop;
+
+	close c1; --4
+end;
+/
+select * from emp;
+
+rollback;
+==========================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

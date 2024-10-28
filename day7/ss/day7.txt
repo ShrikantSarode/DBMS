@@ -1,0 +1,412 @@
+mysql> use cdac
+Database changed
+mysql> select * from emp;
++-------+--------+-----------+------+------------+---------+---------+--------+
+| EMPNO | ENAME  | JOB       | MGR  | HIREDATE   | SAL     | COMM    | DEPTNO |
++-------+--------+-----------+------+------------+---------+---------+--------+
+|  7369 | SMITH  | CLERK     | 7902 | 2012-02-02 |  990.00 |    NULL |     20 |
+|  7499 | ALLEN  | SALESMAN  | 7698 | 2012-01-02 | 1870.00 |  300.00 |     30 |
+|  7521 | WARD   | SALESMAN  | 7698 | 2013-01-02 | 1485.00 |  500.00 |     30 |
+|  7566 | JONES  | MANAGER   | 7839 | 2013-01-02 | 3382.50 |    NULL |     20 |
+|  7654 | MARTIN | SALESMAN  | 7698 | 2012-05-02 | 1485.00 | 1400.00 |     30 |
+|  7782 | CLARK  | MANAGER   | 7839 | 2012-01-06 | 2805.00 |    NULL |     10 |
+|  7788 | SCOTT  | ANALYST   | 7566 | 2012-01-10 | 3410.00 |    NULL |     20 |
+|  7839 | KING   | PRESIDENT | NULL | 2012-01-15 | 5610.00 |    NULL |     10 |
+|  7844 | TURNER | SALESMAN  | 7698 | 2012-01-20 | 3760.00 |    0.00 |     30 |
+|  7876 | ADAMS  | CLERK     | 7788 | 2013-01-02 | 1320.00 |    NULL |     20 |
+|  7900 | JAMES  | CLERK     | 7698 | 2012-03-02 | 1155.00 |    NULL |     30 |
+|  7902 | FORD   | ANALYST   | 7566 | 2012-04-02 | 3410.00 |    NULL |     20 |
+|  7934 | MILLER | CLERK     | 7782 | 2012-05-02 | 1540.00 |    NULL |     10 |
++-------+--------+-----------+------+------------+---------+---------+--------+
+13 rows in set (0.00 sec)
+
+mysql> \! cls
+mysql> delimiter //
+mysql> create function cal_annual(pempno int)
+    -> returns int
+    -> deterministic
+    -> begin
+    -> 	declare annsal int;
+    -> 	select (sal + ifnull(comm,0)) *12 into annsal from emp
+    -> 	where empno=pempno;
+    -> 	return annsal;
+    -> end;
+    -> //
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> delimiter ;
+mysql> select cal_annual(7369);
++------------------+
+| cal_annual(7369) |
++------------------+
+|            11880 |
++------------------+
+1 row in set (0.01 sec)
+
+mysql> select cal_annual(7900);
++------------------+
+| cal_annual(7900) |
++------------------+
+|            13860 |
++------------------+
+1 row in set (0.00 sec)
+
+mysql> select cal_annual(7902);
++------------------+
+| cal_annual(7902) |
++------------------+
+|            40920 |
++------------------+
+1 row in set (0.00 sec)
+
+mysql> delimiter //
+mysql> create function cal_annual1(pdeptno int)
+    -> returns int
+    -> deterministic
+    -> begin
+    -> 	declare annsal int;
+    -> 	select (sal + ifnull(comm,0)) *12 into annsal from emp
+    -> 	where deptno=pdeptno;
+    -> 	return annsal;
+    -> end;
+    -> //
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> delimiter ;
+mysql> select cal_annual1(10);
+ERROR 1172 (42000): Result consisted of more than one row
+mysql> select cal_annual1(20);
+ERROR 1172 (42000): Result consisted of more than one row
+mysql> 	select (sal + ifnull(comm,0)) *12 into annsal from emp
+    -> 	where deptno=pdeptno;
+ERROR 1327 (42000): Undeclared variable: annsal
+mysql> 	return annsal;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'return annsal' at line 1
+mysql> \! cls
+mysql> delimiter ;
+mysql> select cal_annual1(10);
+ERROR 1172 (42000): Result consisted of more than one row
+mysql> 
+mysql> delimiter //
+mysql> create function cal_totSal(pdeptno int)
+    -> returns int
+    -> deterministic
+    -> begin
+    -> 	declare totSal int;
+    -> 	select sum(sal)  into annsal from emp
+    -> 	where deptno=pdeptno;
+    -> 	return totSal;
+    -> end;
+    -> //
+ERROR 1327 (42000): Undeclared variable: annsal
+mysql> 
+mysql> 
+mysql> delimiter //
+mysql> create function cal_totSal(pdeptno int)
+    -> returns int
+    -> deterministic
+    -> begin
+    -> 	declare totSal int;
+    -> 	select sum(sal)  into totSal from emp
+    -> 	where deptno=pdeptno;
+    -> 	return totSal;
+    -> end;
+    -> //
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> delimiter ;
+mysql> select cal_annual1(10);
+ERROR 1172 (42000): Result consisted of more than one row
+mysql> 
+mysql> delimiter ;
+mysql> select cal_totSal(10) as TotSal;
++--------+
+| TotSal |
++--------+
+|   9955 |
++--------+
+1 row in set (0.00 sec)
+
+mysql> select cal_totSal(20) as TotSal;
++--------+
+| TotSal |
++--------+
+|  12513 |
++--------+
+1 row in set (0.00 sec)
+
+mysql>  select cal_totSal(30) as TotSal;
++--------+
+| TotSal |
++--------+
+|   9755 |
++--------+
+1 row in set (0.00 sec)
+
+mysql> #multiple inputs
+mysql> delimiter //
+mysql> create function cal_totSal1(pdeptno int,psal1 int,psal2)
+    -> returns int
+    -> deterministic
+    -> begin
+    -> 	declare totSal int;
+    -> 	select sum(sal)  into totSal from emp
+    -> 	where deptno=pdeptno and sal between psal1 and psal2  ;
+    -> 	return totSal;
+    -> end;
+    -> //
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')
+returns int
+deterministic
+begin
+	declare totSal int;
+	select sum(sal)  into to' at line 1
+mysql> 
+mysql> delimiter //
+mysql> create function cal_totSal1(pdeptno int,psal1 int,psal2)
+    -> returns int
+    -> deterministic
+    -> begin
+    -> 	declare totSal int;
+    -> 	select sum(sal)  into totSal from emp
+    -> 	where deptno=pdeptno and sal between psal1 and psal2  ;
+    -> 	return totSal;
+    -> end;
+    -> //
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')
+returns int
+deterministic
+begin
+	declare totSal int;
+	select sum(sal)  into to' at line 1
+mysql> \! cls
+mysql> #multiple inputs
+mysql> DELIMITER //
+mysql> CREATE FUNCTION cal_totSal1(pdeptno INT, psal1 INT, psal2 INT)
+    -> RETURNS INT
+    -> DETERMINISTIC
+    -> BEGIN
+    ->     DECLARE totSal INT;
+    ->     SELECT SUM(sal) INTO totSal 
+    ->     FROM emp
+    ->     WHERE deptno = pdeptno 
+    ->       AND sal BETWEEN psal1 AND psal2;
+    ->     RETURN totSal;
+    -> END;
+    -> //
+Query OK, 0 rows affected (0.02 sec)
+
+mysql>  delimiter ;
+mysql>  select cal_totSal1(10,1000,2000) as TotSal;
++--------+
+| TotSal |
++--------+
+|   1540 |
++--------+
+1 row in set (0.00 sec)
+
+mysql> select cal_totSal1(20,2000,5000) as TotSal;
++--------+
+| TotSal |
++--------+
+|  10203 |
++--------+
+1 row in set (0.00 sec)
+
+mysql> DELIMITER //
+mysql> CREATE FUNCTION cal_totSal2(pdeptno INT, psal1 INT, psal2 INT, pjob varchar(20))
+    -> RETURNS INT
+    -> DETERMINISTIC
+    -> BEGIN
+    ->     DECLARE totSal INT;
+    ->     SELECT SUM(sal) INTO totSal 
+    ->     FROM emp
+    ->     WHERE deptno = pdeptno 
+    ->       AND sal BETWEEN psal1 AND psal2 and job =pjob;
+    ->     RETURN totSal;
+    -> END;
+    -> //
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> delimiter ;
+mysql>  select cal_totSal2(10,1000,2000) as TotSal;
+ERROR 1318 (42000): Incorrect number of arguments for FUNCTION cdac.cal_totSal2; expected 4, got 3
+mysql> select cal_totSal2(20,2000,5000) as TotSal;
+ERROR 1318 (42000): Incorrect number of arguments for FUNCTION cdac.cal_totSal2; expected 4, got 3
+mysql> delimiter ;
+mysql>  select cal_totSal2(10,1000,2000,'manager') as as TotSal_ofManager;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'as TotSal_ofManager' at line 1
+mysql> select cal_totSal2(20,2000,5000,'analyst') as TotSal_ofAnalyst;
++------------------+
+| TotSal_ofAnalyst |
++------------------+
+|             6820 |
++------------------+
+1 row in set (0.00 sec)
+
+mysql> 
+mysql> delimiter ;
+mysql>  select cal_totSal2(10,1000,2000,'manager') as as TotSal_ofManager;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'as TotSal_ofManager' at line 1
+mysql> 
+mysql> delimiter ;
+mysql>  select cal_totSal2(10,1000,2000,'manager') as  TotSal_ofManager;
++------------------+
+| TotSal_ofManager |
++------------------+
+|             NULL |
++------------------+
+1 row in set (0.00 sec)
+
+mysql> select cal_totSal2(20,2000,5000,'analyst') as TotSal_ofAnalyst;
++------------------+
+| TotSal_ofAnalyst |
++------------------+
+|             6820 |
++------------------+
+1 row in set (0.00 sec)
+
+mysql> select cal_totSal2(20,2000,5000,'salesman') as TotSal_Salesman;
++-----------------+
+| TotSal_Salesman |
++-----------------+
+|            NULL |
++-----------------+
+1 row in set (0.00 sec)
+
+mysql> select cal_totSal2(20,1000,5000,'salesman') as TotSal_Salesman;
++-----------------+
+| TotSal_Salesman |
++-----------------+
+|            NULL |
++-----------------+
+1 row in set (0.00 sec)
+
+mysql> select cal_totSal2(20,100,5000,'salesman') as TotSal_Salesman;
++-----------------+
+| TotSal_Salesman |
++-----------------+
+|            NULL |
++-----------------+
+1 row in set (0.00 sec)
+
+mysql> select cal_totSal2(10,100,5000,'salesman') as TotSal_Salesman;
++-----------------+
+| TotSal_Salesman |
++-----------------+
+|            NULL |
++-----------------+
+1 row in set (0.00 sec)
+
+mysql> 
+mysql> 
+mysql> select cal_totSal2(20,100,5000,'analyst') as TotSal_ofAnalyst;
++------------------+
+| TotSal_ofAnalyst |
++------------------+
+|             6820 |
++------------------+
+1 row in set (0.00 sec)
+
+mysql>  select cal_totSal2(10,100,2000,'manager') as  TotSal_ofManager;
++------------------+
+| TotSal_ofManager |
++------------------+
+|             NULL |
++------------------+
+1 row in set (0.00 sec)
+
+mysql>  select cal_totSal2(10,100,5000,'manager') as  TotSal_ofManager;
++------------------+
+| TotSal_ofManager |
++------------------+
+|             2805 |
++------------------+
+1 row in set (0.00 sec)
+
+mysql> select cal_totSal2(20,100,5000,'analyst') as TotSal_ofAnalyst;
++------------------+
+| TotSal_ofAnalyst |
++------------------+
+|             6820 |
++------------------+
+1 row in set (0.00 sec)
+
+mysql> select cal_totSal2(30,100,5000,'salesman') as TotSal_Salesman;
++-----------------+
+| TotSal_Salesman |
++-----------------+
+|            8600 |
++-----------------+
+1 row in set (0.00 sec)
+
+mysql> select routine_name from information_schema.routines
+    -> where routine_type='FUNCTION'
+    -> and routine_schema='cdac';
++--------------+
+| ROUTINE_NAME |
++--------------+
+| cal_annual   |
+| cal_annual1  |
+| cal_totSal   |
+| cal_totSal1  |
+| cal_totSal2  |
++--------------+
+5 rows in set (0.02 sec)
+
+mysql> #PROCEDURE NAMES
+mysql> select routine_name from information_schema.routines
+    -> where routine_type='PROCEDURE'
+    -> and routine_schema='cdac';
++-------------------+
+| ROUTINE_NAME      |
++-------------------+
+| if_proce          |
+| indemo            |
+| input_user        |
+| output_user       |
+| positive_even_odd |
+| proce1            |
+| proce2            |
+| proce5            |
++-------------------+
+8 rows in set (0.01 sec)
+
+mysql> show tables;
++----------------+
+| Tables_in_cdac |
++----------------+
+| customers      |
+| dept           |
+| dept1          |
+| emp            |
+| emp1           |
+| emp2           |
+| emp4           |
+| emp5           |
+| location       |
+| salespeople    |
+| v5             |
++----------------+
+11 rows in set (0.12 sec)
+
+mysql> drop table emp5;
+Query OK, 0 rows affected (0.17 sec)
+
+mysql> CREATE or replace  TRIGGER tr_emp5_insert
+    -> BEFORE INSERT ON emp5
+    -> BEGIN
+    ->     dbms_output.put_line('This insert trigger got executed');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'TRIGGER tr_emp5_insert
+BEFORE INSERT ON emp5
+BEGIN
+    dbms_output.put_line('Thi' at line 1
+mysql> END;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'END' at line 1
+mysql> /
+    -> 
+    -> INSERT INTO emp5 VALUES (1, 'Shrikant', 100000);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '/
+
+INSERT INTO emp5 VALUES (1, 'Shrikant', 100000)' at line 1
+mysql> exit

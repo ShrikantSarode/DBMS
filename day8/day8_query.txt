@@ -1,0 +1,169 @@
+
+step 1:
+cd C:\Program Files\MongoDB\Server\4.2\bin
+
+mongod---------->start the server
+=====================================
+step 2:
+-------------->start client
+open new cmd
+
+cd C:\Program Files\MongoDB\Server\4.2\bin
+
+mongo-------------->start client
+=====================================
+cls--> clear the screen
+=====================================
+
+show dbs;--->databases
+
+db--> to see the current database
+
+=====================================
+to create/open new db :- 
+
+use jp 
+
+=====================================
+how to exit
+exit
+
+=====================================
+to see the help
+
+help
+=====================================
+create collections(table)
+
+db.dept.insert(
+{deptno:10, dname:'acct',loc:'mum'})
+
+db.dept.insert(
+{deptno:20, dname:'fin',loc:'nashik'})
+
+db.dept.insert(
+{deptno:30, dname:'mkt',loc:'bang'})
+
+db.dept.insert(
+{deptno:40, dname:'sales',loc:'pune'})
+
+db.dept.insert(
+{deptno:50, dname:'adm',loc:'pune',address:'karve road',contact: '91+999999 '})
+
+=====================================
+to see all records
+
+db.dept.find()
+db.dept.find().pretty()
+
+=====================================
+
+db.emp.insert(
+{empno:1,ename:'Shrikant',sal:1000000}
+)
+
+db.emp.insert(
+{empno:2,ename:'kaku',sal:10000,email:'kaku@gmail.com'}
+)
+
+db.emp.insert(
+{empno:3,ename:'Kiki',sal:200000,comm:2000,basic:3000}
+)
+
+=====================================
+to format the output-->
+db.emp.find().pretty()
+
+
+note: _id-----> cols is a pk(automatically given by mongo )
+=====================================
+to display all docu-->
+db.dept.find().pretty()
+db.persons.count()
+
+=====================================
+to display 1st doc
+
+db.persons.findOne()
+=====================================
+to delete the collection
+
+db.persons.drop()
+
+=====================================
+to delete all the female docu
+
+db.persons.remove({ gender:'F'  })
+
+db.persons.remove({ gender:'M'  })
+
+db.persons.remove({ livesIn :'Montreal'  })
+
+delete only one docu-->
+db.persons.remove({ gender:'M' },1)
+db.persons.remove({ gender:'M' },3)  ---->still only delete one document
+
+=====================================
+to display all female docu
+
+db.persons.find({ gender: 'F' }).pretty()
+
+to display all female count docu
+db.persons.find({ gender: 'F' }).count()
+
+to count lives in jaipur
+
+db.persons.find({ livesIn: 'Jaipur' }).count()
+
+
+db.persons.find({ livesIn: 'Barcelona' }).count()
+
+db.persons.count({ livesIn: 'Barcelona' })
+
+=====================================
+to display who countriesVisited is India
+
+db.persons.find({ countriesVisited :'India' }).pretty()
+
+
+=====================================
+to find name,gender,livesIn
+
+db.persons.find({ gender:'M'},{name:1,gender:1,livesIn:1,_id:0}).pretty()
+
+
+=====================================
+to remove obj id
+
+db.persons.find({ gender:'M'},{name:1, _id:0})
+
+=====================================
+
+find all th female docu and display the name , countriesVisited
+
+db.persons.find({ gender:'F'},{name:1, countriesVisited:1,_id:0})
+=====================================
+update command
+
+db.persons.update( {name:{first:'Nancy',last:'Karin'}},{$set : {married:'No'}})
+
+db.persons.find({name:{first:'Nancy',last:'Karin'}},{_id:0}).pretty()
+
+=====================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
